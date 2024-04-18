@@ -183,7 +183,8 @@ class Exp_Long_Term_Forecast(Exp_Basic):
 
         preds = []
         trues = []
-        folder_path = f'./test_results/{self.args.model}/' + setting + '/'
+        # folder_path = f'./test_results/{self.args.model}/' + setting + '/'
+        folder_path = f'/content/drive/MyDrive/Masterarbeit/test_results/{self.args.model}/' + setting + '/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -248,7 +249,8 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         print('test shape:', preds.shape, trues.shape)
 
         # result save
-        folder_path = f'./results/{self.args.model}/' + setting + '/'
+        # folder_path = f'./results/{self.args.model}/' + setting + '/'
+        folder_path = f'/content/drive/MyDrive/Masterarbeit/results/{self.args.model}/' + setting + '/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -256,7 +258,8 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         print('mse:{}, mae:{}'.format(mse, mae))
 
         # Write results to a text file
-        folder_path_2 = f'./results/{self.args.model}/'
+        # folder_path_2 = f'./results/{self.args.model}/'
+        folder_path_2 = f'/content/drive/MyDrive/Masterarbeit/results/{self.args.model}/'
         if not os.path.exists(folder_path_2):
             os.makedirs(folder_path_2)
             
