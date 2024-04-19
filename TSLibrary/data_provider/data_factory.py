@@ -19,6 +19,7 @@ def data_provider(args, flag):
         shuffle_flag = False
         drop_last = True
 
+        # use usual batch for test size, not 1, otherwise it will be too slow
         batch_size = args.batch_size
         freq = args.freq
         """
