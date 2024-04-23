@@ -7,5 +7,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# they are too big for github
 checkpoints/
 test_results/
