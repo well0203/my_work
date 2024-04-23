@@ -1,0 +1,1 @@
+Hourly data detailing load, solar generation, and wind generation in Great Britain. Wind generation is segmented into offshore, onshore, and total generation, with the latter being the combined sum of onshore and offshore wind generation.
