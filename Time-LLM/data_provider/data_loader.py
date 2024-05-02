@@ -256,15 +256,28 @@ class Dataset_Custom(Dataset):
             cols.remove('date')
             df_raw = df_raw[['date'] + cols]
 
+
+        # To ensure we do not split the day on the parts and take full days
+        train_size = int(int(len(df_raw)/24)*0.7)
+        test_size = int(int(len(df_raw)/24)*0.2)
+        val_size = int(len(df_raw)/24) - train_size - test_size
+
+        # Split dataset on number of days
+        num_train = train_size*24
+        num_test = test_size*24
+        num_vali = val_size*24
+
         """
         cols = list(df_raw.columns)
         cols.remove(self.target)
         cols.remove('date')
         df_raw = df_raw[['date'] + cols + [self.target]]
         """
+        """
         num_train = int(len(df_raw) * 0.7)
         num_test = int(len(df_raw) * 0.2)
         num_vali = len(df_raw) - num_train - num_test
+        """
         border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
         border2s = [num_train, num_train + num_vali, len(df_raw)]
         border1 = border1s[self.set_type]

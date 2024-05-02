@@ -1,4 +1,6 @@
 import numpy as np
+import os
+from utils.metrics import metric
 import torch
 import matplotlib.pyplot as plt
 import shutil
@@ -78,9 +80,9 @@ class EarlyStopping:
 
         if self.accelerator is not None:
             model = self.accelerator.unwrap_model(model)
-            torch.save(model.state_dict(), path + '/' + 'checkpoint')
+            torch.save(model.state_dict(), path + '/' + 'checkpoint.pth')
         else:
-            torch.save(model.state_dict(), path + '/' + 'checkpoint')
+            torch.save(model.state_dict(), path + '/' + 'checkpoint.pth')
         self.val_loss_min = val_loss
 
 
@@ -135,6 +137,16 @@ def del_files(dir_path):
 
 
 def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric):
+    file_path = "results.txt"
+
+    with open(file_path, "w") as file:
+    # Convert the Namespace object to a dictionary
+        args_dict = vars(args)
+
+        # Write each attribute to the file
+        for key, value in args_dict.items():
+            file.write(f"{key} = {value}\n")
+
     total_loss = []
     total_mae_loss = []
     model.eval()
@@ -185,7 +197,107 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     model.train()
     return total_loss, total_mae_loss
 
+def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric, setting):
+    preds = []
+    trues = []
 
+    total_loss = []
+    total_mae_loss = []
+    model.eval()
+    with torch.no_grad():
+        for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(vali_loader)):
+            batch_x = batch_x.float().to(accelerator.device)
+            batch_y = batch_y.float()
+
+            batch_x_mark = batch_x_mark.float().to(accelerator.device)
+            batch_y_mark = batch_y_mark.float().to(accelerator.device)
+
+            # decoder input
+            dec_inp = torch.zeros_like(batch_y[:, -args.pred_len:, :]).float()
+            dec_inp = torch.cat([batch_y[:, :args.label_len, :], dec_inp], dim=1).float().to(
+                accelerator.device)
+            # encoder - decoder
+            if args.use_amp:
+                with torch.cuda.amp.autocast():
+                    if args.output_attention:
+                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                    else:
+                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+            else:
+                if args.output_attention:
+                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+                else:
+                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+
+            outputs, batch_y = accelerator.gather_for_metrics((outputs, batch_y))
+
+            f_dim = -1 if args.features == 'MS' else 0
+            outputs = outputs[:, -args.pred_len:, f_dim:]
+            batch_y = batch_y[:, -args.pred_len:, f_dim:].to(accelerator.device)
+
+            pred = outputs.detach()
+            true = batch_y.detach()
+
+            loss = criterion(pred, true)
+
+            mae_loss = mae_metric(pred, true)
+
+            total_loss.append(loss.item())
+            total_mae_loss.append(mae_loss.item())
+
+            pred = outputs.detach()
+            # print("pred.shape", pred.shape)
+
+            true = batch_y.detach()
+            
+            loss = criterion(pred, true)
+
+            mae_loss = mae_metric(pred, true)
+
+            total_loss.append(loss.item())
+            total_mae_loss.append(mae_loss.item())
+
+            
+            preds.append(pred.cpu().numpy())
+            trues.append(true.cpu().numpy())
+
+    preds = np.array(preds)
+    trues = np.array(trues)
+
+    preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
+    # print("pred.shape after reshape", pred.shape)
+
+    trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
+
+    #folder_path = f'/vol/cs-hu/riabchuv/hu-home/my_work/results/{self.args.model}/' + '/'
+    folder_path = f'./results/{args.model}/' + f'{args.data}/'
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    mae, mse, rmse, mape, mspe = metric(preds, trues)
+    # print('mse:{}, mae:{}'.format(mse, mae))
+    f = open("result_long_term_forecast.txt", 'a')
+    f.write(setting + "  \n")
+    f.write('mse:{}, mae:{}'.format(mse, mae))
+    f.write('\n')
+    f.write('\n')
+    f.close()
+
+
+    np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
+    np.save(folder_path + 'pred.npy', preds)
+    np.save(folder_path + 'true.npy', trues)
+
+
+
+    total_loss = np.average(total_loss)
+    total_mae_loss = np.average(total_mae_loss)
+
+    model.train()
+    return total_loss, total_mae_loss
+
+
+""" 
 def test(args, accelerator, model, train_loader, vali_loader, criterion):
     x, _ = train_loader.dataset.last_insample_window()
     y = vali_loader.dataset.timeseries
@@ -221,7 +333,7 @@ def test(args, accelerator, model, train_loader, vali_loader, criterion):
 
     model.train()
     return loss
-
+"""
 
 def load_content(args):
     if 'ETT' in args.data:

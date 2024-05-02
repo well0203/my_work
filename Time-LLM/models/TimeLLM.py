@@ -3,7 +3,9 @@ from math import sqrt
 import torch
 import torch.nn as nn
 
-from transformers import LlamaConfig, LlamaModel, LlamaTokenizer, GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
+#from transformers import LlamaConfig, LlamaModel, LlamaTokenizer, GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
+#    BertModel, BertTokenizer
+from transformers import GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
     BertModel, BertTokenizer
 from layers.Embed import PatchEmbedding
 import transformers
@@ -39,7 +41,7 @@ class Model(nn.Module):
         self.d_llm = configs.llm_dim
         self.patch_len = configs.patch_len
         self.stride = configs.stride
-
+        """
         if configs.llm_model == 'LLAMA':
             # self.llama_config = LlamaConfig.from_pretrained('/mnt/alps/modelhub/pretrained_model/LLaMA/7B_hf/')
             self.llama_config = LlamaConfig.from_pretrained('huggyllama/llama-7b')
@@ -80,7 +82,9 @@ class Model(nn.Module):
                     trust_remote_code=True,
                     local_files_only=False
                 )
-        elif configs.llm_model == 'GPT2':
+        """
+        # elif configs.llm_model == 'GPT2':
+        if configs.llm_model == 'GPT2':
             self.gpt2_config = GPT2Config.from_pretrained('openai-community/gpt2')
 
             self.gpt2_config.num_hidden_layers = configs.llm_layers
@@ -166,7 +170,8 @@ class Model(nn.Module):
         if configs.prompt_domain:
             self.description = configs.content
         else:
-            self.description = 'The Electricity Transformer Temperature (ETT) is a crucial indicator in the electric power long-term deployment.'
+            # self.description = 'The Electricity Transformer Temperature (ETT) is a crucial indicator in the electric power long-term deployment.'
+            self.description = 'Hourly data detailing load (electricity consumption), solar generation, and wind generation. These metrics are crucial in the electric power demand planning.'
 
         self.dropout = nn.Dropout(configs.dropout)
 
