@@ -86,7 +86,7 @@ class Model(nn.Module):
         # elif configs.llm_model == 'GPT2':
         if configs.llm_model == 'GPT2':
             self.gpt2_config = GPT2Config.from_pretrained('openai-community/gpt2')
-
+            self.gpt2_config.n_embd = self.d_llm
             self.gpt2_config.num_hidden_layers = configs.llm_layers
             self.gpt2_config.output_attentions = True
             self.gpt2_config.output_hidden_states = True
@@ -119,6 +119,42 @@ class Model(nn.Module):
                     trust_remote_code=True,
                     local_files_only=False
                 )
+        elif configs.llm_model == 'GPT2-medium':
+            self.gpt2_config = GPT2Config.from_pretrained('openai-community/gpt2-medium')
+            self.gpt2_config.n_embd = self.d_llm
+            self.gpt2_config.num_hidden_layers = configs.llm_layers
+            self.gpt2_config.output_attentions = True
+            self.gpt2_config.output_hidden_states = True
+            try:
+                self.llm_model = GPT2Model.from_pretrained(
+                    'openai-community/gpt2-medium',
+                    trust_remote_code=True,
+                    local_files_only=True,
+                    config=self.gpt2_config,
+                )
+            except EnvironmentError:  # downloads model from HF is not already done
+                print("Local model files not found. Attempting to download...")
+                self.llm_model = GPT2Model.from_pretrained(
+                    'openai-community/gpt2-medium',
+                    trust_remote_code=True,
+                    local_files_only=False,
+                    config=self.gpt2_config,
+                )
+
+            try:
+                self.tokenizer = GPT2Tokenizer.from_pretrained(
+                    'openai-community/gpt2-medium',
+                    trust_remote_code=True,
+                    local_files_only=True
+                )
+            except EnvironmentError:  # downloads the tokenizer from HF if not already done
+                print("Local tokenizer files not found. Atempting to download them..")
+                self.tokenizer = GPT2Tokenizer.from_pretrained(
+                    'openai-community/gpt2-medium',
+                    trust_remote_code=True,
+                    local_files_only=False
+                )
+
         elif configs.llm_model == 'BERT':
             self.bert_config = BertConfig.from_pretrained('google-bert/bert-base-uncased')
 
@@ -184,6 +220,7 @@ class Model(nn.Module):
         self.mapping_layer = nn.Linear(self.vocab_size, self.num_tokens)
 
         self.reprogramming_layer = ReprogrammingLayer(configs.d_model, configs.n_heads, self.d_ff, self.d_llm)
+        print('d_llm', self.d_llm)
 
         self.patch_nums = int((configs.seq_len - self.patch_len) / self.stride + 2)
         self.head_nf = self.d_ff * self.patch_nums
