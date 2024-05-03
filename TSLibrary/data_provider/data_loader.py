@@ -242,7 +242,7 @@ class Dataset_Custom(Dataset):
 
         # To ensure we do not split the day on the parts and take full days
         train_size = int(int(len(df_raw)/24)*0.7)
-        test_size = int(int(len(df_raw)/24)*0.2)
+        test_size = int(int(len(df_raw)/24)*0.15)
         val_size = int(len(df_raw)/24) - train_size - test_size
 
         # Split dataset on number of days
