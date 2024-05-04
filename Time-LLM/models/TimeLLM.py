@@ -41,7 +41,7 @@ class Model(nn.Module):
         self.d_llm = configs.llm_dim
         self.patch_len = configs.patch_len
         self.stride = configs.stride
-        """
+        
         if configs.llm_model == 'LLAMA':
             # self.llama_config = LlamaConfig.from_pretrained('/mnt/alps/modelhub/pretrained_model/LLaMA/7B_hf/')
             self.llama_config = LlamaConfig.from_pretrained('huggyllama/llama-7b')
@@ -82,7 +82,7 @@ class Model(nn.Module):
                     trust_remote_code=True,
                     local_files_only=False
                 )
-        """
+        
         # elif configs.llm_model == 'GPT2':
         if configs.llm_model == 'GPT2':
             self.gpt2_config = GPT2Config.from_pretrained('openai-community/gpt2')
