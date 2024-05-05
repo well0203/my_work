@@ -84,7 +84,7 @@ class Model(nn.Module):
                 )
         
         # elif configs.llm_model == 'GPT2':
-        if configs.llm_model == 'GPT2':
+        elif configs.llm_model == 'GPT2':
             self.gpt2_config = GPT2Config.from_pretrained('openai-community/gpt2')
             self.gpt2_config.n_embd = self.d_llm
             self.gpt2_config.num_hidden_layers = configs.llm_layers
