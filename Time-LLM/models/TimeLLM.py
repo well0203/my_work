@@ -3,10 +3,10 @@ from math import sqrt
 import torch
 import torch.nn as nn
 
-#from transformers import LlamaConfig, LlamaModel, LlamaTokenizer, GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
-#    BertModel, BertTokenizer
-from transformers import GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
+from transformers import LlamaConfig, LlamaModel, LlamaTokenizer, GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
     BertModel, BertTokenizer
+#from transformers import GPT2Config, GPT2Model, GPT2Tokenizer, BertConfig, \
+#    BertModel, BertTokenizer
 from layers.Embed import PatchEmbedding
 import transformers
 from layers.StandardNorm import Normalize
