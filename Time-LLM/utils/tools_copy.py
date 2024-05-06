@@ -9,7 +9,6 @@ from tqdm import tqdm
 
 plt.switch_backend('agg')
 
-
 def adjust_learning_rate(accelerator, optimizer, scheduler, epoch, args, printout=True):
     if args.lradj == 'type1':
         lr_adjust = {epoch: args.learning_rate * (0.5 ** ((epoch - 1) // 1))}
@@ -163,17 +162,11 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
             dec_inp = torch.cat([batch_y[:, :args.label_len, :], dec_inp], dim=1).float().to(
                 accelerator.device)
             # encoder - decoder
-            if args.use_amp:
-                with torch.cuda.amp.autocast():
-                    if args.output_attention:
-                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-                    else:
-                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+
+            if args.output_attention:
+                outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
             else:
-                if args.output_attention:
-                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-                else:
-                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
 
             outputs, batch_y = accelerator.gather_for_metrics((outputs, batch_y))
 
@@ -217,17 +210,11 @@ def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
             dec_inp = torch.cat([batch_y[:, :args.label_len, :], dec_inp], dim=1).float().to(
                 accelerator.device)
             # encoder - decoder
-            if args.use_amp:
-                with torch.cuda.amp.autocast():
-                    if args.output_attention:
-                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-                    else:
-                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+
+            if args.output_attention:
+                outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
             else:
-                if args.output_attention:
-                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-                else:
-                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
 
             outputs, batch_y = accelerator.gather_for_metrics((outputs, batch_y))
 

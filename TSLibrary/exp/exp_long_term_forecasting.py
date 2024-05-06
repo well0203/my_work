@@ -82,7 +82,7 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         test_data, test_loader = self._get_data(flag='test')
 
         # path = os.path.join('/content/drive/MyDrive/Masterarbeit/checkpoints/', setting)
-        path = os.path.join('/vol/cs-hu/riabchuv/hu-home/my_work/checkpoints/', setting)
+        path = os.path.join('./TSLibrary/checkpoints/', setting)
 
         # path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
@@ -184,12 +184,10 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         test_data, test_loader = self._get_data(flag='test')
         if test:
             print('loading model')
-            # self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
-            # self.model.load_state_dict(torch.load(os.path.join('/content/drive/MyDrive/Masterarbeit/checkpoints/' + setting, 'checkpoint.pth')))
-            self.model.load_state_dict(torch.load(os.path.join('/vol/cs-hu/riabchuv/hu-home/my_work/checkpoints/' + setting, 'checkpoint.pth')))
+            self.model.load_state_dict(torch.load(os.path.join('./TSLibrary/checkpoints/' + setting, 'checkpoint.pth')))
 
             # Construct the path to the checkpoint file
-            #checkpoint_path = os.path.join('/vol/cs-hu/riabchuv/hu-home/my_work/checkpoints/', setting, 'checkpoint.pth')
+            #checkpoint_path = os.path.join('./checkpoints/', setting, 'checkpoint.pth')
 
             # Load the model's state dictionary, mapping tensors to an existing CUDA device
             #self.model.load_state_dict(torch.load(checkpoint_path, map_location="cuda:1"))
@@ -197,9 +195,8 @@ class Exp_Long_Term_Forecast(Exp_Basic):
 
         preds = []
         trues = []
-        # folder_path = f'./test_results/{self.args.model}/' + setting + '/'
         # folder_path = f'/content/drive/MyDrive/Masterarbeit/test_results/{self.args.model}/' + setting + '/'
-        folder_path = f'/vol/cs-hu/riabchuv/hu-home/my_work/test_results/{self.args.model}/' + setting + '/'
+        folder_path = f'./TSLibrary/test_results/{self.args.model}/' + setting + '/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -264,9 +261,8 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         print('test shape:', preds.shape, trues.shape)
 
         # result save
-        # folder_path = f'./results/{self.args.model}/' + setting + '/'
         # folder_path = f'/content/drive/MyDrive/Masterarbeit/results/{self.args.model}/' + setting + '/'
-        folder_path = f'/vol/cs-hu/riabchuv/hu-home/my_work/results/{self.args.model}/' + setting + '/'
+        folder_path = f'./TSLibrary/results/{self.args.model}/' + setting + '/'
 
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -275,9 +271,8 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         print('mse:{}, mae:{}'.format(mse, mae))
 
         # Write results to a text file
-        # folder_path_2 = f'./results/{self.args.model}/'
         # folder_path_2 = f'/content/drive/MyDrive/Masterarbeit/results/{self.args.model}/'
-        folder_path_2 = f'/vol/cs-hu/riabchuv/hu-home/my_work/results/{self.args.model}/'
+        folder_path_2 = f'./TSLibrary/results/{self.args.model}/'
 
         if not os.path.exists(folder_path_2):
             os.makedirs(folder_path_2)
