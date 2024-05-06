@@ -829,3 +829,6 @@ mse:0.34289488196372986, mae:0.3511775732040405
 long_term_forecast_FR_96_24_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
 mse:0.3359515368938446, mae:0.34610873460769653
 
+long_term_forecast_FR_96_24_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3749815821647644, mae:0.40027400851249695
+
