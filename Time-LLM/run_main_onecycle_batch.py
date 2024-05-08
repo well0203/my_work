@@ -18,7 +18,7 @@ import os
 os.environ['CURL_CA_BUNDLE'] = ''
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:64"
 
-from utils.tools import del_files, EarlyStopping, adjust_learning_rate, vali, test, load_content
+from utils.tools_copy import del_files, EarlyStopping, adjust_learning_rate, vali, test, load_content
 
 parser = argparse.ArgumentParser(description='Time-LLM')
 
@@ -95,13 +95,12 @@ parser.add_argument('--des', type=str, default='test', help='exp description')
 parser.add_argument('--loss', type=str, default='MSE', help='loss function')
 parser.add_argument('--lradj', type=str, default='type1', help='adjust learning rate')
 parser.add_argument('--pct_start', type=float, default=0.2, help='pct_start')
-parser.add_argument('--use_amp', action='store_true', help='use automatic mixed precision training', default=False)
 parser.add_argument('--llm_layers', type=int, default=6)
 parser.add_argument('--percent', type=int, default=100)
 
 args = parser.parse_args()
 ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
-deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='./Time-LLM/ds_config_zero2.json')
+deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='./Time-LLM/ds_config_zero2_copy.json')
 accelerator = Accelerator(kwargs_handlers=[ddp_kwargs], deepspeed_plugin=deepspeed_plugin)
 
 
@@ -144,7 +143,11 @@ for ii in range(args.itr):
 
     time_now = time.time()
 
-    train_steps = len(train_loader)
+    # train_steps = len(train_loader)
+    batch_accumulate = 8  # Accumulate gradients over 8 batches
+    train_steps = len(train_loader) // batch_accumulate
+
+
     early_stopping = EarlyStopping(accelerator=accelerator, patience=args.patience)
 
     trained_parameters = []
@@ -153,22 +156,9 @@ for ii in range(args.itr):
             trained_parameters.append(p)
 
     model_optim = optim.Adam(trained_parameters, lr=args.learning_rate)
-
-    """
-    def get_lr(optimizer):
-        for param_group in optimizer.param_groups:
-            return param_group['lr']
-
-    print('learning_rate', args.learning_rate)
-    print('lr', get_lr(model_optim))
-    """
     
-    if args.lradj == 'COS':
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(model_optim, T_max=20, eta_min=1e-8)
-    elif args.lradj == 'constant':
-        scheduler = None
-    else:
-        scheduler = lr_scheduler.OneCycleLR(optimizer=model_optim,
+
+    scheduler = lr_scheduler.OneCycleLR(optimizer=model_optim,
                                             steps_per_epoch=train_steps,
                                             pct_start=args.pct_start,
                                             epochs=args.train_epochs,
@@ -180,19 +170,11 @@ for ii in range(args.itr):
     train_loader, vali_loader, test_loader, model, model_optim, scheduler = accelerator.prepare(
         train_loader, vali_loader, test_loader, model, model_optim, scheduler)
 
-    if args.use_amp:
-        scaler = torch.cuda.amp.GradScaler()
-
     for epoch in range(args.train_epochs):
 
         def get_lr(optimizer):
             for param_group in optimizer.param_groups:
                 return param_group['lr']
-
-        print('learning_rate', args.learning_rate)
-        print('lr', get_lr(model_optim))
-
-
 
         iter_count = 0
         train_loss = []
@@ -200,34 +182,24 @@ for ii in range(args.itr):
         model.train()
         epoch_time = time.time()
         for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(train_loader)):
+
+            #print('learning_rate', args.learning_rate)
+            #print('lr', get_lr(model_optim))
+
             iter_count += 1
-            model_optim.zero_grad()
+            with accelerator.accumulate(model):
+                batch_x = batch_x.float().to(accelerator.device)
+                batch_y = batch_y.float().to(accelerator.device)
+                batch_x_mark = batch_x_mark.float().to(accelerator.device)
+                batch_y_mark = batch_y_mark.float().to(accelerator.device)
 
-            batch_x = batch_x.float().to(accelerator.device)
-            batch_y = batch_y.float().to(accelerator.device)
-            batch_x_mark = batch_x_mark.float().to(accelerator.device)
-            batch_y_mark = batch_y_mark.float().to(accelerator.device)
+                # decoder input
+                dec_inp = torch.zeros_like(batch_y[:, -args.pred_len:, :]).float().to(
+                    accelerator.device)
+                dec_inp = torch.cat([batch_y[:, :args.label_len, :], dec_inp], dim=1).float().to(
+                    accelerator.device)
 
-            # decoder input
-            dec_inp = torch.zeros_like(batch_y[:, -args.pred_len:, :]).float().to(
-                accelerator.device)
-            dec_inp = torch.cat([batch_y[:, :args.label_len, :], dec_inp], dim=1).float().to(
-                accelerator.device)
-
-            # encoder - decoder
-            if args.use_amp:
-                with torch.cuda.amp.autocast():
-                    if args.output_attention:
-                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-                    else:
-                        outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
-
-                    f_dim = -1 if args.features == 'MS' else 0
-                    outputs = outputs[:, -args.pred_len:, f_dim:]
-                    batch_y = batch_y[:, -args.pred_len:, f_dim:].to(accelerator.device)
-                    loss = criterion(outputs, batch_y)
-                    train_loss.append(loss.item())
-            else:
+                # encoder - decoder
                 if args.output_attention:
                     outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
                 else:
@@ -242,26 +214,24 @@ for ii in range(args.itr):
 
                 train_loss.append(loss.item())
 
-            if (i + 1) % 100 == 0:
-                accelerator.print(
-                    "\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
-                speed = (time.time() - time_now) / iter_count
-                left_time = speed * ((args.train_epochs - epoch) * train_steps - i)
-                accelerator.print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
-                iter_count = 0
-                time_now = time.time()
+                if iter_count % 100 == 0:
+                    accelerator.print(
+                        "\titers: {0}, epoch: {1} | loss: {2:.7f}".format(iter_count, epoch + 1, loss.item()))
+                    speed = (time.time() - time_now) / (iter_count * batch_accumulate)
+                    left_time = speed * ((args.train_epochs - epoch) * train_steps - i)
+                    accelerator.print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
 
-            if args.use_amp:
-                scaler.scale(loss).backward()
-                scaler.step(model_optim)
-                scaler.update()
-            else:
+
                 accelerator.backward(loss)
                 model_optim.step()
+                model_optim.zero_grad()
 
-            if args.lradj == 'TST':
-                adjust_learning_rate(accelerator, model_optim, scheduler, epoch + 1, args, printout=False)
-                scheduler.step()
+            #accelerator.print("Initial lr = {:.10f}".format(model_optim.param_groups[0]['lr']))
+            # scheduler.step()
+            #accelerator.print("Updated lr = {:.10f}".format(model_optim.param_groups[0]['lr']))
+            # model_optim.zero_grad()
+
+        scheduler.step()
 
         accelerator.print("Epoch: {} cost time: {}".format(epoch + 1, time.time() - epoch_time))
         train_loss = np.average(train_loss)
@@ -276,20 +246,11 @@ for ii in range(args.itr):
             accelerator.print("Early stopping")
             break
 
-        if args.lradj != 'TST':
-            if args.lradj == 'COS':
-                scheduler.step()
-                accelerator.print("lr = {:.10f}".format(model_optim.param_groups[0]['lr']))
-            elif args.lradj == 'constant' or 'type1':
-                accelerator.print("lr = {:.10f}".format(model_optim.param_groups[0]['lr']))
-            else:
-                if epoch == 0:
-                    args.learning_rate = model_optim.param_groups[0]['lr']
-                    accelerator.print("lr = {:.10f}".format(model_optim.param_groups[0]['lr']))
-                adjust_learning_rate(accelerator, model_optim, scheduler, epoch + 1, args, printout=True)
+        if epoch == 0:
+            args.learning_rate = model_optim.param_groups[0]['lr']
+            accelerator.print("lr = {:.10f}".format(model_optim.param_groups[0]['lr']))
+            adjust_learning_rate(accelerator, model_optim, scheduler, epoch + 1, args, printout=True)
 
-        else:
-            accelerator.print('Updating learning rate to {}'.format(scheduler.get_last_lr()[0]))
 
 accelerator.wait_for_everyone()
 if accelerator.is_local_main_process:

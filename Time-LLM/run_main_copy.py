@@ -216,7 +216,7 @@ for ii in range(args.itr):
                 model_optim.zero_grad()
 
 
-                if (i*8 + 1) % 120 == 0:
+                if (epoch + 1) % 8 == 0 and (i*8 + 1) % 120 == 0:
                     accelerator.print(
                         "\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i*8 + 1, epoch + 1, loss.item()))
                     speed = (time.time() - time_now) / iter_count
@@ -224,6 +224,7 @@ for ii in range(args.itr):
                     accelerator.print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
                     iter_count = 0
                     time_now = time.time()
+
 
 
             if args.lradj == 'TST':
