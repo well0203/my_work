@@ -225,8 +225,6 @@ for ii in range(args.itr):
                     iter_count = 0
                     time_now = time.time()
 
-
-
             if args.lradj == 'TST':
                 adjust_learning_rate(accelerator, model_optim, scheduler, epoch + 1, args, printout=False)
                 scheduler.step()

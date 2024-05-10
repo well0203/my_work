@@ -162,8 +162,10 @@ for ii in range(args.itr):
     mae_metric = nn.L1Loss()
 
     # Move model and optimizer to CUDA device if available
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
+    # device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    device = torch.cuda.device(2)
+    # model.to(device)
+    model.to(torch.device("cuda"))
 
     for epoch in range(args.train_epochs):
 
