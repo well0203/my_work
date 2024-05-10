@@ -163,9 +163,13 @@ for ii in range(args.itr):
 
     # Move model and optimizer to CUDA device if available
     # device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
-    device = torch.cuda.device(2)
+    # device = torch.cuda.device(2)
     # model.to(device)
-    model.to(torch.device("cuda"))
+
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
+
+    # model.to(torch.device("cuda"))
 
     for epoch in range(args.train_epochs):
 

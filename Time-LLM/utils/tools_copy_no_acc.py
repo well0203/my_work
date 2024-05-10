@@ -8,8 +8,8 @@ import shutil
 from tqdm import tqdm
 
 plt.switch_backend('agg')
-# device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
-device = torch.cuda.device(2)
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# device = torch.cuda.device(2)
 
 
 
