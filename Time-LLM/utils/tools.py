@@ -38,7 +38,7 @@ def adjust_learning_rate(accelerator, optimizer, scheduler, epoch, args, printou
 
 
 class EarlyStopping:
-    def __init__(self, accelerator=None, patience=7, verbose=False, delta=0, save_mode=True):
+    def __init__(self, accelerator=None, patience=7, verbose=True, delta=0, save_mode=True):
         self.accelerator = accelerator
         self.patience = patience
         self.verbose = verbose
@@ -68,7 +68,7 @@ class EarlyStopping:
             if self.save_mode:
                 self.save_checkpoint(val_loss, model, path)
             self.counter = 0
-
+    
     def save_checkpoint(self, val_loss, model, path):
         if self.verbose:
             if self.accelerator is not None:
@@ -84,6 +84,7 @@ class EarlyStopping:
         else:
             torch.save(model.state_dict(), path + '/' + 'checkpoint.pth')
         self.val_loss_min = val_loss
+
 
 
 class dotdict(dict):
@@ -134,6 +135,17 @@ def cal_accuracy(y_pred, y_true):
 
 def del_files(dir_path):
     shutil.rmtree(dir_path)
+
+def visual(true, preds=None, name='./pic/test.pdf'):
+    """
+    Results visualization
+    """
+    plt.figure()
+    plt.plot(true, label='GroundTruth', linewidth=2)
+    if preds is not None:
+        plt.plot(preds, label='Prediction', linewidth=2)
+    plt.legend()
+    plt.savefig(name, bbox_inches='tight')
 
 
 def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric):
@@ -197,7 +209,28 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     model.train()
     return total_loss, total_mae_loss
 
-def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric, setting):
+
+def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric, setting):
+
+    checkpoint_path = os.path.join('./checkpoints/' + setting + '-' + args.model_comment, 'checkpoint.pth')
+    
+    if accelerator is not None:
+        accelerator.print('loading model...')
+
+        # 1. Unwrap the model if using Accelerate
+        # We do not need distributed training functionality for testing
+
+        model = accelerator.unwrap_model(model)
+        # 2. Load the model weights
+        model.load_state_dict(torch.load(checkpoint_path, map_location=accelerator.device))
+    else:
+        print('loading model...')
+        model.load_state_dict(torch.load(checkpoint_path, map_location=torch.device('cpu')))
+
+    folder_path = f'./test_results/{args.model}/' + setting + '/'
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
     preds = []
     trues = []
 
@@ -205,7 +238,7 @@ def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     total_mae_loss = []
     model.eval()
     with torch.no_grad():
-        for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(vali_loader)):
+        for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(test_loader)):
             batch_x = batch_x.float().to(accelerator.device)
             batch_y = batch_y.float()
 
@@ -235,31 +268,33 @@ def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
             outputs = outputs[:, -args.pred_len:, f_dim:]
             batch_y = batch_y[:, -args.pred_len:, f_dim:].to(accelerator.device)
 
+            # Tensors without gradient computation to reduce memory consumption
             pred = outputs.detach()
             true = batch_y.detach()
 
+            # Needs GPU
             loss = criterion(pred, true)
-
             mae_loss = mae_metric(pred, true)
 
             total_loss.append(loss.item())
             total_mae_loss.append(mae_loss.item())
 
-            pred = outputs.detach()
-            # print("pred.shape", pred.shape)
+            # We do not need GPU anymore
+            pred = pred.cpu().numpy()
+            true = true.cpu().numpy()
 
-            true = batch_y.detach()
-            
-            loss = criterion(pred, true)
+            preds.append(pred)
+            trues.append(true)
 
-            mae_loss = mae_metric(pred, true)
+            # First observation from a batch every 100 test batches
+            if i % 100 == 0:
+                input = batch_x.detach().cpu().numpy()
 
-            total_loss.append(loss.item())
-            total_mae_loss.append(mae_loss.item())
-
-            
-            preds.append(pred.cpu().numpy())
-            trues.append(true.cpu().numpy())
+                # (24, 20, 1)
+                # Print first observation from the batch and flatten third dim
+                gt = np.concatenate((input[0, :, -1], true[0, :, -1]), axis=0)
+                pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
+                visual(gt, pd, os.path.join(folder_path, str(i) + '.pdf'))
 
     preds = np.array(preds)
     trues = np.array(trues)
@@ -270,9 +305,9 @@ def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
 
     #folder_path = f'./results/{self.args.model}/' + '/'
-    folder_path = f'./results/{args.model}/' + f'{args.data}/'
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
+    folder_path_1 = f'./results/{args.model}/' + setting + '/' #f'{args.data}/'
+    if not os.path.exists(folder_path_1):
+        os.makedirs(folder_path_1)
 
     mae, mse, rmse, mape, mspe = metric(preds, trues)
     # print('mse:{}, mae:{}'.format(mse, mae))
@@ -283,12 +318,9 @@ def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     f.write('\n')
     f.close()
 
-
-    np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
-    np.save(folder_path + 'pred.npy', preds)
-    np.save(folder_path + 'true.npy', trues)
-
-
+    np.save(folder_path_1 + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
+    np.save(folder_path_1 + 'pred.npy', preds)
+    np.save(folder_path_1 + 'true.npy', trues)
 
     total_loss = np.average(total_loss)
     total_mae_loss = np.average(total_mae_loss)
@@ -296,44 +328,6 @@ def test(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     model.train()
     return total_loss, total_mae_loss
 
-
-""" 
-def test(args, accelerator, model, train_loader, vali_loader, criterion):
-    x, _ = train_loader.dataset.last_insample_window()
-    y = vali_loader.dataset.timeseries
-    x = torch.tensor(x, dtype=torch.float32).to(accelerator.device)
-    x = x.unsqueeze(-1)
-
-    model.eval()
-    with torch.no_grad():
-        B, _, C = x.shape
-        dec_inp = torch.zeros((B, args.pred_len, C)).float().to(accelerator.device)
-        dec_inp = torch.cat([x[:, -args.label_len:, :], dec_inp], dim=1)
-        outputs = torch.zeros((B, args.pred_len, C)).float().to(accelerator.device)
-        id_list = np.arange(0, B, args.eval_batch_size)
-        id_list = np.append(id_list, B)
-        for i in range(len(id_list) - 1):
-            outputs[id_list[i]:id_list[i + 1], :, :] = model(
-                x[id_list[i]:id_list[i + 1]],
-                None,
-                dec_inp[id_list[i]:id_list[i + 1]],
-                None
-            )
-        accelerator.wait_for_everyone()
-        outputs = accelerator.gather_for_metrics(outputs)
-        f_dim = -1 if args.features == 'MS' else 0
-        outputs = outputs[:, -args.pred_len:, f_dim:]
-        pred = outputs
-        true = torch.from_numpy(np.array(y)).to(accelerator.device)
-        batch_y_mark = torch.ones(true.shape).to(accelerator.device)
-        true = accelerator.gather_for_metrics(true)
-        batch_y_mark = accelerator.gather_for_metrics(batch_y_mark)
-
-        loss = criterion(x[:, :, 0], args.frequency_map, pred[:, :, 0], true, batch_y_mark)
-
-    model.train()
-    return loss
-"""
 
 def load_content(args):
     if 'ETT' in args.data:
@@ -347,3 +341,40 @@ def load_content(args):
 
         content = f.read()
     return content
+
+"""
+def plot_train_val_loss(args, train_loss, val_loss, lr=None):
+    
+    Plots training and validation loss with optional learning rate values.
+    
+    Args:
+    train_loss (list): List containing training loss values for each epoch.
+    val_loss (list): List containing validation loss values for each epoch.
+    lr_values (list, optional): List containing learning rate values for each epoch.
+    
+    Returns:
+    legend_labels (list): List containing legend labels for the plot.
+    
+    epochs = range(1, len(train_loss) + 1)
+    legend_labels = []
+
+    plt.plot(epochs, train_loss, 'b', label='Training Loss')
+    legend_labels.append('Training Loss')
+
+    plt.plot(epochs, val_loss, 'r', label='Validation Loss')
+    legend_labels.append('Validation Loss')
+
+    # plt.title(f'Training and Validation Loss for Learning rate {lr}')
+    plt.title(f'{args.data} dataset with pred_len {args.pred_len} and {args.percent} % of data. {args.llm_model} with {args.llama_layers} layers. LR {args.learning_rate}, batch size {args.batch_size}, d_model {args.d_model}, d_ff {args.d_ff} ')
+    file_name = f'{args.data}_with_pred_len_{args.pred_len}_{args.percent}_data._{args.llm_model}_with_{args.llama_layers}_layers._LR_{args.learning_rate}_batch_size_{args.batch_size}_d_model_{args.d_model}_d_ff_{args.d_ff}'
+
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(os.join(file_name)
+    plt.show()
+
+    #return legend_labels
+"""
+

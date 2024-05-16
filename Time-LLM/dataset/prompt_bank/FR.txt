@@ -1,1 +1,1 @@
-Hourly data detailing load, solar generation, and wind generation in France. Wind generation is onshore wind eneration.
+Hourly data detailing load, solar generation, and wind generation in France. Wind generation is onshore wind generation.

@@ -139,8 +139,7 @@ for ii in range(args.itr):
     time_now = time.time()
 
     # train_steps = len(train_loader)
-    batch_accumulate = 8  # Accumulate gradients over 8 batches
-    train_steps = len(train_loader) // batch_accumulate
+    train_steps = len(train_loader)
 
     early_stopping = EarlyStopping(patience=args.patience)
 
@@ -194,43 +193,30 @@ for ii in range(args.itr):
             f_dim = -1 if args.features == 'MS' else 0
             batch_y = batch_y[:, -args.pred_len:, f_dim:]
 
-            with torch.set_grad_enabled(True):
-                # encoder - decoder
-                if args.output_attention:
-                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
-                else:
-                    outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+         
+            # encoder - decoder
+            if args.output_attention:
+                outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)[0]
+            else:
+                outputs = model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
 
-                outputs = outputs[:, -args.pred_len:, f_dim:]
+            outputs = outputs[:, -args.pred_len:, f_dim:]
 
-                
-                loss = criterion(outputs, batch_y)
-                train_loss.append(loss.item())
+            
+            loss = criterion(outputs, batch_y)
+            train_loss.append(loss.item())
 
+            loss.backward()
 
-                # Normalize loss for gradients
-                # it is like normalize gradients after batch_accum
-                # --> accum_gradients/10, 10/10
+            if iter_count % 1000 == 0:
+                print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(iter_count, epoch + 1, loss.item()))
+                speed = (time.time() - time_now) / iter_count
+                left_time = speed * ((args.train_epochs - epoch) * train_steps - i)
+                print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
 
-                # But here we make: 1/10, 2/10, 3/10...
-                # same denominator -> same results!
-                loss = loss / batch_accumulate
-
-                loss.backward()
-
-                if iter_count % 1000 == 0:
-                    print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(iter_count, epoch + 1, loss.item()))
-                    speed = (time.time() - time_now) / (iter_count * batch_accumulate)
-                    left_time = speed * ((args.train_epochs - epoch) * train_steps - i)
-                    print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
-
-                # weights update
-                if ((i + 1) % batch_accumulate == 0) or (i + 1 == len(train_loader)):
-                # normalize loss to account for batch accumulation
-                    #train_loss.append(loss.item())
-                    #loss = loss / batch_accumulate
-                    model_optim.step()
-                    model_optim.zero_grad()
+  
+            model_optim.step()
+            model_optim.zero_grad()
 
 
         # scheduler.step()
@@ -256,6 +242,6 @@ for ii in range(args.itr):
         adjust_learning_rate(model_optim, scheduler, epoch + 1, args, printout=True)
 
 
-if os.path.exists(path):
-    del_files(path)  # delete checkpoint files
-    print('success delete checkpoints')
+# if os.path.exists(path):
+    # del_files(path)  # delete checkpoint files
+    #print('success delete checkpoints')

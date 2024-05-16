@@ -207,8 +207,9 @@ class Model(nn.Module):
             self.description = configs.content
         else:
             # self.description = 'The Electricity Transformer Temperature (ETT) is a crucial indicator in the electric power long-term deployment.'
-            # self.description = 'Hourly data detailing load (electricity consumption), solar generation, and wind generation. These metrics are crucial in the electric power demand planning.'
-            self.description = 'What if I write here some words? Squirrel, bear, kitty, ice cream, wood. They are totally random and do not describe my task.'
+            # self.description = 'Hourly data detailing load (electricity consumption), solar generation, and wind generation. These metrics are crucial in the electric power demand planning.  The input data is organized this way: First third is the load time series, second third is a solar generation time series and the last third is a wind generation time series. The first two show strong daily seasonality, while the third one has mainly yearly seasonality. The load and solar have usually lowest values at night. Solar has peaks at the noon. '
+            self.description = 'Hourly data detailing load (electricity consumption), solar generation, and wind generation. These metrics are crucial in the electric power demand planning. '
+            # self.description = 'What if I write here some words? Squirrel, bear, kitty, ice cream, wood. They are totally random and do not describe my task. '
         
         print(self.description)
         
@@ -223,7 +224,7 @@ class Model(nn.Module):
         self.mapping_layer = nn.Linear(self.vocab_size, self.num_tokens)
 
         self.reprogramming_layer = ReprogrammingLayer(configs.d_model, configs.n_heads, self.d_ff, self.d_llm)
-        print('d_llm', self.d_llm)
+        # print('d_llm', self.d_llm)
 
         self.patch_nums = int((configs.seq_len - self.patch_len) / self.stride + 2)
         self.head_nf = self.d_ff * self.patch_nums

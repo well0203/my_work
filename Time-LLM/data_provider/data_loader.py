@@ -237,6 +237,11 @@ class Dataset_Custom(Dataset):
 
         self.enc_in = self.data_x.shape[-1]
         self.tot_len = len(self.data_x) - self.seq_len - self.pred_len + 1
+        # If you want further debug it it will be helpful :)
+        self.border1s = None  # Initialize border1s attribute
+        self.border2s = None  # Initialize border2s attribute
+        self.border1 = None  # Initialize border1 attribute
+        self.border2 = None  # Initialize border2 attribute
 
     def __read_data__(self):
         self.scaler = StandardScaler()
@@ -278,13 +283,21 @@ class Dataset_Custom(Dataset):
         num_test = int(len(df_raw) * 0.2)
         num_vali = len(df_raw) - num_train - num_test
         """
-        border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
-        border2s = [num_train, num_train + num_vali, len(df_raw)]
-        border1 = border1s[self.set_type]
-        border2 = border2s[self.set_type]
+        self.border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
+        self.border2s = [num_train, num_train + num_vali, len(df_raw)]
+        self.border1 = self.border1s[self.set_type]
+        self.border2 = self.border2s[self.set_type]
 
         if self.set_type == 0:
-            border2 = (border2 - self.seq_len) * self.percent // 100 + self.seq_len
+            # I want to choose the latest samples, they chose the first
+            # Moreover, they do not have a percentage of dataset, rather some type
+            # of adjustment to the number of series
+            tmp = self.border2*self.percent // 100
+            self.border1 = self.border2 - tmp
+
+            if tmp <= self.seq_len:
+                raise ValueError(f'The percent of training data {tmp} should be larger than the sequence length {self.seq_len}. Please choose a larger percent.')
+            # border2 = (border2 - self.seq_len) * self.percent // 100 + self.seq_len
 
         if self.features == 'M' or self.features == 'MS':
             cols_data = df_raw.columns[1:]
@@ -293,13 +306,13 @@ class Dataset_Custom(Dataset):
             df_data = df_raw[[self.target]]
 
         if self.scale:
-            train_data = df_data[border1s[0]:border2s[0]]
+            train_data = df_data[self.border1s[0]:self.border2s[0]]
             self.scaler.fit(train_data.values)
             data = self.scaler.transform(df_data.values)
         else:
             data = df_data.values
 
-        df_stamp = df_raw[['date']][border1:border2]
+        df_stamp = df_raw[['date']][self.border1:self.border2]
         df_stamp['date'] = pd.to_datetime(df_stamp.date)
         if self.timeenc == 0:
             df_stamp['month'] = df_stamp.date.apply(lambda row: row.month, 1)
@@ -311,8 +324,8 @@ class Dataset_Custom(Dataset):
             data_stamp = time_features(pd.to_datetime(df_stamp['date'].values), freq=self.freq)
             data_stamp = data_stamp.transpose(1, 0)
 
-        self.data_x = data[border1:border2]
-        self.data_y = data[border1:border2]
+        self.data_x = data[self.border1:self.border2]
+        self.data_y = data[self.border1:self.border2]
         self.data_stamp = data_stamp
 
     def __getitem__(self, index):

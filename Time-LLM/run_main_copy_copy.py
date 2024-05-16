@@ -143,7 +143,7 @@ for ii in range(args.itr):
 
     time_now = time.time()
 
-    train_steps = len(train_loader) // 8 
+    train_steps = len(train_loader) // 42 
     early_stopping = EarlyStopping(accelerator=accelerator, patience=args.patience)
 
     trained_parameters = []

@@ -6,6 +6,7 @@ from accelerate import DistributedDataParallelKwargs
 from torch import nn, optim
 from torch.optim import lr_scheduler
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 from models import Autoformer, DLinear, TimeLLM
 
@@ -18,7 +19,7 @@ import os
 os.environ['CURL_CA_BUNDLE'] = ''
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:64"
 
-from utils.tools import del_files, EarlyStopping, adjust_learning_rate, vali, test, load_content
+from utils.tools import del_files, EarlyStopping, adjust_learning_rate, vali, test, load_content # , plot_train_val_loss
 
 parser = argparse.ArgumentParser(description='Time-LLM')
 
@@ -102,6 +103,7 @@ parser.add_argument('--percent', type=int, default=100)
 args = parser.parse_args()
 ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
 deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='./Time-LLM/ds_config_zero2.json')
+#deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='ds_config_zero2.json')
 accelerator = Accelerator(kwargs_handlers=[ddp_kwargs], deepspeed_plugin=deepspeed_plugin)
 
 
@@ -153,15 +155,6 @@ for ii in range(args.itr):
             trained_parameters.append(p)
 
     model_optim = optim.Adam(trained_parameters, lr=args.learning_rate)
-
-    """
-    def get_lr(optimizer):
-        for param_group in optimizer.param_groups:
-            return param_group['lr']
-
-    print('learning_rate', args.learning_rate)
-    print('lr', get_lr(model_optim))
-    """
     
     if args.lradj == 'COS':
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(model_optim, T_max=20, eta_min=1e-8)
@@ -183,15 +176,17 @@ for ii in range(args.itr):
     if args.use_amp:
         scaler = torch.cuda.amp.GradScaler()
 
+    train_losses = []
+    val_losses = []
+
     for epoch in range(args.train_epochs):
 
         def get_lr(optimizer):
             for param_group in optimizer.param_groups:
                 return param_group['lr']
 
-        print('learning_rate', args.learning_rate)
-        print('lr', get_lr(model_optim))
-
+        #print('learning_rate', args.learning_rate)
+        #print('lr', get_lr(model_optim))
 
 
         iter_count = 0
@@ -239,7 +234,6 @@ for ii in range(args.itr):
                 loss = criterion(outputs, batch_y)
 
                 loss = loss 
-
                 train_loss.append(loss.item())
 
             if (i + 1) % 100 == 0:
@@ -265,8 +259,9 @@ for ii in range(args.itr):
 
         accelerator.print("Epoch: {} cost time: {}".format(epoch + 1, time.time() - epoch_time))
         train_loss = np.average(train_loss)
+
         vali_loss, vali_mae_loss = vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric)
-        test_loss, test_mae_loss = test(args, accelerator, model, test_data, test_loader, criterion, mae_metric, setting)
+        test_loss, test_mae_loss = vali(args, accelerator, model, test_data, test_loader, criterion, mae_metric)
         accelerator.print(
             "Epoch: {0} | Train Loss: {1:.7f} Vali Loss: {2:.7f} Test Loss: {3:.7f} MAE Loss: {4:.7f}".format(
                 epoch + 1, train_loss, vali_loss, test_loss, test_mae_loss))
@@ -291,8 +286,25 @@ for ii in range(args.itr):
         else:
             accelerator.print('Updating learning rate to {}'.format(scheduler.get_last_lr()[0]))
 
+        train_losses.append(train_loss)
+        val_losses.append(vali_loss)
+
+    # Synchronize CUDA operations and empty the cache
+    torch.cuda.synchronize()
+    torch.cuda.empty_cache()
+    # Test
+    mse, mae = test(args, accelerator, model, test_data, test_loader, criterion, mae_metric, setting)
+    print('mse:{}, mae:{}'.format(mse, mae))
+
+    # For plot
+    print('train_losses', train_losses)
+    print('val_losses', val_losses)
+    # plot_train_val_loss(args, train_losses, val_losses)
+
+
 accelerator.wait_for_everyone()
-if accelerator.is_local_main_process:
-    #path = './checkpoints'  # unique checkpoint saving path
-    del_files(path)  # delete checkpoint files
-    accelerator.print('success delete checkpoints')
+
+#if accelerator.is_local_main_process:
+#    #path = './checkpoints'  # unique checkpoint saving path
+#    del_files(path)  # delete checkpoint files
+#    accelerator.print('success delete checkpoints')

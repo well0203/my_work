@@ -82,7 +82,7 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         test_data, test_loader = self._get_data(flag='test')
 
         # path = os.path.join('/content/drive/MyDrive/Masterarbeit/checkpoints/', setting)
-        path = os.path.join('./TSLibrary/checkpoints/', setting)
+        path = os.path.join('./checkpoints/', setting)
 
         # path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
@@ -184,7 +184,7 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         test_data, test_loader = self._get_data(flag='test')
         if test:
             print('loading model')
-            self.model.load_state_dict(torch.load(os.path.join('./TSLibrary/checkpoints/' + setting, 'checkpoint.pth')))
+            self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
 
             # Construct the path to the checkpoint file
             #checkpoint_path = os.path.join('./checkpoints/', setting, 'checkpoint.pth')
@@ -196,7 +196,7 @@ class Exp_Long_Term_Forecast(Exp_Basic):
         preds = []
         trues = []
         # folder_path = f'/content/drive/MyDrive/Masterarbeit/test_results/{self.args.model}/' + setting + '/'
-        folder_path = f'./TSLibrary/test_results/{self.args.model}/' + setting + '/'
+        folder_path = f'./test_results/{self.args.model}/' + setting + '/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -255,14 +255,14 @@ class Exp_Long_Term_Forecast(Exp_Basic):
 
         preds = np.array(preds)
         trues = np.array(trues)
-        print('test shape:', preds.shape, trues.shape)
+        #print('test shape:', preds.shape, trues.shape)
         preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
         trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
-        print('test shape:', preds.shape, trues.shape)
+        #print('test shape:', preds.shape, trues.shape)
 
         # result save
         # folder_path = f'/content/drive/MyDrive/Masterarbeit/results/{self.args.model}/' + setting + '/'
-        folder_path = f'./TSLibrary/results/{self.args.model}/' + setting + '/'
+        folder_path = f'./results/{self.args.model}/' + setting + '/'
 
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -272,7 +272,7 @@ class Exp_Long_Term_Forecast(Exp_Basic):
 
         # Write results to a text file
         # folder_path_2 = f'/content/drive/MyDrive/Masterarbeit/results/{self.args.model}/'
-        folder_path_2 = f'./TSLibrary/results/{self.args.model}/'
+        folder_path_2 = f'./results/{self.args.model}/'
 
         if not os.path.exists(folder_path_2):
             os.makedirs(folder_path_2)
