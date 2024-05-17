@@ -1829,3 +1829,998 @@ mse:0.21892176568508148, mae:0.2853127717971802
   
 
 
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 159, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 17, in data_provider
+    percent = args.percent
+              ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 158, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 72, in data_provider
+    data_set = Data(
+               ^^^^^
+TypeError: Dataset_Custom.__init__() got an unexpected keyword argument 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 158, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 72, in data_provider
+    data_set = Data(
+               ^^^^^
+TypeError: Dataset_Custom.__init__() got an unexpected keyword argument 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 158, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 72, in data_provider
+    data_set = Data(
+               ^^^^^
+TypeError: Dataset_Custom.__init__() got an unexpected keyword argument 'percent'
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 158, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 80, in train
+    train_data, train_loader = self._get_data(flag='train')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 28, in _get_data
+    data_set, data_loader = data_provider(self.args, flag)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/data_provider/data_factory.py", line 72, in data_provider
+    data_set = Data(
+               ^^^^^
+TypeError: Dataset_Custom.__init__() got an unexpected keyword argument 'percent'
+  
+
+
+Use GPU: cuda:0
+>>>>>>>start training : long_term_forecast__24_DE_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 30121
+val 6481
+test 6457
+	iters: 100, epoch: 1 | loss: 0.5892869
+	speed: 1.7740s/iter; left time: 16517.8096s
+	iters: 200, epoch: 1 | loss: 0.3933146
+	speed: 1.7834s/iter; left time: 16426.8272s
+	iters: 300, epoch: 1 | loss: 0.4908104
+	speed: 1.7627s/iter; left time: 16060.3907s
+	iters: 400, epoch: 1 | loss: 0.3265559
+	speed: 1.7188s/iter; left time: 15488.1032s
+	iters: 500, epoch: 1 | loss: 0.2909752
+	speed: 1.7761s/iter; left time: 15826.7083s
+	iters: 600, epoch: 1 | loss: 0.3200079
+	speed: 1.7850s/iter; left time: 15727.7167s
+	iters: 700, epoch: 1 | loss: 0.3656467
+	speed: 1.7830s/iter; left time: 15531.9936s
+	iters: 800, epoch: 1 | loss: 0.3098063
+	speed: 1.7816s/iter; left time: 15341.5524s
+	iters: 900, epoch: 1 | loss: 0.2568061
+	speed: 1.6853s/iter; left time: 14343.6843s
+Epoch: 1 running time: 27.634515269597372 min.
+Epoch: 1, Steps: 941 | Train Loss: 0.3881650 Vali Loss: 0.4417571 Test Loss: 0.5049031
+Validation loss decreased (inf --> 0.441757).  Saving model ...
+Updating learning rate to 0.0001
+	iters: 100, epoch: 2 | loss: 0.3426694
+	speed: 6.4784s/iter; left time: 54224.2063s
+	iters: 200, epoch: 2 | loss: 0.2399278
+	speed: 1.7739s/iter; left time: 14670.3334s
+	iters: 300, epoch: 2 | loss: 0.2567746
+	speed: 1.7714s/iter; left time: 14472.3325s
+	iters: 400, epoch: 2 | loss: 0.2278990
+	speed: 1.7610s/iter; left time: 14211.3144s
+	iters: 500, epoch: 2 | loss: 0.3125402
+	speed: 1.7496s/iter; left time: 13944.5195s
+	iters: 600, epoch: 2 | loss: 0.2258390
+	speed: 1.7046s/iter; left time: 13415.2120s
+	iters: 700, epoch: 2 | loss: 0.2849320
+	speed: 1.7012s/iter; left time: 13218.6742s
+	iters: 800, epoch: 2 | loss: 0.3336966
+	speed: 1.6323s/iter; left time: 12519.4820s
+	iters: 900, epoch: 2 | loss: 0.2731778
+	speed: 1.6584s/iter; left time: 12553.8093s
+Epoch: 2 running time: 26.984792792797087 min.
+Epoch: 2, Steps: 941 | Train Loss: 0.2710038 Vali Loss: 0.4523767 Test Loss: 0.5282342
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 5e-05
+	iters: 100, epoch: 3 | loss: 0.2522012
+	speed: 4.8176s/iter; left time: 35789.6374s
+	iters: 200, epoch: 3 | loss: 0.2502043
+	speed: 1.3412s/iter; left time: 9829.7210s
+	iters: 300, epoch: 3 | loss: 0.3234225
+	speed: 1.7360s/iter; left time: 12549.5617s
+	iters: 400, epoch: 3 | loss: 0.2362487
+	speed: 1.7909s/iter; left time: 12767.2286s
+	iters: 500, epoch: 3 | loss: 0.2309934
+	speed: 1.7932s/iter; left time: 12604.6409s
+	iters: 600, epoch: 3 | loss: 0.2739768
+	speed: 1.7936s/iter; left time: 12427.9019s
+	iters: 700, epoch: 3 | loss: 0.3025040
+	speed: 1.7927s/iter; left time: 12242.5609s
+	iters: 800, epoch: 3 | loss: 0.1998511
+	speed: 1.7792s/iter; left time: 11972.4464s
+	iters: 900, epoch: 3 | loss: 0.1695538
+	speed: 1.7912s/iter; left time: 11874.1508s
+Epoch: 3 running time: 26.104775579770408 min.
+Epoch: 3, Steps: 941 | Train Loss: 0.2621829 Vali Loss: 0.4351654 Test Loss: 0.5090449
+Validation loss decreased (0.441757 --> 0.435165).  Saving model ...
+Updating learning rate to 2.5e-05
+	iters: 100, epoch: 4 | loss: 0.2559014
+	speed: 6.4509s/iter; left time: 41853.6480s
+	iters: 200, epoch: 4 | loss: 0.3135229
+	speed: 1.7900s/iter; left time: 11434.6898s
+	iters: 300, epoch: 4 | loss: 0.2431349
+	speed: 1.7104s/iter; left time: 10755.2828s
+	iters: 400, epoch: 4 | loss: 0.1893651
+	speed: 1.7813s/iter; left time: 11022.4670s
+	iters: 500, epoch: 4 | loss: 0.2253976
+	speed: 1.7824s/iter; left time: 10851.3085s
+	iters: 600, epoch: 4 | loss: 0.1855248
+	speed: 1.7802s/iter; left time: 10659.6153s
+	iters: 700, epoch: 4 | loss: 0.2409668
+	speed: 1.7594s/iter; left time: 10359.2135s
+	iters: 800, epoch: 4 | loss: 0.1979460
+	speed: 1.7811s/iter; left time: 10308.8789s
+	iters: 900, epoch: 4 | loss: 0.2517775
+	speed: 1.7798s/iter; left time: 10123.7314s
+Epoch: 4 running time: 27.813729711373647 min.
+Epoch: 4, Steps: 941 | Train Loss: 0.2252403 Vali Loss: 0.4279542 Test Loss: 0.5073299
+Validation loss decreased (0.435165 --> 0.427954).  Saving model ...
+Updating learning rate to 1.25e-05
+	iters: 100, epoch: 5 | loss: 0.1416561
+	speed: 6.4838s/iter; left time: 35965.8712s
+	iters: 200, epoch: 5 | loss: 0.1728254
+	speed: 1.7797s/iter; left time: 9694.2236s
+	iters: 300, epoch: 5 | loss: 0.1700590
+	speed: 1.7675s/iter; left time: 9450.8093s
+	iters: 400, epoch: 5 | loss: 0.2203045
+	speed: 1.6914s/iter; left time: 8874.6419s
+	iters: 500, epoch: 5 | loss: 0.1987383
+	speed: 1.7258s/iter; left time: 8882.7904s
+	iters: 600, epoch: 5 | loss: 0.1874608
+	speed: 1.7476s/iter; left time: 8819.9565s
+	iters: 700, epoch: 5 | loss: 0.1910253
+	speed: 1.7768s/iter; left time: 8789.9132s
+	iters: 800, epoch: 5 | loss: 0.1339178
+	speed: 1.7646s/iter; left time: 8552.9812s
+	iters: 900, epoch: 5 | loss: 0.2224116
+	speed: 1.7729s/iter; left time: 8416.1086s
+Epoch: 5 running time: 27.31057822306951 min.
+Epoch: 5, Steps: 941 | Train Loss: 0.2015247 Vali Loss: 0.4473854 Test Loss: 0.5301394
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 6.25e-06
+	iters: 100, epoch: 6 | loss: 0.1897485
+	speed: 5.1661s/iter; left time: 23795.2181s
+	iters: 200, epoch: 6 | loss: 0.1521612
+	speed: 1.4302s/iter; left time: 6444.4513s
+	iters: 300, epoch: 6 | loss: 0.2534637
+	speed: 1.4333s/iter; left time: 6315.1067s
+	iters: 400, epoch: 6 | loss: 0.2329123
+	speed: 1.4297s/iter; left time: 6156.2153s
+	iters: 500, epoch: 6 | loss: 0.1705337
+	speed: 1.4257s/iter; left time: 5996.5011s
+	iters: 600, epoch: 6 | loss: 0.1758052
+	speed: 1.3979s/iter; left time: 5739.8332s
+	iters: 700, epoch: 6 | loss: 0.1472269
+	speed: 1.4176s/iter; left time: 5678.9607s
+	iters: 800, epoch: 6 | loss: 0.2156595
+	speed: 1.2984s/iter; left time: 5071.4561s
+	iters: 900, epoch: 6 | loss: 0.2027543
+	speed: 1.3351s/iter; left time: 5081.4661s
+Epoch: 6 running time: 21.879121748606362 min.
+Epoch: 6, Steps: 941 | Train Loss: 0.2005814 Vali Loss: 0.4429339 Test Loss: 0.5146396
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 3.125e-06
+	iters: 100, epoch: 7 | loss: 0.2896483
+	speed: 4.6987s/iter; left time: 17220.7879s
+	iters: 200, epoch: 7 | loss: 0.1951245
+	speed: 0.9930s/iter; left time: 3540.0434s
+	iters: 300, epoch: 7 | loss: 0.1956486
+	speed: 0.7265s/iter; left time: 2517.2155s
+	iters: 400, epoch: 7 | loss: 0.1279040
+	speed: 0.6539s/iter; left time: 2200.4047s
+	iters: 500, epoch: 7 | loss: 0.1855619
+	speed: 0.8751s/iter; left time: 2857.0585s
+	iters: 600, epoch: 7 | loss: 0.2258058
+	speed: 1.2685s/iter; left time: 4014.7927s
+	iters: 700, epoch: 7 | loss: 0.1987671
+	speed: 1.4336s/iter; left time: 4393.9192s
+	iters: 800, epoch: 7 | loss: 0.1772510
+	speed: 1.4381s/iter; left time: 4263.9319s
+	iters: 900, epoch: 7 | loss: 0.1790513
+	speed: 1.4330s/iter; left time: 4105.4028s
+Epoch: 7 running time: 17.652518121401467 min.
+Epoch: 7, Steps: 941 | Train Loss: 0.2002954 Vali Loss: 0.4401115 Test Loss: 0.5113256
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : long_term_forecast__24_DE_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 6457
+mse:0.5103916525840759, mae:0.4799240231513977
+Use GPU: cuda:0
+>>>>>>>start training : long_term_forecast__24_DE_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_1>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 30121
+val 6481
+test 6457
+	iters: 100, epoch: 1 | loss: 0.4982714
+	speed: 1.4374s/iter; left time: 13383.4126s
+	iters: 200, epoch: 1 | loss: 0.3455804
+	speed: 1.4423s/iter; left time: 13284.7779s
+	iters: 300, epoch: 1 | loss: 0.3005768
+	speed: 1.4395s/iter; left time: 13115.6823s
+	iters: 400, epoch: 1 | loss: 0.3961580
+	speed: 1.4217s/iter; left time: 12810.5044s
+	iters: 500, epoch: 1 | loss: 0.2840077
+	speed: 1.4397s/iter; left time: 12829.3174s
+	iters: 600, epoch: 1 | loss: 0.3224835
+	speed: 1.4440s/iter; left time: 12723.0401s
+	iters: 700, epoch: 1 | loss: 0.2960292
+	speed: 1.4416s/iter; left time: 12557.8911s
+	iters: 800, epoch: 1 | loss: 0.3862472
+	speed: 1.4420s/iter; left time: 12417.0894s
+	iters: 900, epoch: 1 | loss: 0.2340263
+	speed: 1.4331s/iter; left time: 12196.7282s
+Epoch: 1 running time: 22.5532741467158 min.
+Epoch: 1, Steps: 941 | Train Loss: 0.3891936 Vali Loss: 0.4420241 Test Loss: 0.5089546
+Validation loss decreased (inf --> 0.442024).  Saving model ...
+Updating learning rate to 0.0001
+	iters: 100, epoch: 2 | loss: 0.2936978
+	speed: 5.1865s/iter; left time: 43411.0637s
+	iters: 200, epoch: 2 | loss: 0.3230321
+	speed: 1.4344s/iter; left time: 11862.6389s
+	iters: 300, epoch: 2 | loss: 0.3572863
+	speed: 1.4069s/iter; left time: 11494.4504s
+	iters: 400, epoch: 2 | loss: 0.2790028
+	speed: 1.3553s/iter; left time: 10937.2989s
+	iters: 500, epoch: 2 | loss: 0.2723592
+	speed: 1.4308s/iter; left time: 11403.2557s
+	iters: 600, epoch: 2 | loss: 0.2180605
+	speed: 1.4314s/iter; left time: 11264.9379s
+	iters: 700, epoch: 2 | loss: 0.3322076
+	speed: 1.4272s/iter; left time: 11089.5330s
+	iters: 800, epoch: 2 | loss: 0.2515522
+	speed: 1.4287s/iter; left time: 10958.1257s
+	iters: 900, epoch: 2 | loss: 0.2368346
+	speed: 1.4276s/iter; left time: 10807.0779s
+Epoch: 2 running time: 22.11847771803538 min.
+Epoch: 2, Steps: 941 | Train Loss: 0.2732664 Vali Loss: 0.4254902 Test Loss: 0.5132075
+Validation loss decreased (0.442024 --> 0.425490).  Saving model ...
+Updating learning rate to 5e-05
+	iters: 100, epoch: 3 | loss: 0.2119966
+	speed: 5.1525s/iter; left time: 38277.9960s
+	iters: 200, epoch: 3 | loss: 0.2830262
+	speed: 1.4251s/iter; left time: 10444.4019s
+	iters: 300, epoch: 3 | loss: 0.2171073
+	speed: 1.4268s/iter; left time: 10314.1490s
+	iters: 400, epoch: 3 | loss: 0.2491532
+	speed: 1.4281s/iter; left time: 10181.1824s
+	iters: 500, epoch: 3 | loss: 0.1985783
+	speed: 1.4274s/iter; left time: 10032.9357s
+	iters: 600, epoch: 3 | loss: 0.2014756
+	speed: 1.4308s/iter; left time: 9913.9760s
+	iters: 700, epoch: 3 | loss: 0.1760274
+	speed: 1.3566s/iter; left time: 9264.1872s
+	iters: 800, epoch: 3 | loss: 0.2013480
+	speed: 1.3355s/iter; left time: 8986.8703s
+	iters: 900, epoch: 3 | loss: 0.1793382
+	speed: 1.4094s/iter; left time: 9342.8138s
+Epoch: 3 running time: 22.066988996664683 min.
+Epoch: 3, Steps: 941 | Train Loss: 0.2239663 Vali Loss: 0.4408260 Test Loss: 0.5401742
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 2.5e-05
+	iters: 100, epoch: 4 | loss: 0.2301260
+	speed: 4.9796s/iter; left time: 32307.3978s
+	iters: 200, epoch: 4 | loss: 0.2951562
+	speed: 1.3245s/iter; left time: 8460.6221s
+	iters: 300, epoch: 4 | loss: 0.1593555
+	speed: 1.1704s/iter; left time: 7359.4767s
+	iters: 400, epoch: 4 | loss: 0.1884202
+	speed: 1.0732s/iter; left time: 6640.6912s
+	iters: 500, epoch: 4 | loss: 0.2468180
+	speed: 0.8089s/iter; left time: 4924.8729s
+	iters: 600, epoch: 4 | loss: 0.1581286
+	speed: 0.6471s/iter; left time: 3874.9299s
+	iters: 700, epoch: 4 | loss: 0.2391508
+	speed: 0.7650s/iter; left time: 4504.4719s
+	iters: 800, epoch: 4 | loss: 0.2061963
+	speed: 1.1186s/iter; left time: 6474.4536s
+	iters: 900, epoch: 4 | loss: 0.1761994
+	speed: 1.4355s/iter; left time: 8165.3420s
+Epoch: 4 running time: 17.1251859386762 min.
+Epoch: 4, Steps: 941 | Train Loss: 0.2176665 Vali Loss: 0.4362066 Test Loss: 0.5301881
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.25e-05
+	iters: 100, epoch: 5 | loss: 0.2694066
+	speed: 5.0994s/iter; left time: 28286.4630s
+	iters: 200, epoch: 5 | loss: 0.2159820
+	speed: 1.4300s/iter; left time: 7788.9937s
+	iters: 300, epoch: 5 | loss: 0.1976472
+	speed: 1.4326s/iter; left time: 7659.9370s
+	iters: 400, epoch: 5 | loss: 0.2887886
+	speed: 1.3876s/iter; left time: 7280.8094s
+	iters: 500, epoch: 5 | loss: 0.1834570
+	speed: 1.4207s/iter; left time: 7312.3769s
+	iters: 600, epoch: 5 | loss: 0.2080595
+	speed: 1.4274s/iter; left time: 7204.2006s
+	iters: 700, epoch: 5 | loss: 0.1690192
+	speed: 1.4278s/iter; left time: 7063.3950s
+	iters: 800, epoch: 5 | loss: 0.2367482
+	speed: 1.4282s/iter; left time: 6922.4804s
+	iters: 900, epoch: 5 | loss: 0.2473151
+	speed: 1.4323s/iter; left time: 6799.0906s
+Epoch: 5 running time: 22.21115117073059 min.
+Epoch: 5, Steps: 941 | Train Loss: 0.2170444 Vali Loss: 0.4308408 Test Loss: 0.5248260
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : long_term_forecast__24_DE_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_1<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 6457
+mse:0.5258011817932129, mae:0.4902995228767395
+  
+
+
+Use GPU: cuda:0
+>>>>>>>start training : long_term_forecast__24_GB_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 30121
+val 6481
+test 6457
+	iters: 100, epoch: 1 | loss: 0.4796472
+	speed: 1.3850s/iter; left time: 12895.7260s
+	iters: 200, epoch: 1 | loss: 0.3964097
+	speed: 1.3697s/iter; left time: 12616.1297s
+	iters: 300, epoch: 1 | loss: 0.3231561
+	speed: 1.3550s/iter; left time: 12345.3918s
+	iters: 400, epoch: 1 | loss: 0.3265139
+	speed: 1.2937s/iter; left time: 11657.9029s
+	iters: 500, epoch: 1 | loss: 0.2750012
+	speed: 1.3655s/iter; left time: 12167.8918s
+	iters: 600, epoch: 1 | loss: 0.3435578
+	speed: 1.3661s/iter; left time: 12036.9963s
+	iters: 700, epoch: 1 | loss: 0.4015486
+	speed: 1.3264s/iter; left time: 11554.4076s
+	iters: 800, epoch: 1 | loss: 0.2962549
+	speed: 1.3483s/iter; left time: 11610.1210s
+	iters: 900, epoch: 1 | loss: 0.2510418
+	speed: 1.3622s/iter; left time: 11593.7777s
+Epoch: 1 running time: 21.2065079053243 min.
+Epoch: 1, Steps: 941 | Train Loss: 0.4066807 Vali Loss: 0.4919056 Test Loss: 0.8280761
+Validation loss decreased (inf --> 0.491906).  Saving model ...
+Updating learning rate to 0.0001
+	iters: 100, epoch: 2 | loss: 0.2909266
+	speed: 5.0090s/iter; left time: 41925.1790s
+	iters: 200, epoch: 2 | loss: 0.3427289
+	speed: 1.3748s/iter; left time: 11369.3495s
+	iters: 300, epoch: 2 | loss: 0.3370485
+	speed: 1.3707s/iter; left time: 11198.6578s
+	iters: 400, epoch: 2 | loss: 0.3099507
+	speed: 1.3399s/iter; left time: 10813.0219s
+	iters: 500, epoch: 2 | loss: 0.2469848
+	speed: 1.3649s/iter; left time: 10878.1935s
+	iters: 600, epoch: 2 | loss: 0.2515435
+	speed: 1.3614s/iter; left time: 10714.1964s
+	iters: 700, epoch: 2 | loss: 0.2755833
+	speed: 1.3706s/iter; left time: 10649.5267s
+	iters: 800, epoch: 2 | loss: 0.2752435
+	speed: 1.2579s/iter; left time: 9648.1905s
+	iters: 900, epoch: 2 | loss: 0.2883866
+	speed: 1.3547s/iter; left time: 10254.8205s
+Epoch: 2 running time: 21.195697434743245 min.
+Epoch: 2, Steps: 941 | Train Loss: 0.3072687 Vali Loss: 0.4500027 Test Loss: 0.6647689
+Validation loss decreased (0.491906 --> 0.450003).  Saving model ...
+Updating learning rate to 5e-05
+	iters: 100, epoch: 3 | loss: 0.2362531
+	speed: 4.8455s/iter; left time: 35997.1274s
+	iters: 200, epoch: 3 | loss: 0.2749321
+	speed: 1.2853s/iter; left time: 9420.2433s
+	iters: 300, epoch: 3 | loss: 0.2563096
+	speed: 1.2758s/iter; left time: 9222.9034s
+	iters: 400, epoch: 3 | loss: 0.2283548
+	speed: 1.2296s/iter; left time: 8765.7035s
+	iters: 500, epoch: 3 | loss: 0.2578490
+	speed: 1.1192s/iter; left time: 7867.2008s
+	iters: 600, epoch: 3 | loss: 0.2866107
+	speed: 0.8677s/iter; left time: 6012.2398s
+	iters: 700, epoch: 3 | loss: 0.3263125
+	speed: 0.7238s/iter; left time: 4942.9240s
+	iters: 800, epoch: 3 | loss: 0.2137966
+	speed: 0.5863s/iter; left time: 3944.9171s
+	iters: 900, epoch: 3 | loss: 0.2546224
+	speed: 0.5636s/iter; left time: 3736.2682s
+Epoch: 3 running time: 15.401446159680685 min.
+Epoch: 3, Steps: 941 | Train Loss: 0.2680396 Vali Loss: 0.4645892 Test Loss: 0.6988297
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 2.5e-05
+	iters: 100, epoch: 4 | loss: 0.2277489
+	speed: 4.3137s/iter; left time: 27987.2562s
+	iters: 200, epoch: 4 | loss: 0.2136873
+	speed: 1.3829s/iter; left time: 8833.6807s
+	iters: 300, epoch: 4 | loss: 0.2673800
+	speed: 1.3828s/iter; left time: 8694.8421s
+	iters: 400, epoch: 4 | loss: 0.2411096
+	speed: 1.3816s/iter; left time: 8549.1769s
+	iters: 500, epoch: 4 | loss: 0.1858426
+	speed: 1.3775s/iter; left time: 8386.0030s
+	iters: 600, epoch: 4 | loss: 0.2128242
+	speed: 1.3820s/iter; left time: 8275.6342s
+	iters: 700, epoch: 4 | loss: 0.2819637
+	speed: 1.3834s/iter; left time: 8145.7501s
+	iters: 800, epoch: 4 | loss: 0.2102221
+	speed: 1.3786s/iter; left time: 7979.5622s
+	iters: 900, epoch: 4 | loss: 0.3691365
+	speed: 1.3702s/iter; left time: 7793.6622s
+Epoch: 4 running time: 21.51249199708303 min.
+Epoch: 4, Steps: 941 | Train Loss: 0.2621755 Vali Loss: 0.4662929 Test Loss: 0.7555156
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.25e-05
+	iters: 100, epoch: 5 | loss: 0.2223944
+	speed: 5.0266s/iter; left time: 27882.2882s
+	iters: 200, epoch: 5 | loss: 0.2555063
+	speed: 1.3755s/iter; left time: 7492.5291s
+	iters: 300, epoch: 5 | loss: 0.2554726
+	speed: 1.3860s/iter; left time: 7410.9994s
+	iters: 400, epoch: 5 | loss: 0.2304695
+	speed: 1.3777s/iter; left time: 7228.6914s
+	iters: 500, epoch: 5 | loss: 0.2484536
+	speed: 1.2556s/iter; left time: 6462.6218s
+	iters: 600, epoch: 5 | loss: 0.2365081
+	speed: 1.3428s/iter; left time: 6777.0384s
+	iters: 700, epoch: 5 | loss: 0.2740030
+	speed: 1.3757s/iter; left time: 6805.6870s
+	iters: 800, epoch: 5 | loss: 0.1907829
+	speed: 1.3714s/iter; left time: 6647.0590s
+	iters: 900, epoch: 5 | loss: 0.2470180
+	speed: 1.3584s/iter; left time: 6448.3293s
+Epoch: 5 running time: 21.294666449228924 min.
+Epoch: 5, Steps: 941 | Train Loss: 0.2611465 Vali Loss: 0.4532668 Test Loss: 0.7080034
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : long_term_forecast__24_GB_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 6457
+mse:0.7063973546028137, mae:0.5872204899787903
+Use GPU: cuda:0
+>>>>>>>start training : long_term_forecast__24_GB_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_1>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 30121
+val 6481
+test 6457
+	iters: 100, epoch: 1 | loss: 0.5946396
+	speed: 1.3254s/iter; left time: 12341.0649s
+	iters: 200, epoch: 1 | loss: 0.3767517
+	speed: 1.3709s/iter; left time: 12627.2231s
+	iters: 300, epoch: 1 | loss: 0.2703782
+	speed: 1.3655s/iter; left time: 12440.9661s
+	iters: 400, epoch: 1 | loss: 0.4213276
+	speed: 1.3664s/iter; left time: 12312.9954s
+	iters: 500, epoch: 1 | loss: 0.3396932
+	speed: 1.3602s/iter; left time: 12120.4149s
+	iters: 600, epoch: 1 | loss: 0.3294225
+	speed: 1.3675s/iter; left time: 12048.6527s
+	iters: 700, epoch: 1 | loss: 0.3020035
+	speed: 1.3654s/iter; left time: 11893.8196s
+	iters: 800, epoch: 1 | loss: 0.3186351
+	speed: 1.3129s/iter; left time: 11305.5845s
+	iters: 900, epoch: 1 | loss: 0.3404082
+	speed: 1.3120s/iter; left time: 11166.5978s
+Epoch: 1 running time: 21.128375180562337 min.
+Epoch: 1, Steps: 941 | Train Loss: 0.4035210 Vali Loss: 0.4791251 Test Loss: 0.7368550
+Validation loss decreased (inf --> 0.479125).  Saving model ...
+Updating learning rate to 0.0001
+	iters: 100, epoch: 2 | loss: 0.2643960
+	speed: 4.8237s/iter; left time: 40373.9827s
+	iters: 200, epoch: 2 | loss: 0.3099206
+	speed: 1.2782s/iter; left time: 10570.8677s
+	iters: 300, epoch: 2 | loss: 0.3049880
+	speed: 1.2688s/iter; left time: 10366.2147s
+	iters: 400, epoch: 2 | loss: 0.2149809
+	speed: 1.2489s/iter; left time: 10078.6189s
+	iters: 500, epoch: 2 | loss: 0.3037942
+	speed: 1.2314s/iter; left time: 9814.3295s
+	iters: 600, epoch: 2 | loss: 0.2450974
+	speed: 1.1355s/iter; left time: 8936.2553s
+	iters: 700, epoch: 2 | loss: 0.2411249
+	speed: 1.1555s/iter; left time: 8978.2480s
+	iters: 800, epoch: 2 | loss: 0.2300154
+	speed: 1.0474s/iter; left time: 8033.7250s
+	iters: 900, epoch: 2 | loss: 0.2866468
+	speed: 0.7826s/iter; left time: 5924.1696s
+Epoch: 2 running time: 17.882394417126974 min.
+Epoch: 2, Steps: 941 | Train Loss: 0.3074028 Vali Loss: 0.4672675 Test Loss: 0.7471255
+Validation loss decreased (0.479125 --> 0.467268).  Saving model ...
+Updating learning rate to 5e-05
+	iters: 100, epoch: 3 | loss: 0.3160414
+	speed: 1.8532s/iter; left time: 13767.5335s
+	iters: 200, epoch: 3 | loss: 0.2468834
+	speed: 0.3005s/iter; left time: 2202.5809s
+	iters: 300, epoch: 3 | loss: 0.3383032
+	speed: 0.6520s/iter; left time: 4713.5842s
+	iters: 400, epoch: 3 | loss: 0.3059641
+	speed: 1.1035s/iter; left time: 7866.8764s
+	iters: 500, epoch: 3 | loss: 0.2890663
+	speed: 1.2825s/iter; left time: 9014.5395s
+	iters: 600, epoch: 3 | loss: 0.2565822
+	speed: 1.3146s/iter; left time: 9108.9164s
+	iters: 700, epoch: 3 | loss: 0.3086628
+	speed: 1.3144s/iter; left time: 8976.2766s
+	iters: 800, epoch: 3 | loss: 0.3262424
+	speed: 1.3154s/iter; left time: 8851.5350s
+	iters: 900, epoch: 3 | loss: 0.3235765
+	speed: 1.3168s/iter; left time: 8729.3705s
+Epoch: 3 running time: 15.939021106561025 min.
+Epoch: 3, Steps: 941 | Train Loss: 0.2682118 Vali Loss: 0.4870894 Test Loss: 0.8450049
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 2.5e-05
+	iters: 100, epoch: 4 | loss: 0.2983608
+	speed: 4.7959s/iter; left time: 31115.8646s
+	iters: 200, epoch: 4 | loss: 0.3798157
+	speed: 1.3158s/iter; left time: 8405.0878s
+	iters: 300, epoch: 4 | loss: 0.3646375
+	speed: 1.3164s/iter; left time: 8277.4508s
+	iters: 400, epoch: 4 | loss: 0.2232091
+	speed: 1.3138s/iter; left time: 8129.5373s
+	iters: 500, epoch: 4 | loss: 0.2237715
+	speed: 1.3118s/iter; left time: 7986.0461s
+	iters: 600, epoch: 4 | loss: 0.2513711
+	speed: 1.3124s/iter; left time: 7858.3846s
+	iters: 700, epoch: 4 | loss: 0.2766150
+	speed: 1.1828s/iter; left time: 6964.3137s
+	iters: 800, epoch: 4 | loss: 0.2482956
+	speed: 1.2756s/iter; left time: 7383.3370s
+	iters: 900, epoch: 4 | loss: 0.2322919
+	speed: 1.3148s/iter; left time: 7478.6640s
+Epoch: 4 running time: 20.341920590400697 min.
+Epoch: 4, Steps: 941 | Train Loss: 0.2625625 Vali Loss: 0.4763106 Test Loss: 0.8177143
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.25e-05
+	iters: 100, epoch: 5 | loss: 0.2406502
+	speed: 4.8073s/iter; left time: 26666.0044s
+	iters: 200, epoch: 5 | loss: 0.4271190
+	speed: 1.3183s/iter; left time: 7180.9562s
+	iters: 300, epoch: 5 | loss: 0.2466582
+	speed: 1.3101s/iter; left time: 7005.2303s
+	iters: 400, epoch: 5 | loss: 0.2363973
+	speed: 1.2632s/iter; left time: 6628.2263s
+	iters: 500, epoch: 5 | loss: 0.2911821
+	speed: 1.3385s/iter; left time: 6889.1402s
+	iters: 600, epoch: 5 | loss: 0.2240661
+	speed: 1.3298s/iter; left time: 6711.4679s
+	iters: 700, epoch: 5 | loss: 0.2569813
+	speed: 1.3120s/iter; left time: 6490.6207s
+	iters: 800, epoch: 5 | loss: 0.2432252
+	speed: 1.3067s/iter; left time: 6333.6801s
+	iters: 900, epoch: 5 | loss: 0.2644678
+	speed: 1.3071s/iter; left time: 6204.8726s
+Epoch: 5 running time: 20.55677490234375 min.
+Epoch: 5, Steps: 941 | Train Loss: 0.2632069 Vali Loss: 0.4643446 Test Loss: 0.7614479
+Validation loss decreased (0.467268 --> 0.464345).  Saving model ...
+Updating learning rate to 6.25e-06
+	iters: 100, epoch: 6 | loss: 0.2581221
+	speed: 4.6743s/iter; left time: 21529.6402s
+	iters: 200, epoch: 6 | loss: 0.2635585
+	speed: 1.2880s/iter; left time: 5803.5701s
+	iters: 300, epoch: 6 | loss: 0.2201428
+	speed: 1.3104s/iter; left time: 5773.6709s
+	iters: 400, epoch: 6 | loss: 0.2015900
+	speed: 1.3062s/iter; left time: 5624.6506s
+	iters: 500, epoch: 6 | loss: 0.2559985
+	speed: 1.3046s/iter; left time: 5486.9547s
+	iters: 600, epoch: 6 | loss: 0.2385457
+	speed: 1.3030s/iter; left time: 5350.3084s
+	iters: 700, epoch: 6 | loss: 0.2262333
+	speed: 1.3022s/iter; left time: 5216.7013s
+	iters: 800, epoch: 6 | loss: 0.2220343
+	speed: 1.2885s/iter; left time: 5033.0233s
+	iters: 900, epoch: 6 | loss: 0.2669659
+	speed: 1.2725s/iter; left time: 4843.0334s
+Epoch: 6 running time: 20.273427005608877 min.
+Epoch: 6, Steps: 941 | Train Loss: 0.2484723 Vali Loss: 0.4801593 Test Loss: 0.8024629
+EarlyStopping counter: 1 out of 3
+Updating learning rate to 3.125e-06
+	iters: 100, epoch: 7 | loss: 0.2513306
+	speed: 4.4382s/iter; left time: 16266.1361s
+	iters: 200, epoch: 7 | loss: 0.2128576
+	speed: 1.0449s/iter; left time: 3725.1048s
+	iters: 300, epoch: 7 | loss: 0.1917190
+	speed: 0.8012s/iter; left time: 2776.2266s
+	iters: 400, epoch: 7 | loss: 0.2231624
+	speed: 0.5754s/iter; left time: 1936.3859s
+	iters: 500, epoch: 7 | loss: 0.2302730
+	speed: 0.2980s/iter; left time: 972.9092s
+	iters: 600, epoch: 7 | loss: 0.2364664
+	speed: 0.3832s/iter; left time: 1212.7526s
+	iters: 700, epoch: 7 | loss: 0.2781757
+	speed: 0.4962s/iter; left time: 1520.7114s
+	iters: 800, epoch: 7 | loss: 0.3141681
+	speed: 0.8149s/iter; left time: 2416.1909s
+	iters: 900, epoch: 7 | loss: 0.2893362
+	speed: 0.9295s/iter; left time: 2662.9514s
+Epoch: 7 running time: 11.501748581727346 min.
+Epoch: 7, Steps: 941 | Train Loss: 0.2479377 Vali Loss: 0.4753176 Test Loss: 0.7996016
+EarlyStopping counter: 2 out of 3
+Updating learning rate to 1.5625e-06
+	iters: 100, epoch: 8 | loss: 0.2381537
+	speed: 4.6481s/iter; left time: 12661.3142s
+	iters: 200, epoch: 8 | loss: 0.2409409
+	speed: 1.3186s/iter; left time: 3460.1084s
+	iters: 300, epoch: 8 | loss: 0.2478120
+	speed: 1.3241s/iter; left time: 3341.9916s
+	iters: 400, epoch: 8 | loss: 0.2283510
+	speed: 1.3163s/iter; left time: 3190.7831s
+	iters: 500, epoch: 8 | loss: 0.2755316
+	speed: 1.3161s/iter; left time: 3058.6641s
+	iters: 600, epoch: 8 | loss: 0.2858851
+	speed: 1.3153s/iter; left time: 2925.1764s
+	iters: 700, epoch: 8 | loss: 0.2509952
+	speed: 1.3124s/iter; left time: 2787.5540s
+	iters: 800, epoch: 8 | loss: 0.2344993
+	speed: 1.3167s/iter; left time: 2665.0554s
+	iters: 900, epoch: 8 | loss: 0.2150075
+	speed: 1.3123s/iter; left time: 2524.8438s
+Epoch: 8 running time: 20.60582449833552 min.
+Epoch: 8, Steps: 941 | Train Loss: 0.2487196 Vali Loss: 0.4689870 Test Loss: 0.7732055
+EarlyStopping counter: 3 out of 3
+Early stopping
+>>>>>>>testing : long_term_forecast__24_GB_Informer_custom_ftM_sl96_ll48_pl24_dm512_nh8_el2_dl5_df2048_fc5_ebtimeF_dtTrue_Exp_1<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 6457
+mse:0.774609386920929, mae:0.616533637046814
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 158, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 138, in train
+    outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/models/Informer.py", line 133, in forward
+    dec_out = self.long_forecast(x_enc, x_mark_enc, x_dec, x_mark_dec)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/models/Informer.py", line 82, in long_forecast
+    dec_out = self.decoder(dec_out, enc_out, x_mask=None, cross_mask=None)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/Transformer_EncDec.py", line 128, in forward
+    x = layer(x, cross, x_mask=x_mask, cross_mask=cross_mask, tau=tau, delta=delta)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/Transformer_EncDec.py", line 99, in forward
+    x = x + self.dropout(self.self_attention(
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 203, in forward
+    out, attn = self.inner_attention(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 163, in forward
+    scores_top, index = self._prob_QK(
+                        ^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 96, in _prob_QK
+    K_sample = K_expand[:, :, torch.arange(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 226.00 MiB. GPU 0 has a total capacity of 79.32 GiB of which 220.50 MiB is free. Process 32777 has 77.45 GiB memory in use. Including non-PyTorch memory, this process has 1.64 GiB memory in use. Of the allocated memory 1002.03 MiB is allocated by PyTorch, and 163.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 158, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 138, in train
+    outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/models/Informer.py", line 133, in forward
+    dec_out = self.long_forecast(x_enc, x_mark_enc, x_dec, x_mark_dec)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/models/Informer.py", line 82, in long_forecast
+    dec_out = self.decoder(dec_out, enc_out, x_mask=None, cross_mask=None)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/Transformer_EncDec.py", line 128, in forward
+    x = layer(x, cross, x_mask=x_mask, cross_mask=cross_mask, tau=tau, delta=delta)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/Transformer_EncDec.py", line 99, in forward
+    x = x + self.dropout(self.self_attention(
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 203, in forward
+    out, attn = self.inner_attention(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 163, in forward
+    scores_top, index = self._prob_QK(
+                        ^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 96, in _prob_QK
+    K_sample = K_expand[:, :, torch.arange(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 226.00 MiB. GPU 0 has a total capacity of 79.32 GiB of which 220.50 MiB is free. Process 32777 has 77.45 GiB memory in use. Including non-PyTorch memory, this process has 1.64 GiB memory in use. Of the allocated memory 1002.03 MiB is allocated by PyTorch, and 163.97 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  
+
+
+Traceback (most recent call last):
+  File "/vol/cs-hu/riabchuv/my_work/./TSLibrary/run.py", line 158, in <module>
+    exp.train(setting)
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/exp/exp_long_term_forecasting.py", line 138, in train
+    outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/models/Informer.py", line 133, in forward
+    dec_out = self.long_forecast(x_enc, x_mark_enc, x_dec, x_mark_dec)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/models/Informer.py", line 82, in long_forecast
+    dec_out = self.decoder(dec_out, enc_out, x_mask=None, cross_mask=None)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/Transformer_EncDec.py", line 128, in forward
+    x = layer(x, cross, x_mask=x_mask, cross_mask=cross_mask, tau=tau, delta=delta)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/Transformer_EncDec.py", line 99, in forward
+    x = x + self.dropout(self.self_attention(
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 203, in forward
+    out, attn = self.inner_attention(
+                ^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/.local/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 163, in forward
+    scores_top, index = self._prob_QK(
+                        ^^^^^^^^^^^^^^
+  File "/vol/cs-hu/riabchuv/my_work/TSLibrary/layers/SelfAttention_Family.py", line 96, in _prob_QK
+    K_sample = K_expand[:, :, torch.arange(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 226.00 MiB. GPU 0 has a total capacity of 79.32 GiB of which 220.50 MiB is free. Process 32777 has 77.45 GiB memory in use. Including non-PyTorch memory, this process has 1.64 GiB memory in use. Of the allocated memory 1001.84 MiB is allocated by PyTorch, and 164.16 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  
+
+

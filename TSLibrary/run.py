@@ -103,13 +103,12 @@ if __name__ == '__main__':
     parser.add_argument('--p_hidden_dims', type=int, nargs='+', default=[128, 128],
                         help='hidden layer dimensions of projector (List)')
     parser.add_argument('--p_hidden_layers', type=int, default=2, help='number of hidden layers in projector')
+    parser.add_argument('--percent', type=int, default=100)
+
 
     args = parser.parse_args()
     # args.use_gpu = True if torch.cuda.is_available() and args.use_gpu else False
     args.use_gpu = True if torch.cuda.is_available() else False
-
-    parser.add_argument('--percent', type=int, default=100)
-
 
     # print(torch.cuda.is_available())
 
