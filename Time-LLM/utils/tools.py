@@ -307,7 +307,7 @@ def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric
     #folder_path = f'./results/{self.args.model}/' + '/'
     folder_path_1 = f'./results/{args.model}/' + setting + '/' #f'{args.data}/'
     if not os.path.exists(folder_path_1):
-        os.makedirs(folder_path_1)
+        os.makedirs(folder_path_1, exist_ok = True)
 
     mae, mse, rmse, mape, mspe = metric(preds, trues)
     # print('mse:{}, mae:{}'.format(mse, mae))

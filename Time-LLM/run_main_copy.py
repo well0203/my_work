@@ -99,9 +99,11 @@ parser.add_argument('--llm_layers', type=int, default=6)
 parser.add_argument('--percent', type=int, default=100)
 
 args = parser.parse_args()
-ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
-deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='./Time-LLM/ds_config_zero2_copy.json')
-accelerator = Accelerator(kwargs_handlers=[ddp_kwargs], deepspeed_plugin=deepspeed_plugin)
+#ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
+#deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='./Time-LLM/ds_config_zero2_copy.json')
+#accelerator = Accelerator(kwargs_handlers=[ddp_kwargs], deepspeed_plugin=deepspeed_plugin)
+deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=8)
+accelerator = Accelerator(mixed_precision='bf16', deepspeed_plugin=deepspeed_plugin)
 
 
 for ii in range(args.itr):
@@ -182,6 +184,12 @@ for ii in range(args.itr):
             # It is supposed automatically handle gradient accumulation
             # https://huggingface.co/docs/accelerate/en/usage_guides/gradient_accumulation
             # Vs usual gradient accumulation: https://kozodoi.me/blog/20210219/gradient-accumulation
+
+            # https://github.com/huggingface/accelerate
+            # Launching training using DeepSpeed
+            # deepspeed needs to know your gradient accumulation steps beforehand, so don't forget to pass it
+            # Remember you still need to do gradient accumulation by yourself, just like you would have done without deepspeed
+            # Therefore I added this, exactly as in documentation of gradient accumulation with accelerate
 
             with accelerator.accumulate(model):
 

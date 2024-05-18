@@ -2065,3 +2065,78 @@ mse:0.28612276911735535, mae:0.35095536708831787
 long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
 mse:0.28612276911735535, mae:0.35095536708831787
 
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3400455713272095, mae:0.35017290711402893
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_GB_ftM_sl20_ll10_pl10_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3679874837398529, mae:0.39576256275177
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.39856603741645813, mae:0.4217680096626282
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.39856603741645813, mae:0.4217680096626282
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.39856603741645813, mae:0.4217680096626282
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3400455713272095, mae:0.35017290711402893
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3400455713272095, mae:0.35017290711402893
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+mse:0.3400455713272095, mae:0.35017290711402893
+
