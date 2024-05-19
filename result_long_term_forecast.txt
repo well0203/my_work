@@ -2140,3 +2140,15 @@ mse:0.3400455713272095, mae:0.35017290711402893
 long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
 mse:0.3400455713272095, mae:0.35017290711402893
 
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm8_nh8_el2_dl1_df32_fc3_ebtimeF_Exp_0  
+mse:0.6784377098083496, mae:0.5595883727073669
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm8_nh8_el2_dl1_df32_fc3_ebtimeF_Exp_0  
+mse:0.6782699823379517, mae:0.5594953298568726
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm8_nh8_el2_dl1_df32_fc3_ebtimeF_Exp_0  
+mse:0.6782718300819397, mae:0.5594829320907593
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm8_nh8_el2_dl1_df32_fc3_ebtimeF_Exp_0  
+mse:0.6782323718070984, mae:0.5594587922096252
+

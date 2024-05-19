@@ -166,7 +166,9 @@ for ii in range(args.itr):
     # device = torch.cuda.device(2)
     # model.to(device)
 
-    device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+    #device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     model = model.to(device)
 
     # model.to(torch.device("cuda"))
