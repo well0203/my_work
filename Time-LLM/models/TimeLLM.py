@@ -219,6 +219,8 @@ class Model(nn.Module):
             configs.d_model, self.patch_len, self.stride, configs.dropout)
 
         self.word_embeddings = self.llm_model.get_input_embeddings().weight
+        # aka llm_model.wte.weight 
+        # embedding layer
         self.vocab_size = self.word_embeddings.shape[0]
         self.num_tokens = 1000
         self.mapping_layer = nn.Linear(self.vocab_size, self.num_tokens)
@@ -286,7 +288,10 @@ class Model(nn.Module):
         enc_out, n_vars = self.patch_embedding(x_enc.to(torch.bfloat16))
         enc_out = self.reprogramming_layer(enc_out, source_embeddings, source_embeddings)
         llama_enc_out = torch.cat([prompt_embeddings, enc_out], dim=1)
+        # Here the input/enc_out goes through entire model (all layers) and we use output of the last hidden state!
         dec_out = self.llm_model(inputs_embeds=llama_enc_out).last_hidden_state
+        # Authours wrote in issues that they wanted to save memory and they experimented with 
+        # this cutting operation, and it worked as good as with linear projection...
         dec_out = dec_out[:, :, :self.d_ff]
 
         dec_out = torch.reshape(
