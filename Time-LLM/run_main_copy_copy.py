@@ -89,7 +89,7 @@ parser.add_argument('--train_epochs', type=int, default=10, help='train epochs')
 parser.add_argument('--align_epochs', type=int, default=10, help='alignment epochs')
 parser.add_argument('--batch_size', type=int, default=32, help='batch size of train input data')
 parser.add_argument('--eval_batch_size', type=int, default=8, help='batch size of model evaluation')
-parser.add_argument('--patience', type=int, default=10, help='early stopping patience')
+parser.add_argument('--patience', type=int, default=3, help='early stopping patience')
 parser.add_argument('--learning_rate', type=float, default=0.0001, help='optimizer learning rate')
 parser.add_argument('--des', type=str, default='test', help='exp description')
 parser.add_argument('--loss', type=str, default='MSE', help='loss function')
@@ -143,7 +143,9 @@ for ii in range(args.itr):
 
     time_now = time.time()
 
-    train_steps = len(train_loader) // 42 
+    grad_accum = 8
+
+    train_steps = len(train_loader) // grad_accum 
     early_stopping = EarlyStopping(accelerator=accelerator, patience=args.patience)
 
     trained_parameters = []
@@ -215,9 +217,9 @@ for ii in range(args.itr):
                 model_optim.zero_grad()
 
 
-                if (i*8 + 1) % 120 == 0:
+                if (i*grad_accum + 1) % 120 == 0:
                     accelerator.print(
-                        "\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i*8 + 1, epoch + 1, loss.item()))
+                        "\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i*grad_accum + 1, epoch + 1, loss.item()))
                     speed = (time.time() - time_now) / iter_count
                     left_time = speed * ((args.train_epochs - epoch) * train_steps - i)
                     accelerator.print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))

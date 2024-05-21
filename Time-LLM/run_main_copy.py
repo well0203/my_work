@@ -89,7 +89,7 @@ parser.add_argument('--train_epochs', type=int, default=10, help='train epochs')
 parser.add_argument('--align_epochs', type=int, default=10, help='alignment epochs')
 parser.add_argument('--batch_size', type=int, default=32, help='batch size of train input data')
 parser.add_argument('--eval_batch_size', type=int, default=8, help='batch size of model evaluation')
-parser.add_argument('--patience', type=int, default=10, help='early stopping patience')
+parser.add_argument('--patience', type=int, default=3, help='early stopping patience')
 parser.add_argument('--learning_rate', type=float, default=0.0001, help='optimizer learning rate')
 parser.add_argument('--des', type=str, default='test', help='exp description')
 parser.add_argument('--loss', type=str, default='MSE', help='loss function')
@@ -99,11 +99,11 @@ parser.add_argument('--llm_layers', type=int, default=6)
 parser.add_argument('--percent', type=int, default=100)
 
 args = parser.parse_args()
-#ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
-#deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='./Time-LLM/ds_config_zero2_copy.json')
-#accelerator = Accelerator(kwargs_handlers=[ddp_kwargs], deepspeed_plugin=deepspeed_plugin)
-deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=8)
-accelerator = Accelerator(mixed_precision='bf16', deepspeed_plugin=deepspeed_plugin)
+ddp_kwargs = DistributedDataParallelKwargs(find_unused_parameters=True)
+deepspeed_plugin = DeepSpeedPlugin(hf_ds_config='./Time-LLM/ds_config_zero2_copy.json')
+accelerator = Accelerator(kwargs_handlers=[ddp_kwargs], deepspeed_plugin=deepspeed_plugin)
+#deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=8)
+#accelerator = Accelerator(mixed_precision='bf16', deepspeed_plugin=deepspeed_plugin)
 
 
 for ii in range(args.itr):
@@ -145,7 +145,9 @@ for ii in range(args.itr):
 
     time_now = time.time()
 
-    train_steps = len(train_loader) 
+    grad_accum = 8
+
+    train_steps = len(train_loader) // grad_accum
     early_stopping = EarlyStopping(accelerator=accelerator, patience=args.patience)
 
     trained_parameters = []
@@ -224,9 +226,9 @@ for ii in range(args.itr):
                 model_optim.zero_grad()
 
 
-                if (epoch + 1) % 8 == 0 and (i*8 + 1) % 120 == 0:
+                if (epoch + 1) % grad_accum == 0 and (i*grad_accum + 1) % 120 == 0:
                     accelerator.print(
-                        "\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i*8 + 1, epoch + 1, loss.item()))
+                        "\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i*grad_accum + 1, epoch + 1, loss.item()))
                     speed = (time.time() - time_now) / iter_count
                     left_time = speed * ((args.train_epochs - epoch) * train_steps - i)
                     accelerator.print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
