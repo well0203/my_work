@@ -10,3 +10,5 @@ __pycache__/
 # they are too big for github
 checkpoints/
 test_results/
+saved_models/
+temp/
