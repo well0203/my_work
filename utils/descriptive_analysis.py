@@ -121,3 +121,37 @@ def corr_plot(data, annot=True, mask=True):
     plt.yticks(fontsize=6) 
     plt.tight_layout() 
     plt.show()
+
+
+def count_outliers(col, verbose=False):
+    """
+    Defines the number of outliers in a column using the IQR method.
+
+    Args:
+        col (pd.Series): Column with values to check.
+        verbose (bool): Argument to print the upper, lower bounds,
+                        as well as minimum and maximum values in a 
+                        column (default: False).
+
+    """
+
+    Q1 = col.quantile(0.25)
+    Q3 = col.quantile(0.75)
+    IQR = Q3 - Q1
+    lower = Q1 - 1.5 * IQR
+
+    upper = Q3 + 1.5 * IQR
+
+    outliers = (col < lower) | (col > upper)
+    perc_outl = outliers.sum() / len(col) * 100
+
+    if verbose:
+        min_ = col.min()
+        max_ = col.max()
+        print(f"Outliers for column {col.name}:")
+        print(f"lower bound: {lower:>15},   upper bound: {upper:>15}")
+        print(f"min value:   {min_:>15},    max:         {max_:>15}")
+
+    print(f"{col.name:<40} {outliers.sum():>15} {perc_outl:>20.1f}%")
+    
+    return None
