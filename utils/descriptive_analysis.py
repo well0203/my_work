@@ -14,7 +14,7 @@ def plot_missings(data, rotation=15):
 
     plt.figure(figsize=(25, 15))
     sns.heatmap(data.isnull(), cbar=False, cmap='YlGnBu')
-    plt.title('Missing values over time', fontsize=30)
+    plt.title('Missing values over time', fontsize=25)
     plt.xlabel('Columns')
     plt.ylabel('Timestamp')
     plt.xticks(rotation=rotation, fontsize=10)
@@ -54,12 +54,12 @@ def plot_seasonality(data, frequency='Month',
         else:
             ax.axis('off')  
 
-    fig.suptitle(title, fontsize=30)   
+    fig.suptitle(title, fontsize=25)   
     plt.tight_layout()
     plt.show()
 
 
-def hist_plots(data, col, num_cols=3):
+def hist_plots(data, col, num_cols=3, title=None):
 
     """
     Plots the frequency of values in time series.
@@ -68,6 +68,7 @@ def hist_plots(data, col, num_cols=3):
         data (pandas.DataFrame): The time series to plot.
         col (str): The country name to plot.
         num_cols (int): Number of plots per country.
+        title (str): The title of the plot (default: None).
     """
 
     num_cols = num_cols
@@ -81,12 +82,14 @@ def hist_plots(data, col, num_cols=3):
             sns.histplot(ax=ax, data=data, x=col)
             ax.set_title(f'{col}')
         else:
-            ax.axis('off')   
+            ax.axis('off')  
+
+    fig.suptitle(title, fontsize=25)   
     plt.tight_layout()
     plt.show()
 
 
-def corr_plot(data, annot=True, mask=True):
+def corr_plot(data, annot=True, mask=True, title=None):
     """
     Plots the correlation between time series with customization options.
 
@@ -94,6 +97,7 @@ def corr_plot(data, annot=True, mask=True):
         data (pandas.DataFrame): The time series to plot.
         annot (bool, optional): Show correlation values on the heatmap (default: True).
         mask (bool, optional): Mask the diagonal elements of the heatmap (default: True).
+        title (str, optional): The title of the plot (default: None).
     """
     
     # Compute correlation matrix
@@ -117,6 +121,7 @@ def corr_plot(data, annot=True, mask=True):
         cbar_kws={"shrink": 0.75}  
     )
 
+    plt.title(title, fontsize=10)
     plt.xticks(rotation=45, ha='right', fontsize=6)
     plt.yticks(fontsize=6) 
     plt.tight_layout() 

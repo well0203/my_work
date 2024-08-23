@@ -3,32 +3,68 @@ from sklearn.preprocessing import StandardScaler
 from pmdarima.arima.utils import ndiffs, nsdiffs
 
 
-def stationary_seasonal(data, column_name):
-    # https://alkaline-ml.com/pmdarima/1.3.0/tips_and_tricks.html?highlight=kpss
-    
-    adf_diff = ndiffs(data[column_name], test='adf')
-    kpss_diff = ndiffs(data[column_name], test='kpss')
-    pp_diff = ndiffs(data[column_name], test='pp')
-    
-    if adf_diff == 0 and kpss_diff == 0 and pp_diff == 0:
-         print('Is stationary')
-    else: 
-        print('Is not stationary')
+# I checked 2 libraries, they deliver same results. 
+# This version is better, because outputs number of differences
+# and bypass p-values interpretation. Better to check both,
+# because pmdarima does not describe functions properly.
 
-    if adf_diff > 0 or kpss_diff > 0:
-        ocsb_diff = nsdiffs(data[column_name], test='ocsb', m=24)
-        ch_diff = nsdiffs(data[column_name], test='ch', m=24)
-        if ocsb_diff == 0 and ch_diff==0:
-            print('Does not require seasonal differencing')
-        else:
-            print('Requires seasonal differencing')
+def stationary_seasonal(data, column_name):
+    """
+    Function that checks stationarity of a time series and 
+    whether seasonal differencing is required or not.
+
+    Args:
+        data (pd.DataFrame): Dataframe with time series data.
+        column_name (str): The name of the column in the dataframe.
+    """
+    # https://alkaline-ml.com/pmdarima/1.3.0/tips_and_tricks.html?highlight=kpss
+    # https://www.statsmodels.org/dev/examples/notebooks/generated/stationarity_detrending_adf_kpss.html
+
+    # unit root, trend
+    adf_diff = ndiffs(data[column_name], test='adf', max_d=90)
+
+    # difference stationary
+    kpss_diff = ndiffs(data[column_name], test='kpss', max_d=90)
+
+    print(f'Column name: {column_name}')
+
+    
+    if adf_diff == 0:
+        print('ADF: Is stationary.')
+    else: 
+        print('ADF:Is not stationary.')
+        print('adf_diff', adf_diff)
+
+    if kpss_diff == 0:
+        print('KPSS: Is stationary.')
+    else: 
+        print('KPSS: Is not stationary.')
+        print('kpss_diff', kpss_diff)
+
+    # unit root
+    ocsb_diff = nsdiffs(data[column_name], test='ocsb', m=24, max_D=5)
+    # more sensitive, can find seasonality if there are complex or less pronounced patterns
+    ch_diff = nsdiffs(data[column_name], test='ch', m=24, max_D=5)
+    seasonal_diff = max(ocsb_diff, ch_diff)
+
+    if seasonal_diff == 0:
+        print('Does not require seasonal differencing')
+    else:
+        print('Requires seasonal differencing')
+        print('ocsb_diff', ocsb_diff, 'ch_diff', ch_diff)
+    print('-'*50)
+    return column_name if seasonal_diff != 0 else None
+
 
 def split_scale_dataset(data, train_size, val_size, test_size=None):
 
     """
-    data (pd.DataFrame): Dataframe with time series data.
-    train_size, test_size, val_size (int): number of days in train, 
-                                           test and validation datasets.
+    Function that splits and scales a time series dataset.
+
+    Args:
+        data (pd.DataFrame): Dataframe with time series data.
+        train_size, test_size, val_size (int): number of days in train, 
+                                               test and validation datasets.
 
     return: Scaled datasets
     """
@@ -65,9 +101,12 @@ def split_scale_dataset(data, train_size, val_size, test_size=None):
 
 def add_exog_vars(data, train_size, val_size, test_size=None):
     """
-    data (pd.DataFrame): Dataframe with time series data.
-    train_size, test_size, val_size (int): number of days in train, 
-                                            test and validation datasets.
+    Function that adds exogenous variables to a time series dataset.
+
+    Args:
+        data (pd.DataFrame): Dataframe with time series data.
+        train_size, test_size, val_size (int): number of days in train, 
+                                               test and validation datasets.
 
     return: Datasets with exogenous variables
     """
@@ -81,3 +120,4 @@ def add_exog_vars(data, train_size, val_size, test_size=None):
     test_data = data.iloc[num_train + num_vali:][['HourOfDay', 'DayOfWeek']] # a+b
 
     return train_data, vali_data, test_data
+
