@@ -1,0 +1,14 @@
+.DS_Store
+
+.vscode
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# they are too big for github
+checkpoints/
+test_results/
+saved_models/
+temp/
