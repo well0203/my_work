@@ -1,8 +1,6 @@
 import pandas as pd
 import statsmodels.api as sm
 from pmdarima.arima.utils import ndiffs, nsdiffs
-from colorama import init, Fore, Style
-
 
 
 # PP test is not needed to avoid redundancy and slow computation.

@@ -153,10 +153,12 @@ def count_outliers(col, verbose=False):
     if verbose:
         min_ = col.min()
         max_ = col.max()
-        print(f"Outliers for column {col.name}:")
-        print(f"lower bound: {lower:>15},   upper bound: {upper:>15}")
-        print(f"min value:   {min_:>15},    max:         {max_:>15}")
-
-    print(f"{col.name:<40} {outliers.sum():>15} {perc_outl:>20.1f}%")
+        if max_ > upper or min_ < lower:
+            print(f"Column name: '{col.name}'")
+            print(f"lower bound: {lower:>15},   upper bound: {upper:>15}")
+            print(f"min value:   {min_:>15},    max:         {max_:>15}")
+            print('-' * 80)
+    else:
+        print(f"{col.name:<40} {outliers.sum():>15} {perc_outl:>20.1f}%")
     
     return None
