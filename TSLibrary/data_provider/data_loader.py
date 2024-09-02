@@ -5,7 +5,7 @@ import glob
 import re
 import torch
 from torch.utils.data import Dataset, DataLoader
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler
 from utils.timefeatures import time_features
 from sktime.datasets import load_from_tsfile_to_dataframe
 import warnings
@@ -221,7 +221,8 @@ class Dataset_Custom(Dataset):
         self.__read_data__()
 
     def __read_data__(self):
-        self.scaler = StandardScaler()
+        #self.scaler = StandardScaler()
+        self.scaler = RobustScaler()
         df_raw = pd.read_csv(os.path.join(self.root_path,
                                           self.data_path))
 

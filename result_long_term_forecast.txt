@@ -2338,3 +2338,4 @@ mse:0.6645027995109558, mae:0.5039867758750916
 long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
 mse:0.659928560256958, mae:0.49882757663726807
 
+long_term_forecast_1_Informer_custom_ftM_sl20_ll10_pl10_dm512_nh8_el3_dl2_df2048_fc3_ebtimeF_dtTrue_Exp_0  

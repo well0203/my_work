@@ -18,7 +18,7 @@ def data_provider(args, flag):
 
     if flag == 'test':
         shuffle_flag = False
-        drop_last = True
+        drop_last = False
 
         # use usual batch for test size, not 1, otherwise it will be too slow
         batch_size = args.batch_size
@@ -31,7 +31,7 @@ def data_provider(args, flag):
         """
     else:
         shuffle_flag = True
-        drop_last = True
+        drop_last = False
         batch_size = args.batch_size  # bsz for train and valid
         freq = args.freq
 
