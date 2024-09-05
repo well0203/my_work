@@ -236,7 +236,7 @@ class Dataset_Custom(Dataset):
             cols.remove('date')
             df_raw = df_raw[['date'] + cols]
 
-
+        """
         # To ensure we do not split the day on the parts and take full days
         # Not important in this case
         train_size = int(int(len(df_raw)/24)*0.7)
@@ -247,6 +247,16 @@ class Dataset_Custom(Dataset):
         num_train = train_size*24
         num_test = test_size*24
         num_vali = val_size*24
+        """
+
+        # number of days 
+        train_size = int(round(len(data)/24*0.7, 0))
+        test_size = int(round(len(data)/24*0.15, 0))
+
+        # calculate number of observations in each dataset
+        num_train = train_size*24
+        num_test = test_size*24
+        num_vali = len(data) - num_train - num_test 
 
 
         border1s = [0, num_train - self.seq_len, len(df_raw) - num_test - self.seq_len]
@@ -311,7 +321,32 @@ class Dataset_Custom(Dataset):
         s_end = s_begin + self.seq_len
         r_begin = s_end - self.label_len
         r_end = r_begin + self.label_len + self.pred_len
-
+        """
+        if self.set_type == 2: # if test
+            # Calculate indices for non-overlapping windows
+            # index starts at 0?
+            
+            ## index 0: seq_x is from 0 to 9, seq_y is from 5 to 19; 
+            ## index 1:  seq_x is from 10 to 19, seq_y is from 15 to 29 
+            ## index=2: seq_x from 20 to 30 and seq_y: from 25 to 30. 
+            ## So, in order to get the complete seq_y, I need to have 40 observations. 
+            ## But I have only 30. 
+      
+            s_begin = index * self.pred_len # 0*10, 1*10
+            s_end = s_begin + self.seq_len #0+10, 10+10
+            r_begin = s_end - self.label_len # 10-5, 20-5
+            r_end = r_begin + self.label_len + self.pred_len # 5+5+10, 15+5+10
+        else:
+            # Calculate indices for overlapping windows as before
+            # 0
+            s_begin = index
+            # 0+10
+            s_end = s_begin + self.seq_len
+            # 10-5
+            r_begin = s_end - self.label_len
+            # 5+10+1
+            r_end = r_begin + self.label_len + self.pred_len
+        """
         seq_x = self.data_x[s_begin:s_end]
         seq_y = self.data_y[r_begin:r_end]
         seq_x_mark = self.data_stamp[s_begin:s_end]
@@ -320,10 +355,25 @@ class Dataset_Custom(Dataset):
         return seq_x, seq_y, seq_x_mark, seq_y_mark
 
     def __len__(self):
+        """
+        if self.set_type == 2:
+            # Return the number of non-overlapping windows for testing
+            return math.floor((len(self.data_x) - self.seq_len) // self.pred_len) # 30 - 10 = 20, 20//10 = 2
+        else:
+            # Return the number of overlapping windows for training
+            return len(self.data_x) - self.seq_len - self.pred_len + 1
+        """
         return len(self.data_x) - self.seq_len - self.pred_len + 1
 
     def inverse_transform(self, data):
-        return self.scaler.inverse_transform(data)
+        if self.features =="MS":
+            meanY = self.scaler.mean_[-1]
+            stdY = self.scaler.scale_[-1] # ensure that Y is our last column!
+
+            return (data[-1] * stdY) + meanY
+        else:
+            return self.scaler.inverse_transform(data)
+        #return self.scaler.inverse_transform(data)
     
 
 class Dataset_Pred(Dataset):

@@ -48,7 +48,21 @@ class Exp_Main(Exp_Basic):
         return model_optim
 
     def _select_criterion(self):
-        criterion = nn.MSELoss()
+        if self.args.loss_fnc == 'MSE' or self.args.loss_fnc == 'L2':
+            criterion = nn.MSELoss()
+        elif self.args.loss_fnc == 'MAE' or self.args.loss_fnc == 'L1':
+            criterion = nn.L1Loss()
+        elif self.args.loss_fnc == 'SmoothL1':
+            criterion = nn.SmoothL1Loss()
+        elif self.args.loss_fnc == 'Huber':
+            criterion = nn.HuberLoss()
+        elif self.args.loss_fnc == 'Quantile':
+            criterion = nn.QuantileLoss()
+        elif self.args.loss_fnc == 'LogCosh':
+            criterion = torch.nn.LogCoshLoss()
+        else:
+            raise ValueError('Loss function not supported yet')
+        
         return criterion
 
     def vali(self, vali_data, vali_loader, criterion):
@@ -197,7 +211,6 @@ class Exp_Main(Exp_Basic):
             end = time.time()
             hours, rem = divmod(end - epoch_time, 3600)
             minutes, seconds = divmod(rem, 60)
-            #print("Epoch: {} cost time: {:0>2}h:{:0>2}m:{:05.2f}s".format(epoch + 1, int(hours), int(minutes), seconds))
             print('-'*85)
             print("Epoch: {}".format(epoch + 1))
             print("Cost time: {:0>2}h:{:0>2}m:{:05.2f}s".format(int(hours), int(minutes), seconds))
@@ -206,8 +219,6 @@ class Exp_Main(Exp_Basic):
             vali_loss = self.vali(vali_data, vali_loader, criterion)
             test_loss = self.vali(test_data, test_loader, criterion)
 
-            #print("Epoch: {0}, Steps: {1} | Train Loss: {2:.7f} Vali Loss: {3:.7f} Test Loss: {4:.7f}".format(
-            #    epoch + 1, train_steps, train_loss, vali_loss, test_loss))
             print("Steps: {0} | Train Loss: {1:.7f} Vali Loss: {2:.7f} Test Loss: {3:.7f}".format(
                 train_steps, train_loss, vali_loss, test_loss))
 
