@@ -25,3 +25,18 @@ mse:2.2094132900238037, mae:1.2662930488586426, rse:1.3595283031463623
 test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc3_ebtimeF_dtTrue_Exp_0  
 mse:2.2094132900238037, mae:1.2662930488586426, rse:1.3595283031463623
 
+test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc3_ebtimeF_dtTrue_Exp_0  
+mse:18996756.0, mae:2656.149169921875, rse:0.24728254973888397
+
+test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc3_ebtimeF_dtTrue_Exp_0  
+mse:18996756.0, mae:2656.149169921875, rse:0.24728254973888397
+
+test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc3_ebtimeF_dtTrue_Exp_0  
+mse:18996756.0, mae:2656.149169921875, rse:0.24728254973888397
+
+test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc3_ebtimeF_dtTrue_Exp_0  
+mse:18996756.0, mae:2656.149169921875, rse:0.24728254973888397
+
+test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc3_ebtimeF_dtTrue_Exp_0  
+mse:15701007.0, mae:2524.3662109375, rse:0.22481097280979156
+
