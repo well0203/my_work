@@ -27,13 +27,14 @@ if __name__ == '__main__':
     parser.add_argument('--freq', type=str, default='h',
                         help='freq for time features encoding, options:[s:secondly, t:minutely, h:hourly, d:daily, b:business days, w:weekly, m:monthly], you can also use more detailed freq like 15min or 3h')
     parser.add_argument('--checkpoints', type=str, default='./checkpoints/', help='location of model checkpoints')
+    parser.add_argument('--overlapping_windows', action='store_true', default=False, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
 
     # forecasting task
     parser.add_argument('--seq_len', type=int, default=96, help='input sequence length')
     parser.add_argument('--label_len', type=int, default=48, help='start token length')
     parser.add_argument('--pred_len', type=int, default=96, help='prediction sequence length')
-    parser.add_argument('--inverse', action='store_true', help='inverse output data', default=False)
-    parser.add_argument('--loss_fnc', type=str, default="MSE", help='loss function for training')
+    parser.add_argument('--inverse', action='store_true', default=False, help='inverse output data')
+    parser.add_argument('--loss_fnc', type=str, default="MSE", help='loss function for training, options: [MSE, MAE, HuberLoss, SmoothL1, LogCosh, QuantileLoss]')
 
     # DLinear
     #parser.add_argument('--individual', action='store_true', default=False, help='DLinear: a linear layer for each variate(channel) individually')

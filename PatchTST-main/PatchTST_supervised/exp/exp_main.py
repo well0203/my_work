@@ -48,15 +48,15 @@ class Exp_Main(Exp_Basic):
         return model_optim
 
     def _select_criterion(self):
-        if self.args.loss_fnc == 'MSE' or self.args.loss_fnc == 'L2':
+        if self.args.loss_fnc == 'MSE':
             criterion = nn.MSELoss()
-        elif self.args.loss_fnc == 'MAE' or self.args.loss_fnc == 'L1':
+        elif self.args.loss_fnc == 'MAE':
             criterion = nn.L1Loss()
         elif self.args.loss_fnc == 'SmoothL1':
             criterion = nn.SmoothL1Loss()
-        elif self.args.loss_fnc == 'Huber':
+        elif self.args.loss_fnc == 'HuberLoss':
             criterion = nn.HuberLoss()
-        elif self.args.loss_fnc == 'Quantile':
+        elif self.args.loss_fnc == 'QuantileLoss':
             criterion = nn.QuantileLoss()
         elif self.args.loss_fnc == 'LogCosh':
             criterion = torch.nn.LogCoshLoss()
