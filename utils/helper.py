@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 from sklearn.preprocessing import StandardScaler
 
 
@@ -78,3 +79,28 @@ def add_exog_vars(train_data: pd.DataFrame,
         dataset['HourOfDay'] = dataset.index.hour
 
     return train_data, vali_data, test_data
+
+
+# Function to find and extract metrics from command output
+def extract_metrics_from_output(output):
+    mse = None
+    mae = None
+
+    # Regex patterns to search for MSE and MAE
+    mse_pattern = re.compile(r"mse:\s*([\d.]+)", re.IGNORECASE)
+    mae_pattern = re.compile(r"mae:\s*([\d.]+)", re.IGNORECASE)
+
+    # Iterate each line to find values
+    for line in output:
+        if mse is None:  # Find MSE if not already found
+            mse_match = mse_pattern.search(line)
+            if mse_match:
+                mse = float(mse_match.group(1))
+        if mae is None:  # Find MAE if not already found
+            mae_match = mae_pattern.search(line)
+            if mae_match:
+                mae = float(mae_match.group(1))
+        if mse is not None and mae is not None:
+            break  # Stop if both metrics are found
+
+    return mse, mae
