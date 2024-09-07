@@ -48,16 +48,16 @@ class Exp_Main(Exp_Basic):
         return model_optim
 
     def _select_criterion(self):
-        if self.args.loss_fnc == 'MSE':
+        if self.args.loss_fnc == 'MSE' or self.args.loss_fnc == 'RMSE':
             criterion = nn.MSELoss()
         elif self.args.loss_fnc == 'MAE':
             criterion = nn.L1Loss()
         elif self.args.loss_fnc == 'SmoothL1':
-            criterion = nn.SmoothL1Loss()
+            criterion = nn.SmoothL1Loss() # neds additional parameter
         elif self.args.loss_fnc == 'HuberLoss':
-            criterion = nn.HuberLoss()
+            criterion = nn.HuberLoss() # neds additional parameter
         elif self.args.loss_fnc == 'QuantileLoss':
-            criterion = nn.QuantileLoss()
+            criterion = nn.QuantileLoss() # neds additional parameter
         elif self.args.loss_fnc == 'LogCosh':
             criterion = torch.nn.LogCoshLoss()
         else:
@@ -186,6 +186,10 @@ class Exp_Main(Exp_Basic):
                     outputs = outputs[:, -self.args.pred_len:, f_dim:]
                     batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
                     loss = criterion(outputs, batch_y)
+
+                    if self.args.loss_fnc == "RMSE":
+                        loss = torch.sqrt(loss)
+
                     train_loss.append(loss.item())
 
                 if (i + 1) % 100 == 0:
@@ -337,10 +341,10 @@ class Exp_Main(Exp_Basic):
             os.makedirs(folder_path)
 
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        print('mse:{}, mae:{}, rse:{}'.format(mse, mae, rse))
+        print('mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
         f = open("result.txt", 'a')
         f.write(setting + "  \n")
-        f.write('mse:{}, mae:{}, rse:{}'.format(mse, mae, rse))
+        f.write('mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
         f.write('\n')
         f.write('\n')
         f.close()

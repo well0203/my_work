@@ -83,24 +83,23 @@ def add_exog_vars(train_data: pd.DataFrame,
 
 # Function to find and extract metrics from command output
 def extract_metrics_from_output(output):
-    mse = None
-    mae = None
 
-    # Regex patterns to search for MSE and MAE
-    mse_pattern = re.compile(r"mse:\s*([\d.]+)", re.IGNORECASE)
-    mae_pattern = re.compile(r"mae:\s*([\d.]+)", re.IGNORECASE)
+    metric_names = ['MSE', 'RMSE', 'MAE', 'RSE']
+    metrics = {metric: None for metric in metric_names}
+
+    # Regex patterns
+    patterns = {metric: re.compile(fr"{metric.lower()}:\s*([\d.]+)", re.IGNORECASE) for metric in metric_names}
 
     # Iterate each line to find values
     for line in output:
-        if mse is None:  # Find MSE if not already found
-            mse_match = mse_pattern.search(line)
-            if mse_match:
-                mse = float(mse_match.group(1))
-        if mae is None:  # Find MAE if not already found
-            mae_match = mae_pattern.search(line)
-            if mae_match:
-                mae = float(mae_match.group(1))
-        if mse is not None and mae is not None:
-            break  # Stop if both metrics are found
+        for metric, pattern in patterns.items():
+            if metrics[metric] is None:  # If the metric is not yet found
+                match = pattern.search(line)
+                if match:
+                    metrics[metric] = float(match.group(1))
 
-    return mse, mae
+        # Stop if all metrics have been found
+        if all(value is not None for value in metrics.values()):
+            break
+
+    return tuple(metrics[metric] for metric in metric_names)
