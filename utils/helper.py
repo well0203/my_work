@@ -82,6 +82,7 @@ def add_exog_vars(train_data: pd.DataFrame,
 
 
 # Function to find and extract metrics from command output
+"""
 def extract_metrics_from_output(output):
 
     metric_names = ['MSE', 'RMSE', 'MAE', 'RSE']
@@ -103,3 +104,4 @@ def extract_metrics_from_output(output):
             break
 
     return tuple(metrics[metric] for metric in metric_names)
+"""
