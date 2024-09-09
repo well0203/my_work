@@ -454,3 +454,57 @@ mse:0.9181895852088928, rmse:0.9582220911979675, mae:0.6743886470794678, rse:0.7
 DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
 mse:0.918017566204071, rmse:0.9581323266029358, mae:0.6783621907234192, rse:0.7590104937553406
 
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+mse:0.44836655259132385, rmse:0.6696017980575562, mae:0.4417327344417572, rse:0.5299475193023682
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+mse:0.45005327463150024, rmse:0.6708601117134094, mae:0.44774743914604187, rse:0.5309433937072754
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+mse:0.7422130107879639, rmse:0.8615178465843201, mae:0.6124135255813599, rse:0.6832898259162903
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+mse:0.7765764594078064, rmse:0.8812357783317566, mae:0.6239685416221619, rse:0.6989285945892334
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+mse:0.8117320537567139, rmse:0.9009617567062378, mae:0.6470239162445068, rse:0.7137212157249451
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+mse:0.804768979549408, rmse:0.8970891833305359, mae:0.6460970044136047, rse:0.7106534838676453
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+mse:0.4476352035999298, rmse:0.6690554618835449, mae:0.44015392661094666, rse:0.5295150876045227
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+mse:0.4470727741718292, rmse:0.6686350107192993, mae:0.4456162452697754, rse:0.5291823744773865
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+mse:0.7428922057151794, rmse:0.861911952495575, mae:0.6125141382217407, rse:0.6836023926734924
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+mse:0.7808329463005066, rmse:0.8836475014686584, mae:0.6238866448402405, rse:0.7008413672447205
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+mse:0.8142335414886475, rmse:0.9023488759994507, mae:0.6528554558753967, rse:0.714820146560669
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+mse:0.8040378093719482, rmse:0.896681547164917, mae:0.645296037197113, rse:0.710330605506897
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+mse:0.4807750880718231, rmse:0.6933794617652893, mae:0.430777907371521, rse:0.548766016960144
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+mse:0.4558711349964142, rmse:0.6751822829246521, mae:0.42368245124816895, rse:0.5343641042709351
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+mse:0.7753313779830933, rmse:0.8805290460586548, mae:0.5942929983139038, rse:0.6983680129051208
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+mse:0.7856805324554443, rmse:0.8863862156867981, mae:0.6012449264526367, rse:0.70301353931427
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+mse:0.8269767165184021, rmse:0.9093825817108154, mae:0.6237272620201111, rse:0.720392107963562
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+mse:0.8162832260131836, rmse:0.9034839272499084, mae:0.6276787519454956, rse:0.7157192826271057
+
