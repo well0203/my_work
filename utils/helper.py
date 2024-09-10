@@ -1,5 +1,6 @@
-import pandas as pd
+import os
 import re
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 
@@ -81,7 +82,6 @@ def add_exog_vars(train_data: pd.DataFrame,
     return train_data, vali_data, test_data
 
 
-# Function to find and extract metrics from command output
 """
 def extract_metrics_from_output(output):
 
@@ -105,3 +105,67 @@ def extract_metrics_from_output(output):
 
     return tuple(metrics[metric] for metric in metric_names)
 """
+
+
+def extract_metrics_from_output(output, 
+                                itr=2
+                                ) -> list[tuple]:
+    """
+    Function to extract metrics from command output.
+    
+    Args:
+        output (list): List of strings containing the command output.
+        itr (int): Number of iterations to extract metrics for (default: 2).
+        
+    Returns:
+        list[tuple]: Tuple containing the extracted metrics.
+    """
+
+    # Pattern for extracting metrics
+    pattern = re.compile(
+        r"mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
+        re.IGNORECASE
+    )
+
+    # Join the output lines
+    output_str = "\n".join(output)
+    
+    # Find all matches of the pattern
+    matches = pattern.findall(output_str)
+    
+    # Throw an error if there are not enough matches
+    if len(matches) < itr:
+        raise ValueError(f"Expected at least {itr} iterations, but found only {len(matches)}.")
+    
+    # Return the tuple of metrics
+    return [tuple(map(float, match)) for match in matches[:itr]]
+
+
+def convert_results_into_df(results, 
+                            path_dir,
+                            csv_name
+                            ) -> pd.DataFrame:
+    """
+    Function to convert results into a pandas DataFrame.
+    
+    Args:
+        results (list): List of tuples containing the results.
+        path_dir (str): Path to the directory where the results will be saved.
+        csv_name (str): Name of the CSV file.
+        
+    Returns:
+        pd.DataFrame: DataFrame containing the results.
+    """
+    # Create a DataFrame from the results
+    df = pd.DataFrame(results)
+
+    # Set multi-index 
+    df.set_index(['Loss_function', 'Iteration', 'Pred_len'], inplace=True)
+
+    if not os.path.exists(path_dir):
+        os.makedirs(path_dir)
+
+    # Save the DataFrame to a CSV file
+    df.to_csv(os.path.join(path_dir, csv_name), index=True)
+
+    return df
