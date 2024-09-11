@@ -251,6 +251,11 @@ class Exp_Main(Exp_Basic):
 
         preds = []
         trues = []
+
+        if self.args.inverse:
+            preds_unscaled = []
+            trues_unscaled = []
+
         inputx = []
         folder_path = './test_results/' + setting + '/'
         if not os.path.exists(folder_path):
@@ -290,37 +295,47 @@ class Exp_Main(Exp_Basic):
 
                 f_dim = -1 if self.args.features == 'MS' else 0
                 # print(outputs.shape,batch_y.shape)
+
                 outputs = outputs[:, -self.args.pred_len:, f_dim:]
                 batch_y = batch_y[:, -self.args.pred_len:, f_dim:].to(self.device)
                 outputs = outputs.detach().cpu().numpy()
                 batch_y = batch_y.detach().cpu().numpy()
 
+                # Please note, I created this solely for loss analysis
+                # if you want to use it for other purposes, please modify the first two variable names to "output" and "batch_y"
+                # and delete the rest of the code in this if statement
+                # Also delete the lines 255-258, 348-353 and modify other if self.args.inverse statements
                 if test_data.scale and self.args.inverse:
                     shape = outputs.shape
-                    outputs = test_data.inverse_transform(outputs.reshape(shape[0] * shape[1], -1)).reshape(shape)
-                    batch_y = test_data.inverse_transform(batch_y.reshape(shape[0] * shape[1], -1)).reshape(shape)
+                    outputs_unscaled = test_data.inverse_transform(outputs.reshape(shape[0] * shape[1], -1)).reshape(shape)
+                    batch_y_unscaled = test_data.inverse_transform(batch_y.reshape(shape[0] * shape[1], -1)).reshape(shape)
 
-                outputs = outputs[:, :, f_dim:]
-                batch_y = batch_y[:, :, f_dim:]
+                    pred_unscaled = outputs_unscaled
+                    true_unscaled = batch_y_unscaled
 
-                pred = outputs  # outputs.detach().cpu().numpy()  # .squeeze()
-                true = batch_y  # batch_y.detach().cpu().numpy()  # .squeeze()
+                    preds_unscaled.append(pred_unscaled)
+                    trues_unscaled.append(true_unscaled)
+
+                pred = outputs  
+                true = batch_y  
 
                 preds.append(pred)
                 trues.append(true)
 
                 inputx.append(batch_x.detach().cpu().numpy())
 
-                if i % 20 == 0:
-                    input = batch_x.detach().cpu().numpy()
+                if not self.args.inverse:
+                    if i % 20 == 0:
+                        input = batch_x.detach().cpu().numpy()
 
-                    if test_data.scale and self.args.inverse:
-                        shape = input.shape
-                        input = test_data.inverse_transform(input.reshape(shape[0] * shape[1], -1)).reshape(shape)
+                        if test_data.scale and self.args.inverse:
+                            shape = input.shape
+                            input = test_data.inverse_transform(input.reshape(shape[0] * shape[1], -1)).reshape(shape)
 
-                    gt = np.concatenate((input[0, :, -1], true[0, :, -1]), axis=0)
-                    pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
-                    visual(gt, pd, os.path.join(folder_path, str(i) + '.pdf'))
+                        gt = np.concatenate((input[0, :, -1], true[0, :, -1]), axis=0)
+                        pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
+                        visual(gt, pd, os.path.join(folder_path, str(i) + '.pdf'))
+                
 
         if self.args.test_flop:
             test_params_flop((batch_x.shape[1],batch_x.shape[2]))
@@ -329,30 +344,69 @@ class Exp_Main(Exp_Basic):
         trues = np.array(trues)
         inputx = np.array(inputx)
 
+
+        if self.args.inverse:
+            preds_unscaled = np.array(preds_unscaled)
+            trues_unscaled = np.array(trues_unscaled)
+
+            preds_unscaled = preds_unscaled.reshape(-1, preds_unscaled.shape[-2], preds_unscaled.shape[-1])
+            trues_unscaled = trues_unscaled.reshape(-1, trues_unscaled.shape[-2], trues_unscaled.shape[-1])
+
         #print('preds', preds)
         #print('trues', trues)
-
+        #           remainder    last second dim  last/third dim   
         preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
         trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
         inputx = inputx.reshape(-1, inputx.shape[-2], inputx.shape[-1])
 
+
         # result save
-        folder_path = './results/' + setting + '/'
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
+        if self.args.inverse:
+            folder_path_loss_scaled = './results_loss_scaled/' + setting + '/'
+            folder_path_loss_unscaled = './results_loss_unscaled/' + setting + '/'
+
+            if not os.path.exists(folder_path_loss_scaled):
+                os.makedirs(folder_path_loss_scaled)
+
+            if not os.path.exists(folder_path_loss_unscaled):
+                os.makedirs(folder_path_loss_unscaled)
+        else:
+            folder_path = './results/' + setting + '/'
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
 
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
         print('mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
+
+        if self.args.inverse:
+            mae_unscaled, mse_unscaled, rmse_unscaled, _, _, rse_unscaled, _ = metric(preds_unscaled, trues_unscaled)
+            print('Unscaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
+
         f = open("result.txt", 'a')
         f.write(setting + "  \n")
         f.write('mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
+
+        if self.args.inverse:
+            f.write('\n')
+            f.write('Unscaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
+
         f.write('\n')
         f.write('\n')
         f.close()
 
-        # np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
-        np.save(folder_path + 'pred.npy', preds)
-        np.save(folder_path + 'true.npy', trues)
+
+        if self.args.inverse:
+            np.save(folder_path_loss_scaled + 'pred.npy', preds)
+            np.save(folder_path_loss_scaled + 'true.npy', trues)
+
+            np.save(folder_path_loss_unscaled + 'pred.npy', preds_unscaled)
+            np.save(folder_path_loss_unscaled + 'true.npy', trues_unscaled)
+
+        else:
+            # np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
+            np.save(folder_path + 'pred.npy', preds)
+            np.save(folder_path + 'true.npy', trues)
+
         # np.save(folder_path + 'x.npy', inputx)
         return
 
