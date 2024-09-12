@@ -108,7 +108,8 @@ def extract_metrics_from_output(output):
 
 
 def extract_metrics_from_output(output, 
-                                itr=2
+                                itr=2,
+                                if_scaled=True
                                 ) -> list[tuple]:
     """
     Function to extract metrics from command output.
@@ -116,19 +117,26 @@ def extract_metrics_from_output(output,
     Args:
         output (list): List of strings containing the command output.
         itr (int): Number of iterations to extract metrics for (default: 2).
+        if_scaled (bool): Whether the output should be scaled (default: True).
         
     Returns:
-        list[tuple]: Tuple containing the extracted metrics.
+        list[tuple]: List of tuples containing the extracted metrics 
+                     for each iteration converted to floats.
     """
 
     # Pattern for extracting metrics
-    pattern = re.compile(
-        r"mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
-        re.IGNORECASE
-    )
-
-    # Join the output lines
-    output_str = "\n".join(output)
+    if if_scaled:
+        pattern = re.compile(
+            r"Scaled mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
+            re.IGNORECASE
+        )
+    else:
+        pattern = re.compile(
+            r"Original data scale mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
+            re.IGNORECASE
+        )
+    # Join the output lines to a single string
+    output_str = " ".join(output)
     
     # Find all matches of the pattern
     matches = pattern.findall(output_str)
@@ -137,7 +145,8 @@ def extract_metrics_from_output(output,
     if len(matches) < itr:
         raise ValueError(f"Expected at least {itr} iterations, but found only {len(matches)}.")
     
-    # Return the tuple of metrics
+    # List with tuples of metrics for all iterations
+    # Map string matches to floats
     return [tuple(map(float, match)) for match in matches[:itr]]
 
 

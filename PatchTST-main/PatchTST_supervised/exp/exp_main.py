@@ -257,9 +257,11 @@ class Exp_Main(Exp_Basic):
             trues_unscaled = []
 
         inputx = []
-        folder_path = './test_results/' + setting + '/'
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
+
+        if not self.args.inverse:
+            folder_path = './test_results/' + setting + '/'
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
 
         self.model.eval()
         with torch.no_grad():
@@ -376,19 +378,19 @@ class Exp_Main(Exp_Basic):
                 os.makedirs(folder_path)
 
         mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
-        print('mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
+        print('Scaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
 
         if self.args.inverse:
             mae_unscaled, mse_unscaled, rmse_unscaled, _, _, rse_unscaled, _ = metric(preds_unscaled, trues_unscaled)
-            print('Unscaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
+            print('Original data scale mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
 
         f = open("result.txt", 'a')
         f.write(setting + "  \n")
-        f.write('mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
+        f.write('Scaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
 
         if self.args.inverse:
             f.write('\n')
-            f.write('Unscaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
+            f.write('Original data scale mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
 
         f.write('\n')
         f.write('\n')
