@@ -80,7 +80,7 @@ def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, c
         None
     """
 
-    base_path = "./results_for_loss"
+    base_path = "./results_loss_unscaled"
     
     paths = [
         os.path.join(
