@@ -90,15 +90,15 @@ def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, c
         None
     """
 
-    base_path = "./results_loss_unscaled"
+    path = "./results_loss_unscaled"
     
-    paths = [
+    full_paths = [
         os.path.join(
-            base_path, 
+            path, 
             f"DE_{seq_len}_{pred_len}_loss_choice_for_DE_{model_name}_custom_ftM_sl{seq_len}_ll5_pl{pred_len}_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_loss{loss_type}_Exp_{i}"
         ) for i in range(itr)
     ]
     
-    avg_pred, avg_true = load_and_average_results(paths)
+    avg_pred, avg_true = load_and_average_results(full_paths)
     
     plot_results(avg_pred, avg_true, columns, loss_type, pred_len, color)
