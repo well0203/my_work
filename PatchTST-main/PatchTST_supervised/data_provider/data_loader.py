@@ -5,7 +5,7 @@ import os
 import torch
 import math
 from torch.utils.data import Dataset, DataLoader
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from utils.timefeatures import time_features
 import warnings
 
@@ -195,7 +195,6 @@ class Dataset_Custom(Dataset):
                  overlapping_windows=False, features='S', data_path='ETTh1.csv',
                  target='OT', scale=True, timeenc=0, freq='h'):
         # size [seq_len, label_len, pred_len]
-        # info
         if size == None:
             self.seq_len = 24 * 4 * 4
             self.label_len = 24 * 4
@@ -221,7 +220,7 @@ class Dataset_Custom(Dataset):
         self.__read_data__()
 
     def __read_data__(self):
-        self.scaler = StandardScaler()
+        self.scaler = MinMaxScaler()  #StandardScaler()
         df_raw = pd.read_csv(os.path.join(self.root_path,
                                           self.data_path))
 
@@ -238,19 +237,7 @@ class Dataset_Custom(Dataset):
             cols.remove('date')
             df_raw = df_raw[['date'] + cols]
 
-        """
-        # To ensure we do not split the day on the parts and take full days
-        # Not important in this case
-        train_size = int(int(len(df_raw)/24)*0.7)
-        test_size = int(int(len(df_raw)/24)*0.15)
-        val_size = int(len(df_raw)/24) - train_size - test_size
-
-        # Split dataset on number of days
-        num_train = train_size*24
-        num_test = test_size*24
-        num_vali = val_size*24
-        """
-
+        # Same as for ARIMA preprocessing
         # number of days 
         train_size = int(round(len(df_raw)/24*0.7, 0))
         test_size = int(round(len(df_raw)/24*0.15, 0))
@@ -332,16 +319,25 @@ class Dataset_Custom(Dataset):
             # Return the number of overlapping windows for training
             return len(self.data_x) - self.seq_len - self.pred_len + 1
             
-
+    # for MinMax Scaler
     def inverse_transform(self, data):
+        if self.features == 'MS':
+            minY = self.scaler.min_[-1]  
+            scaleY = self.scaler.scale_[-1]  
+            return (data[-1] - minY) / scaleY
+        else:
+            return self.scaler.inverse_transform(data)
+        
+        # for Standard Scaler
+    """
         if self.features =="MS":
             meanY = self.scaler.mean_[-1]
-            stdY = self.scaler.scale_[-1] # ensure that Y is our last column!
+            stdY = self.scaler.scale_[-1] # ensure that Y is the last column!
 
             return (data[-1] * stdY) + meanY
         else:
             return self.scaler.inverse_transform(data)
-    
+    """
 
 class Dataset_Pred(Dataset):
     def __init__(self, root_path, flag='pred', size=None,

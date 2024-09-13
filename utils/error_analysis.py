@@ -56,6 +56,16 @@ def plot_results(avg_pred, avg_true, columns, loss_type, pred_len, color):
         cax = axes[i].hexbin(pred_flat, true_flat, gridsize=50, cmap=color)
         fig.colorbar(cax, ax=axes[i], location="top")
 
+        # Add 45° line
+        min_val = min(np.min(pred_flat), np.min(true_flat))
+        max_val = max(np.max(pred_flat), np.max(true_flat))
+        axes[i].set_xlim([min_val, max_val])
+        axes[i].set_ylim([min_val, max_val])
+
+        axes[i].plot([min_val, max_val], [min_val, max_val], 'r--', linewidth=1)
+        l_join = col.split('_')[1:3]
+        print(f"{(' ').join(l_join):<20} min value: {min_val:<10.2f} max value: {max_val:<10.2f}")
+
     
     axes[0].set_ylabel("True", fontsize=10)
     plt.suptitle(f"Loss: {loss_type}, Pred_len: {pred_len}", fontsize=14)
