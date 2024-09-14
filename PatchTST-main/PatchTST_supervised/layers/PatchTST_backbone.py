@@ -79,6 +79,10 @@ class PatchTST_backbone(nn.Module):
             z = z.permute(0,2,1)
             z = self.revin_layer(z, 'denorm')
             z = z.permute(0,2,1)
+        
+        # ReLU for non-negative output
+        z = F.relu(z)
+        
         return z
     
     def create_pretrain_head(self, head_nf, vars, dropout):
