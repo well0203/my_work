@@ -1190,3 +1190,147 @@ DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_
 Scaled mse:0.03962956741452217, rmse:0.1990717649459839, mae:0.13433684408664703, rse:0.7052512764930725
 Original data scale mse:35550684.0, rmse:5962.439453125, mae:3720.859130859375, rse:0.29707738757133484
 
+DE_96_24_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+Scaled mse:0.5899971127510071, rmse:0.7681127190589905, mae:0.5133547186851501, rse:0.542522132396698
+Original data scale mse:20480482.0, rmse:4525.53662109375, mae:2909.485107421875, rse:0.22501879930496216
+
+DE_96_24_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+Scaled mse:0.5564568638801575, rmse:0.7459603548049927, mae:0.5017440319061279, rse:0.5268758535385132
+Original data scale mse:18213778.0, rmse:4267.76025390625, mae:2791.681640625, rse:0.21220164000988007
+
+DE_96_96_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+Scaled mse:0.9737030863761902, rmse:0.9867639541625977, mae:0.7140384912490845, rse:0.6988663077354431
+Original data scale mse:35709004.0, rmse:5975.701171875, mae:4075.11083984375, rse:0.2975921034812927
+
+DE_96_96_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+Scaled mse:1.028056025505066, rmse:1.0139310359954834, mae:0.7082775235176086, rse:0.7181071043014526
+Original data scale mse:36943168.0, rmse:6078.08935546875, mae:3976.282958984375, rse:0.3026910722255707
+
+DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+Scaled mse:1.0187760591506958, rmse:1.0093443393707275, mae:0.7099193930625916, rse:0.7151606678962708
+Original data scale mse:36735616.0, rmse:6060.9912109375, mae:3992.347900390625, rse:0.3019877076148987
+
+DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+Scaled mse:1.0489619970321655, rmse:1.0241883993148804, mae:0.7395305037498474, rse:0.7256783246994019
+Original data scale mse:38725652.0, rmse:6222.99365234375, mae:4226.7587890625, rse:0.31005945801734924
+
+DE_96_24_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+Scaled mse:0.5770782232284546, rmse:0.7596566677093506, mae:0.5050341486930847, rse:0.5365495681762695
+Original data scale mse:19703646.0, rmse:4438.87890625, mae:2844.352294921875, rse:0.22071000933647156
+
+DE_96_24_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+Scaled mse:0.5795415043830872, rmse:0.7612762451171875, mae:0.5109877586364746, rse:0.5376935005187988
+Original data scale mse:19322682.0, rmse:4395.75732421875, mae:2863.135009765625, rse:0.2185659110546112
+
+DE_96_96_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+Scaled mse:0.9811739325523376, rmse:0.9905422329902649, mae:0.7066802382469177, rse:0.7015422582626343
+Original data scale mse:35458704.0, rmse:5954.72119140625, mae:4002.440185546875, rse:0.2965472936630249
+
+DE_96_96_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+Scaled mse:1.0183629989624023, rmse:1.0091397762298584, mae:0.7146351933479309, rse:0.7147137522697449
+Original data scale mse:36999436.0, rmse:6082.71630859375, mae:4040.15283203125, rse:0.30292147397994995
+
+DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+Scaled mse:1.0020085573196411, rmse:1.0010037422180176, mae:0.7066735029220581, rse:0.7092510461807251
+Original data scale mse:36233816.0, rmse:6019.453125, mae:3968.357177734375, rse:0.2999180853366852
+
+DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+Scaled mse:1.1629170179367065, rmse:1.0783863067626953, mae:0.7697740793228149, rse:0.7640796303749084
+Original data scale mse:45239896.0, rmse:6726.06103515625, mae:4444.7421875, rse:0.335124671459198
+
+DE_96_24_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+Scaled mse:0.6073285341262817, rmse:0.7793128490447998, mae:0.4909898638725281, rse:0.5504329204559326
+Original data scale mse:20904604.0, rmse:4572.1552734375, mae:2763.469482421875, rse:0.22733676433563232
+
+DE_96_24_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+Scaled mse:0.587742030620575, rmse:0.7666433453559875, mae:0.4943862855434418, rse:0.5414843559265137
+Original data scale mse:19740060.0, rmse:4442.978515625, mae:2748.16845703125, rse:0.2209138572216034
+
+DE_96_96_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+Scaled mse:0.9910956621170044, rmse:0.9955378770828247, mae:0.6898636221885681, rse:0.7050803303718567
+Original data scale mse:35747956.0, rmse:5978.95947265625, mae:3889.906982421875, rse:0.29775434732437134
+
+DE_96_96_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+Scaled mse:1.0453687906265259, rmse:1.022432804107666, mae:0.7025923728942871, rse:0.7241284251213074
+Original data scale mse:38837292.0, rmse:6231.95751953125, mae:4011.778076171875, rse:0.31035372614860535
+
+DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+Scaled mse:1.0631446838378906, rmse:1.0310890674591064, mae:0.7204919457435608, rse:0.7305676341056824
+Original data scale mse:38654340.0, rmse:6217.26123046875, mae:4107.84375, rse:0.30977383255958557
+
+DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+Scaled mse:1.0520626306533813, rmse:1.0257010459899902, mae:0.7103391289710999, rse:0.7267500162124634
+Original data scale mse:38850424.0, rmse:6233.0107421875, mae:4030.03076171875, rse:0.3105585277080536
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+Scaled mse:0.5359982252120972, rmse:0.7321190237998962, mae:0.4715895354747772, rse:0.5170996189117432
+Original data scale mse:17142486.0, rmse:4140.3486328125, mae:2565.93017578125, rse:0.2058664858341217
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+Scaled mse:0.5332819819450378, rmse:0.7302615642547607, mae:0.47118669748306274, rse:0.5157877206802368
+Original data scale mse:17089198.0, rmse:4133.908203125, mae:2575.789794921875, rse:0.20554625988006592
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+Scaled mse:0.8908179998397827, rmse:0.9438315629959106, mae:0.6565252542495728, rse:0.6684598326683044
+Original data scale mse:31524144.0, rmse:5614.63671875, mae:3636.78857421875, rse:0.2796109616756439
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+Scaled mse:0.9084542989730835, rmse:0.9531286954879761, mae:0.6624035835266113, rse:0.6750444769859314
+Original data scale mse:33323196.0, rmse:5772.62451171875, mae:3707.9365234375, rse:0.28747883439064026
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_0  
+Scaled mse:0.9641668200492859, rmse:0.9819199442863464, mae:0.6851017475128174, rse:0.6957293748855591
+Original data scale mse:34983416.0, rmse:5914.67822265625, mae:3824.748291015625, rse:0.29469767212867737
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+Scaled mse:0.9401134252548218, rmse:0.9695944786071777, mae:0.6843422055244446, rse:0.686996340751648
+Original data scale mse:34048708.0, rmse:5835.126953125, mae:3839.20703125, rse:0.29073405265808105
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+Scaled mse:0.541360080242157, rmse:0.7357717752456665, mae:0.4735095798969269, rse:0.5196795463562012
+Original data scale mse:17373884.0, rmse:4168.19921875, mae:2577.19970703125, rse:0.20725126564502716
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+Scaled mse:0.5329764485359192, rmse:0.7300523519515991, mae:0.4693261682987213, rse:0.5156399607658386
+Original data scale mse:17012618.0, rmse:4124.6357421875, mae:2558.65478515625, rse:0.20508518815040588
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+Scaled mse:0.8934080600738525, rmse:0.945202648639679, mae:0.655841588973999, rse:0.6694309115409851
+Original data scale mse:31708800.0, rmse:5631.056640625, mae:3635.224365234375, rse:0.2804286777973175
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+Scaled mse:0.8943842649459839, rmse:0.9457189440727234, mae:0.6557129621505737, rse:0.6697965264320374
+Original data scale mse:32409162.0, rmse:5692.904296875, mae:3661.599609375, rse:0.2835087180137634
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_0  
+Scaled mse:0.9804030060768127, rmse:0.9901530146598816, mae:0.6853036284446716, rse:0.7015628814697266
+Original data scale mse:35351660.0, rmse:5945.72607421875, mae:3821.09619140625, rse:0.29624462127685547
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossRMSE_Exp_1  
+Scaled mse:0.9392515420913696, rmse:0.9691498875617981, mae:0.6835147738456726, rse:0.68668133020401
+Original data scale mse:33994148.0, rmse:5830.4501953125, mae:3832.315185546875, rse:0.29050102829933167
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+Scaled mse:0.542383074760437, rmse:0.7364665865898132, mae:0.4505196213722229, rse:0.5201703310012817
+Original data scale mse:16739734.0, rmse:4091.422119140625, mae:2419.34033203125, rse:0.20343375205993652
+
+DE_512_24_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl24_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+Scaled mse:0.5393510460853577, rmse:0.7344052195549011, mae:0.4493239223957062, rse:0.518714427947998
+Original data scale mse:16871196.0, rmse:4107.4560546875, mae:2425.1201171875, rse:0.20423100888729095
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+Scaled mse:0.8916634321212769, rmse:0.9442793130874634, mae:0.6294323801994324, rse:0.6687769889831543
+Original data scale mse:31304240.0, rmse:5595.01904296875, mae:3466.73583984375, rse:0.2786340117454529
+
+DE_512_96_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl96_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+Scaled mse:0.926580548286438, rmse:0.9625905156135559, mae:0.6355494260787964, rse:0.681745707988739
+Original data scale mse:32648818.0, rmse:5713.91455078125, mae:3491.83544921875, rse:0.28455501794815063
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_0  
+Scaled mse:0.9621178507804871, rmse:0.980876088142395, mae:0.6684539914131165, rse:0.694989800453186
+Original data scale mse:34872248.0, rmse:5905.27294921875, mae:3729.80712890625, rse:0.29422909021377563
+
+DE_512_168_loss_choice_for_DE_PatchTST_custom_ftM_sl512_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMAE_Exp_1  
+Scaled mse:0.9993071556091309, rmse:0.9996535181999207, mae:0.6710531711578369, rse:0.7082943320274353
+Original data scale mse:35697720.0, rmse:5974.7568359375, mae:3709.144287109375, rse:0.29769107699394226
+

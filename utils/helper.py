@@ -1,7 +1,7 @@
 import os
 import re
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
 def split_scale_dataset(data: pd.DataFrame, 
@@ -45,7 +45,7 @@ def split_scale_dataset(data: pd.DataFrame,
           f'{len(test_data)} observations in the test dataset.')
 
     # initialize scaler object
-    scaler = StandardScaler()
+    scaler = MinMaxScaler(feature_range=(0, 5))
 
     # scale data
     train_data_sc = scaler.fit_transform(train_data)
