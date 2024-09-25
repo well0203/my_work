@@ -1,0 +1,46 @@
+Args in experiment:
+Namespace(random_seed=2021, is_training=1, model_id='test_20_10', model='Informer', data='custom', root_path='/vol/fob-vol3/nebenf24/riabchuv/my_work/datasets/', data_path='GB_data_small.csv', features='M', target='OT', freq='h', checkpoints='./checkpoints/', overlapping_windows=True, scaler_type='minmax', seq_len=20, label_len=5, pred_len=10, inverse=True, loss_fnc='MSE', if_relu=False, fc_dropout=0.2, head_dropout=0.0, patch_len=16, stride=8, padding_patch='end', revin=1, affine=0, subtract_last=0, decomposition=0, kernel_size=25, individual=0, embed_type=0, enc_in=5, dec_in=5, c_out=5, d_model=128, n_heads=16, e_layers=2, d_layers=1, d_ff=256, moving_avg=25, factor=5, distil=True, dropout=0.2, embed='timeF', activation='gelu', output_attention=False, do_predict=False, num_workers=10, itr=2, train_epochs=2, batch_size=2, patience=1, learning_rate=0.0001, des='Exp', lradj='type3', pct_start=0.3, use_amp=False, use_gpu=True, gpu=0, use_multi_gpu=False, devices='0,1,2,3', test_flop=False)
+Use GPU: cuda:0
+>>>>>>>start training : test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc5_ebtimeF_dtTrue_lossMSE_Exp_0>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 139
+val 15
+test 39
+-------------------------------------------------------------------------------------
+Epoch: 1
+Cost time: 00h:00m:03.33s
+Steps: 69 | Train Loss: 0.3705449 Vali Loss: 0.2214878 Test Loss: 0.1964520
+Validation loss decreased (inf --> 0.221488).  Saving model ...
+Updating learning rate to 0.0001
+-------------------------------------------------------------------------------------
+Epoch: 2
+Cost time: 00h:00m:02.73s
+Steps: 69 | Train Loss: 0.1949442 Vali Loss: 0.1209780 Test Loss: 0.1208550
+Validation loss decreased (0.221488 --> 0.120978).  Saving model ...
+Updating learning rate to 0.0001
+-------------------------------------------------------------------------------------
+>>>>>>>testing : test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc5_ebtimeF_dtTrue_lossMSE_Exp_0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 39
+Scaled mse:0.12085679173469543, rmse:0.3476446270942688, mae:0.30248457193374634, rse:1.2280175685882568
+Original data scale mse:17802564.0, rmse:4219.30859375, mae:2590.030029296875, rse:0.24699464440345764
+Use GPU: cuda:0
+>>>>>>>start training : test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc5_ebtimeF_dtTrue_lossMSE_Exp_1>>>>>>>>>>>>>>>>>>>>>>>>>>
+train 139
+val 15
+test 39
+-------------------------------------------------------------------------------------
+Epoch: 1
+Cost time: 00h:00m:02.74s
+Steps: 69 | Train Loss: 0.4870316 Vali Loss: 0.4650022 Test Loss: 0.4235587
+Validation loss decreased (inf --> 0.465002).  Saving model ...
+Updating learning rate to 0.0001
+-------------------------------------------------------------------------------------
+Epoch: 2
+Cost time: 00h:00m:02.73s
+Steps: 69 | Train Loss: 0.2120470 Vali Loss: 0.2169857 Test Loss: 0.2482422
+Validation loss decreased (0.465002 --> 0.216986).  Saving model ...
+Updating learning rate to 0.0001
+-------------------------------------------------------------------------------------
+>>>>>>>testing : test_20_10_Informer_custom_ftM_sl20_ll5_pl10_dm128_nh16_el2_dl1_df256_fc5_ebtimeF_dtTrue_lossMSE_Exp_1<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+test 39
+Scaled mse:0.24824897944927216, rmse:0.49824589490890503, mae:0.42648231983184814, rse:1.7600005865097046
+Original data scale mse:18752670.0, rmse:4330.435546875, mae:3144.1865234375, rse:0.2534998953342438

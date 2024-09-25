@@ -193,7 +193,7 @@ class Dataset_ETT_minute(Dataset):
 class Dataset_Custom(Dataset):
     def __init__(self, root_path, flag='train', size=None,
                  overlapping_windows=False, features='S', data_path='ETTh1.csv',
-                 target='OT', scale=True, timeenc=0, freq='h'):
+                 target='OT', scale=True, timeenc=0, freq='h', scaler_type='standard'):
         # size [seq_len, label_len, pred_len]
         if size == None:
             self.seq_len = 24 * 4 * 4
@@ -217,10 +217,17 @@ class Dataset_Custom(Dataset):
 
         self.root_path = root_path
         self.data_path = data_path
+        self.scaler_type = scaler_type
         self.__read_data__()
 
     def __read_data__(self):
-        self.scaler = MinMaxScaler(feature_range=(0, 5))  #StandardScaler()
+        if self.scaler_type == 'standard':
+            self.scaler = StandardScaler()
+        elif self.scaler_type == 'minmax':
+            self.scaler = MinMaxScaler()
+        elif self.scaler_type == 'minmax2':
+            self.scaler = MinMaxScaler(feature_range=(0, 5))
+
         df_raw = pd.read_csv(os.path.join(self.root_path,
                                           self.data_path))
 
@@ -322,22 +329,17 @@ class Dataset_Custom(Dataset):
     # for MinMax Scaler
     def inverse_transform(self, data):
         if self.features == 'MS':
-            minY = self.scaler.min_[-1]  
-            scaleY = self.scaler.scale_[-1]  
-            return (data[-1] - minY) / scaleY
+            if self.scaler_type == 'standard':
+                meanY = self.scaler.mean_[-1]
+                stdY = self.scaler.scale_[-1] # ensure that Y is the last column!
+                return (data[-1] * stdY) + meanY
+            else:
+                minY = self.scaler.min_[-1]  
+                scaleY = self.scaler.scale_[-1]  
+                return (data[-1] - minY) / scaleY
         else:
             return self.scaler.inverse_transform(data)
         
-        # for Standard Scaler
-    """
-        if self.features =="MS":
-            meanY = self.scaler.mean_[-1]
-            stdY = self.scaler.scale_[-1] # ensure that Y is the last column!
-
-            return (data[-1] * stdY) + meanY
-        else:
-            return self.scaler.inverse_transform(data)
-    """
 
 class Dataset_Pred(Dataset):
     def __init__(self, root_path, flag='pred', size=None,

@@ -64,7 +64,14 @@ def plot_results(avg_pred, avg_true, columns, loss_type, pred_len, color):
 
         axes[i].plot([min_val, max_val], [min_val, max_val], 'r--', linewidth=1)
         l_join = col.split('_')[1:3]
-        print(f"{(' ').join(l_join):<20} min value: {min_val:<10.2f} max value: {max_val:<10.2f}")
+                
+        # number of negatives
+        n_neg = np.sum(pred_flat < 0)
+        all_obs = len(pred_flat)
+
+        rel_neg = n_neg / all_obs * 100
+
+        print(f"{(' ').join(l_join):<20} min value: {min_val:<10.2f} max value: {max_val:<10.2f} negative values: {rel_neg:>10.2f}%")
 
     
     axes[0].set_ylabel("True", fontsize=10)
@@ -73,7 +80,7 @@ def plot_results(avg_pred, avg_true, columns, loss_type, pred_len, color):
     plt.show()
 
 
-def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, color):
+def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, color, path):
 
     """
     Plots predictions and true values for a given model and loss type.
@@ -85,12 +92,12 @@ def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, c
         pred_len (int): Length of the prediction.
         ite (int): Number of experiment iterations.
         columns (list): List of column names.
+        color (str): Color of the plot.
+        path (str): Path to save the plot.
 
     Returns:
         None
     """
-
-    path = "./results_loss_unscaled"
     
     full_paths = [
         os.path.join(

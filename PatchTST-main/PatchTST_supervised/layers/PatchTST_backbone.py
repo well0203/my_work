@@ -19,11 +19,13 @@ class PatchTST_backbone(nn.Module):
                  d_ff:int=256, norm:str='BatchNorm', attn_dropout:float=0., dropout:float=0., act:str="gelu", key_padding_mask:bool='auto',
                  padding_var:Optional[int]=None, attn_mask:Optional[Tensor]=None, res_attention:bool=True, pre_norm:bool=False, store_attn:bool=False,
                  pe:str='zeros', learn_pe:bool=True, fc_dropout:float=0., head_dropout = 0, padding_patch = None,
-                 pretrain_head:bool=False, head_type = 'flatten', individual = False, revin = True, affine = True, subtract_last = False,
+                 pretrain_head:bool=False, head_type = 'flatten', individual = False, revin = True, affine = True, subtract_last = False, if_relu = False,
                  verbose:bool=False, **kwargs):
         
         super().__init__()
         
+        self.if_relu = if_relu
+
         # RevIn
         self.revin = revin
         if self.revin: self.revin_layer = RevIN(c_in, affine=affine, subtract_last=subtract_last)
@@ -81,7 +83,8 @@ class PatchTST_backbone(nn.Module):
             z = z.permute(0,2,1)
         
         # ReLU for non-negative output
-        z = F.relu(z)
+        if self.if_relu:
+            z = F.relu(z)
         
         return z
     

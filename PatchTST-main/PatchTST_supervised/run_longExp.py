@@ -28,6 +28,7 @@ if __name__ == '__main__':
                         help='freq for time features encoding, options:[s:secondly, t:minutely, h:hourly, d:daily, b:business days, w:weekly, m:monthly], you can also use more detailed freq like 15min or 3h')
     parser.add_argument('--checkpoints', type=str, default='./checkpoints/', help='location of model checkpoints')
     parser.add_argument('--overlapping_windows', action='store_true', default=False, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
+    parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
 
     # forecasting task
     parser.add_argument('--seq_len', type=int, default=96, help='input sequence length')
@@ -35,6 +36,7 @@ if __name__ == '__main__':
     parser.add_argument('--pred_len', type=int, default=96, help='prediction sequence length')
     parser.add_argument('--inverse', action='store_true', default=False, help='inverse output data')
     parser.add_argument('--loss_fnc', type=str, default="MSE", help='loss function for training, options: [MSE, MAE, RMSE, HuberLoss, SmoothL1, LogCosh, QuantileLoss]')
+    parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
 
     # DLinear
     #parser.add_argument('--individual', action='store_true', default=False, help='DLinear: a linear layer for each variate(channel) individually')

@@ -14,6 +14,7 @@ def data_provider(args, flag):
     Data = data_dict[args.data]
     timeenc = 0 if args.embed != 'timeF' else 1
     overlapping_windows = args.overlapping_windows
+    scaler_type = args.scaler_type
 
     if flag == 'test':
         shuffle_flag = False
@@ -41,7 +42,8 @@ def data_provider(args, flag):
         target=args.target,
         timeenc=timeenc,
         freq=freq, 
-        overlapping_windows=overlapping_windows
+        overlapping_windows=overlapping_windows,
+        scaler_type=scaler_type
     )
     print(flag, len(data_set))
     data_loader = DataLoader(

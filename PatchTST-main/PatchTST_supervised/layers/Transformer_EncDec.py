@@ -113,11 +113,12 @@ class DecoderLayer(nn.Module):
 
 
 class Decoder(nn.Module):
-    def __init__(self, layers, norm_layer=None, projection=None):
+    def __init__(self, layers, norm_layer=None, projection=None, if_relu=False):
         super(Decoder, self).__init__()
         self.layers = nn.ModuleList(layers)
         self.norm = norm_layer
         self.projection = projection
+        self.if_relu = if_relu
         self.final_activation = nn.ReLU()
 
     def forward(self, x, cross, x_mask=None, cross_mask=None):
@@ -130,6 +131,7 @@ class Decoder(nn.Module):
         if self.projection is not None:
             x = self.projection(x)
         
-        x = self.final_activation(x)
+        if self.if_relu:
+            x = self.final_activation(x)
         
         return x

@@ -83,7 +83,8 @@ class Model(nn.Module):
                 for l in range(configs.d_layers)
             ],
             norm_layer=torch.nn.LayerNorm(configs.d_model),
-            projection=nn.Linear(configs.d_model, configs.c_out, bias=True)
+            projection=nn.Linear(configs.d_model, configs.c_out, bias=True),
+            if_relu=configs.if_relu
         )
 
     def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec,
