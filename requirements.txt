@@ -23,8 +23,4 @@ sentencepiece==0.2.0
 #torchvision==0.17.2 
 
 # Not used for my thesis
-#tvm==1.0.0 -PyraFormer
-#fbm==0.3.0 - Pyraformer
-#pynvml==11.5.0 - Pyraformer
-#reformer_pytorch==1.4.4
 #sympy==1.11.1 - FEDFormer
