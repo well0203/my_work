@@ -2,11 +2,12 @@ import os
 import re
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-
+    
 
 def split_scale_dataset(data: pd.DataFrame, 
                         train_split: float, 
-                        test_split: float
+                        test_split: float,
+                        scaler_type: str = 'standard'
                         ) -> tuple[pd.DataFrame, 
                                    pd.DataFrame, 
                                    pd.DataFrame]:
@@ -17,6 +18,9 @@ def split_scale_dataset(data: pd.DataFrame,
         data (pd.DataFrame): Dataframe with time series data.
         train_split, test_split (float): Proportion of data in train and 
                                          test datasets.
+        scaler_type (str): Scaler to be used. Possible values: 'standard' 
+                           or 'minmax', or 'minmax2'. The latter uses a range 
+                           of 0 to 5 (default: 'standard').
 
     Returns: 
         train_data_sc, vali_data_sc, test_data_sc (pd.DataFrame): Scaled datasets
@@ -45,7 +49,14 @@ def split_scale_dataset(data: pd.DataFrame,
           f'{len(test_data)} observations in the test dataset.')
 
     # initialize scaler object
-    scaler = MinMaxScaler(feature_range=(0, 5))
+    if scaler_type == 'standard':
+        scaler = StandardScaler()
+    elif scaler_type == 'minmax':
+        scaler = MinMaxScaler()
+    elif scaler_type == 'minmax2':
+        scaler = MinMaxScaler(feature_range=(0, 5))
+    else:
+        raise ValueError('Invalid scaler type')
 
     # scale data
     train_data_sc = scaler.fit_transform(train_data)
@@ -80,31 +91,6 @@ def add_exog_vars(train_data: pd.DataFrame,
         dataset['HourOfDay'] = dataset.index.hour
 
     return train_data, vali_data, test_data
-
-
-"""
-def extract_metrics_from_output(output):
-
-    metric_names = ['MSE', 'RMSE', 'MAE', 'RSE']
-    metrics = {metric: None for metric in metric_names}
-
-    # Regex patterns
-    patterns = {metric: re.compile(fr"{metric.lower()}:\s*([\d.]+)", re.IGNORECASE) for metric in metric_names}
-
-    # Iterate each line to find values
-    for line in output:
-        for metric, pattern in patterns.items():
-            if metrics[metric] is None:  # If the metric is not yet found
-                match = pattern.search(line)
-                if match:
-                    metrics[metric] = float(match.group(1))
-
-        # Stop if all metrics have been found
-        if all(value is not None for value in metrics.values()):
-            break
-
-    return tuple(metrics[metric] for metric in metric_names)
-"""
 
 
 def extract_metrics_from_output(output, 
