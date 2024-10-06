@@ -181,13 +181,15 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         # Then do a reshape to [B x N x (M*D_model)]
         """
         if channel_mixing:
-            u = torch.reshape(x.permute(0,2,1,3), (x.shape[0], x.shape[1], x.shape[2]*x.shape[3]))
+            x = x.permute(0,2,1,3)                                                # x: [bs x patch_num x nvars x d_model]
+            u = torch.reshape(x, (x.shape[0], x.shape[1], x.shape[2]*x.shape[3]))  # u: [bs x patch_num x (nvars*d_model)]
         else:
             u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
         
         u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
         """
         u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
+        u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
 
         # Encoder
         z = self.encoder(u)                                                      # z: [bs * nvars x patch_num x d_model]
