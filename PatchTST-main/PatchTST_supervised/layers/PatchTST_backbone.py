@@ -203,7 +203,7 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         """
         z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
         z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
-            
+        return z    
             
     
 # Cell
