@@ -152,6 +152,12 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
 
         # Positional encoding
         self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
+        """
+        if channel_mixing:
+            self.W_pos = positional_encoding(pe, learn_pe, q_len, c_in*d_model)
+        else:
+            self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
+        """
 
         # Residual dropout
         self.dropout = nn.Dropout(dropout)
@@ -160,23 +166,43 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         self.encoder = TSTEncoder(q_len, d_model, n_heads, d_k=d_k, d_v=d_v, d_ff=d_ff, norm=norm, attn_dropout=attn_dropout, dropout=dropout,
                                    pre_norm=pre_norm, activation=act, res_attention=res_attention, n_layers=n_layers, store_attn=store_attn)
 
-        
+    
     def forward(self, x) -> Tensor:                                              # x: [bs x nvars x patch_len x patch_num]
         
         n_vars = x.shape[1]
         # Input encoding
         x = x.permute(0,1,3,2)                                                   # x: [bs x nvars x patch_num x patch_len]
-        x = self.W_P(x)                                                          # x: [bs x nvars x patch_num x d_model]
+        x = self.W_P(x)                                                          # x: [bs x nvars x patch_num x d_model] aka [B x M x N x D_model]
 
-        u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
+        # CHANNEL MIXING
+        # We have [B x M x N x D_model] (D_model is projected P(patch_len))
+        # Now we need M*P or D_model, so we need to swap M and N to N, M to get:
+        # [B x N x M x D_model] 
+        # Then do a reshape to [B x N x (M*D_model)]
+        """
+        if channel_mixing:
+            u = torch.reshape(x.permute(0,2,1,3), (x.shape[0], x.shape[1], x.shape[2]*x.shape[3]))
+        else:
+            u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
+        
         u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
+        """
+        u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
 
         # Encoder
         z = self.encoder(u)                                                      # z: [bs * nvars x patch_num x d_model]
-        z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
-        z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
+        """                                                                         # OR: z: [B * N x (M*D_model)]
+        if channel_mixing:
+            z = torch.reshape(z, (x.shape[0], x.shape[1], -1, n_vars))     # z: [bs x patch_num x d_model x n_vars]
+            z = z.permute(0,3,2,1)                                         # z: [bs x n_vars x d_model x patch_num]
+        else:
+            z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
+            z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
         
         return z    
+        """
+        z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
+        z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
             
             
     
