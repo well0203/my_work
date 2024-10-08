@@ -1,13 +1,14 @@
 import os
 import re
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
     
 
 def split_scale_dataset(data: pd.DataFrame, 
                         train_split: float, 
                         test_split: float,
-                        scaler_type: str = 'standard'
+                        scaler_type: str = 'standard',
+                        inverse_transform: bool = False
                         ) -> tuple[pd.DataFrame, 
                                    pd.DataFrame, 
                                    pd.DataFrame]:
@@ -21,6 +22,7 @@ def split_scale_dataset(data: pd.DataFrame,
         scaler_type (str): Scaler to be used. Possible values: 'standard' 
                            or 'minmax', or 'minmax2'. The latter uses a range 
                            of 0 to 5 (default: 'standard').
+        inverse_transform (bool): If True, inverse transform the data (default: False).
 
     Returns: 
         train_data_sc, vali_data_sc, test_data_sc (pd.DataFrame): Scaled datasets
@@ -55,6 +57,8 @@ def split_scale_dataset(data: pd.DataFrame,
         scaler = MinMaxScaler()
     elif scaler_type == 'minmax2':
         scaler = MinMaxScaler(feature_range=(0, 5))
+    elif scaler_type == 'robust':
+        scaler = RobustScaler()
     else:
         raise ValueError('Invalid scaler type')
 
@@ -62,6 +66,11 @@ def split_scale_dataset(data: pd.DataFrame,
     train_data_sc = scaler.fit_transform(train_data)
     vali_data_sc = scaler.transform(vali_data)
     test_data_sc = scaler.transform(test_data)
+
+    if inverse_transform:
+        train_data_sc = scaler.inverse_transform(train_data_sc)
+        vali_data_sc = scaler.inverse_transform(vali_data_sc)
+        test_data_sc = scaler.inverse_transform(test_data_sc)
 
     # convert scaled data back to pandas DataFrames
     train_data_sc = pd.DataFrame(train_data_sc, columns=train_data.columns, index=train_data.index)
