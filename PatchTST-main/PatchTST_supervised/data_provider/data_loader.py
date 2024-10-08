@@ -5,7 +5,7 @@ import os
 import torch
 import math
 from torch.utils.data import Dataset, DataLoader
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
 from utils.timefeatures import time_features
 import warnings
 
@@ -48,6 +48,8 @@ class Dataset_Custom(Dataset):
             self.scaler = MinMaxScaler()
         elif self.scaler_type == 'minmax2':
             self.scaler = MinMaxScaler(feature_range=(0, 5))
+        elif self.scaler_type == 'robust':
+            self.scaler = RobustScaler()
 
         df_raw = pd.read_csv(os.path.join(self.root_path,
                                           self.data_path))
@@ -154,10 +156,14 @@ class Dataset_Custom(Dataset):
                 meanY = self.scaler.mean_[-1]
                 stdY = self.scaler.scale_[-1] # ensure that Y is the last column!
                 return (data[-1] * stdY) + meanY
-            else:
+            elif self.scaler_type == 'minmax' or self.scaler_type == 'minmax2':
                 minY = self.scaler.min_[-1]  
                 scaleY = self.scaler.scale_[-1]  
                 return (data[-1] - minY) / scaleY
+            elif self.scaler_type == 'robust':
+                medianY = self.scaler.center_[-1]  # The median of Y (last column)
+                IQR_Y = self.scaler.scale_[-1]  # The IQR of Y (last column)
+                return (data * IQR_Y) + medianY
         else:
             return self.scaler.inverse_transform(data)
         
