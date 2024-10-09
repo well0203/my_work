@@ -80,7 +80,7 @@ def plot_results(avg_pred, avg_true, columns, loss_type, pred_len, color):
     plt.show()
 
 
-def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, color, path):
+def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, color, path, dataset="DE"):
 
     """
     Plots predictions and true values for a given model and loss type.
@@ -90,10 +90,11 @@ def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, c
         loss_type (str): Type of loss.
         seq_len (int): Length of the sequence.
         pred_len (int): Length of the prediction.
-        ite (int): Number of experiment iterations.
+        itr (int): Number of experiment iterations.
         columns (list): List of column names.
         color (str): Color of the plot.
         path (str): Path to save the plot.
+        dataset (str): Name of the country dataset (default: "DE").
 
     Returns:
         None
@@ -102,7 +103,7 @@ def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, c
     full_paths = [
         os.path.join(
             path, 
-            f"DE_{seq_len}_{pred_len}_loss_choice_for_DE_{model_name}_custom_ftM_sl{seq_len}_ll5_pl{pred_len}_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_loss{loss_type}_Exp_{i}"
+            f"{dataset}_{seq_len}_{pred_len}_loss_choice_for_{dataset}_{model_name}_custom_ftM_sl{seq_len}_ll5_pl{pred_len}_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_loss{loss_type}_Exp_{i}"
         ) for i in range(itr)
     ]
     
