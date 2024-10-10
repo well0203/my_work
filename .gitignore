@@ -12,3 +12,5 @@ checkpoints/
 test_results/
 saved_models/
 temp/
+results_loss_scaled/
+results_loss_unscaled/
