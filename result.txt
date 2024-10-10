@@ -1598,3 +1598,7 @@ DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl
 Scaled mse:0.9257046580314636, rmse:0.9621354937553406, mae:0.702347993850708, rse:0.7621816992759705
 Original data scale mse:41069684.0, rmse:6408.5634765625, mae:4329.11572265625, rse:0.319305419921875
 
+DE_96_168_loss_choice_for_DE_Informer_custom_ftM_sl96_ll5_pl168_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_lossMSE_Exp_1  
+Scaled mse:0.8604168891906738, rmse:0.9275866150856018, mae:0.6841332912445068, rse:0.7348127961158752
+Original data scale mse:36786048.0, rmse:6065.150390625, mae:4182.86328125, rse:0.3021949231624603
+
