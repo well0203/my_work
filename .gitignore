@@ -14,3 +14,22 @@ saved_models/
 temp/
 results_loss_scaled/
 results_loss_unscaled/
+logs/
+results.txt
+minmax/
+standard_unscaled/
+minmax_IT/
+standard_unscaled_IT/
+
+# Notebooks
+0a.Data_selection.ipynb
+2.Base_models copy.ipynb
+2.Base_models.ipynb
+Loss_function_choice Standard_Scaler.ipynb
+Loss_function_choice_Comparison copy.ipynb
+Loss_function_choice_MinMax_ReLu copy.ipynb
+7a.Loss_function_choice.ipynb
+7a.Loss_function_choice_IT.ipynb
+7a.Loss_function_choice_IT copy.ipynb
+7a.Loss_function_choice copy.ipynb
+7a.Loss_function_choice copy 2.ipynb
