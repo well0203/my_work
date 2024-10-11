@@ -52,12 +52,8 @@ class Exp_Main(Exp_Basic):
             criterion = nn.MSELoss()
         elif self.args.loss_fnc == 'MAE':
             criterion = nn.L1Loss()
-        elif self.args.loss_fnc == 'SmoothL1':
-            criterion = nn.SmoothL1Loss() # neds additional parameter
         elif self.args.loss_fnc == 'HuberLoss':
             criterion = nn.HuberLoss() # neds additional parameter
-        elif self.args.loss_fnc == 'QuantileLoss':
-            criterion = nn.QuantileLoss() # neds additional parameter
         elif self.args.loss_fnc == 'LogCosh':
             criterion = LogCoshLoss()
         else:

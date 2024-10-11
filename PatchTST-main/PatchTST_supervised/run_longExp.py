@@ -35,8 +35,11 @@ if __name__ == '__main__':
     parser.add_argument('--label_len', type=int, default=48, help='start token length')
     parser.add_argument('--pred_len', type=int, default=96, help='prediction sequence length')
     parser.add_argument('--inverse', action='store_true', default=False, help='inverse output data')
-    parser.add_argument('--loss_fnc', type=str, default="MSE", help='loss function for training, options: [MSE, MAE, RMSE, HuberLoss, SmoothL1, LogCosh, QuantileLoss]')
+    parser.add_argument('--loss_fnc', type=str, default="MSE", help='loss function for training, options: [MSE, MAE, RMSE, HuberLoss, LogCosh]')
     parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
+    
+    # ablation add
+    parser.add_argument('--channel_mixing', type=int, default=0, help='allow channel-mixing')
 
     # DLinear
     #parser.add_argument('--individual', action='store_true', default=False, help='DLinear: a linear layer for each variate(channel) individually')

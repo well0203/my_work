@@ -20,11 +20,12 @@ class PatchTST_backbone(nn.Module):
                  padding_var:Optional[int]=None, attn_mask:Optional[Tensor]=None, res_attention:bool=True, pre_norm:bool=False, store_attn:bool=False,
                  pe:str='zeros', learn_pe:bool=True, fc_dropout:float=0., head_dropout = 0, padding_patch = None,
                  pretrain_head:bool=False, head_type = 'flatten', individual = False, revin = True, affine = True, subtract_last = False, if_relu = False,
-                 verbose:bool=False, **kwargs):
+                 verbose:bool=False, channel_mixing=0, **kwargs):
         
         super().__init__()
         
         self.if_relu = if_relu
+        self.channel_mixing=channel_mixing
 
         # RevIn
         self.revin = revin
@@ -44,7 +45,7 @@ class PatchTST_backbone(nn.Module):
                                 n_layers=n_layers, d_model=d_model, n_heads=n_heads, d_k=d_k, d_v=d_v, d_ff=d_ff,
                                 attn_dropout=attn_dropout, dropout=dropout, act=act, key_padding_mask=key_padding_mask, padding_var=padding_var,
                                 attn_mask=attn_mask, res_attention=res_attention, pre_norm=pre_norm, store_attn=store_attn,
-                                pe=pe, learn_pe=learn_pe, verbose=verbose, **kwargs)
+                                pe=pe, learn_pe=learn_pe, channel_mixing=channel_mixing, verbose=verbose, **kwargs)
 
         # Head
         self.head_nf = d_model * patch_num
@@ -151,13 +152,12 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         self.seq_len = q_len
 
         # Positional encoding
-        self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
-        """
-        if channel_mixing:
+        # self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
+        
+        if self.channel_mixing:
             self.W_pos = positional_encoding(pe, learn_pe, q_len, c_in*d_model)
         else:
             self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
-        """
 
         # Residual dropout
         self.dropout = nn.Dropout(dropout)
@@ -179,33 +179,33 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         # Now we need M*P or D_model, so we need to swap M and N to N, M to get:
         # [B x N x M x D_model] 
         # Then do a reshape to [B x N x (M*D_model)]
-        """
-        if channel_mixing:
+        
+        if self.channel_mixing:
             x = x.permute(0,2,1,3)                                                # x: [bs x patch_num x nvars x d_model]
             u = torch.reshape(x, (x.shape[0], x.shape[1], x.shape[2]*x.shape[3]))  # u: [bs x patch_num x (nvars*d_model)]
         else:
             u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
         
         u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
-        """
-        u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
-        u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
+        
+        # u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
+        # u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
 
         # Encoder
         z = self.encoder(u)                                                      # z: [bs * nvars x patch_num x d_model]
-        """                                                                         # OR: z: [B * N x (M*D_model)]
-        if channel_mixing:
-            z = torch.reshape(z, (x.shape[0], x.shape[1], -1, n_vars))     # z: [bs x patch_num x d_model x n_vars]
-            z = z.permute(0,3,2,1)                                         # z: [bs x n_vars x d_model x patch_num]
+                                                                                 # OR: z: [B * N x (M*D_model)]
+        if self.channel_mixing:
+            z = torch.reshape(z, (z.shape[0], z.shape[1], n_vars, -1))     # z: [bs x patch_num x n_vars x d_model]
+            z = z.permute(0,2,3,1)                                         # z: [bs x n_vars x d_model x patch_num]
         else:
             z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
             z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
         
         return z    
-        """
-        z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
-        z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
-        return z    
+        
+        # z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
+        # z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
+        # return z    
             
     
 # Cell
