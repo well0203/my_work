@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import torch.nn as nn
 import matplotlib.pyplot as plt
 import time
 
@@ -114,3 +115,13 @@ def test_params_flop(model,x_shape):
         # print('Params:' + params)
         print('{:<30}  {:<8}'.format('Computational complexity: ', macs))
         print('{:<30}  {:<8}'.format('Number of parameters: ', params))
+
+import torch.nn as nn
+
+class LogCoshLoss(nn.Module):
+    def __init__(self):
+        super(LogCoshLoss, self).__init__()
+
+    def forward(self, y_pred, y_true):
+        loss = torch.log(torch.cosh(y_pred - y_true))
+        return torch.mean(loss)
