@@ -41,11 +41,12 @@ class PatchTST(nn.Module):
                                 shared_embedding=shared_embedding, d_ff=d_ff,
                                 attn_dropout=attn_dropout, dropout=dropout, act=act, 
                                 res_attention=res_attention, pre_norm=pre_norm, store_attn=store_attn,
-                                pe=pe, learn_pe=learn_pe, verbose=verbose, **kwargs)
+                                pe=pe, learn_pe=learn_pe, verbose=verbose, channel_mixing=0, **kwargs)
 
         # Head
         self.n_vars = c_in
         self.head_type = head_type
+        self.channel_mixing = channel_mixing
 
         if head_type == "pretrain":
             self.head = PretrainHead(d_model, patch_len, head_dropout) # custom head passed as a partial func with all its kwargs
@@ -176,14 +177,16 @@ class PatchTSTEncoder(nn.Module):
                  n_layers=3, d_model=128, n_heads=16, shared_embedding=True,
                  d_ff=256, norm='BatchNorm', attn_dropout=0., dropout=0., act="gelu", store_attn=False,
                  res_attention=True, pre_norm=False,
-                 pe='zeros', learn_pe=True, verbose=False, **kwargs):
+                 pe='zeros', learn_pe=True, verbose=False, channel_mixing=0, **kwargs):
 
         super().__init__()
         self.n_vars = c_in
         self.num_patch = num_patch
         self.patch_len = patch_len
         self.d_model = d_model
-        self.shared_embedding = shared_embedding        
+        self.shared_embedding = shared_embedding      
+        self.channel_mixing=channel_mixing
+  
 
         # Input encoding: projection of feature vectors onto a d-dim vector space
         if not shared_embedding: 
@@ -193,7 +196,12 @@ class PatchTSTEncoder(nn.Module):
             self.W_P = nn.Linear(patch_len, d_model)      
 
         # Positional encoding
-        self.W_pos = positional_encoding(pe, learn_pe, num_patch, d_model)
+        # self.W_pos = positional_encoding(pe, learn_pe, num_patch, d_model)
+
+        if self.channel_mixing:
+            self.W_pos = positional_encoding(pe, learn_pe, num_patch, c_in*d_model)
+        else:
+            self.W_pos = positional_encoding(pe, learn_pe, num_patch, d_model)
 
         # Residual dropout
         self.dropout = nn.Dropout(dropout)
