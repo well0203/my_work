@@ -145,7 +145,9 @@ def pretrain_func(lr=args.lr):
     cbs += [
          PatchMaskCB(patch_len=args.patch_len, stride=args.stride, mask_ratio=args.mask_ratio),
          SaveModelCB(monitor='valid_loss', fname=args.save_pretrained_model,                       
-                        path=args.save_path)
+                        path=args.save_path),
+         EarlyStoppingCB(monitor='valid_loss', patient=5)  # Add early stopping here
+
         ]
     # define learner
     learn = Learner(dls, model, 
@@ -155,7 +157,10 @@ def pretrain_func(lr=args.lr):
                         #metrics=[mse]
                         )                        
     # fit the data to the model
-    learn.fit_one_cycle(n_epochs=args.n_epochs_pretrain, lr_max=lr)
+    try:
+        learn.fit_one_cycle(n_epochs=args.n_epochs_pretrain, lr_max=lr)
+    except KeyboardInterrupt:
+        print("Training stopped early.")
 
     train_loss = learn.recorder['train_loss']
     valid_loss = learn.recorder['valid_loss']
