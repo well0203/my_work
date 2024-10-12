@@ -20,8 +20,10 @@ import argparse
 
 parser = argparse.ArgumentParser()
 # Pretraining and Finetuning
+parser.add_argument('--linear_prob_finetune', type=int, default=0, help='if set to 1, perform linear probing followed by fine-tuning')
 parser.add_argument('--is_finetune', type=int, default=0, help='do finetuning or not')
 parser.add_argument('--is_linear_probe', type=int, default=0, help='if linear_probe: only finetune the last layer')
+parser.add_argument('--n_epochs_linear_probe', type=int, default=10, help='only for linear probe+fine-tuning, otherwise use n_epochs_finetune')
 # Dataset and dataloader
 parser.add_argument('--dset_finetune', type=str, default='etth1', help='dataset name')
 parser.add_argument('--context_points', type=int, default=512, help='sequence length')
@@ -37,7 +39,7 @@ parser.add_argument('--stride', type=int, default=12, help='stride between patch
 parser.add_argument('--revin', type=int, default=1, help='reversible instance normalization')
 
 # Overlapping windows during testing, ReLU, Scaler type to use
-parser.add_argument('--overlapping_windows', action='store_true', default=False, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
+parser.add_argument('--overlapping_windows', action='store_true', default=True, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
 parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard, robust]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
 parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
 
@@ -95,7 +97,10 @@ def get_model(c_in, args, head_type, weight_path=None):
                 head_dropout=args.head_dropout,
                 act='relu',
                 head_type=head_type,
-                res_attention=False
+                res_attention=False,
+                scaler_type=args.scaler_type,
+                overlapping_windows=args.overlapping_windows,
+                if_relu=args.if_relu
                 )    
     if weight_path: model = transfer_weights(weight_path, model)
     # print out the model size
@@ -112,7 +117,8 @@ def find_lr(head_type):
     # weight_path = args.save_path + args.pretrained_model + '.pth'
     model = transfer_weights(args.pretrained_model, model)
     # get loss
-    loss_func = torch.nn.MSELoss(reduction='mean')
+    # loss_func = torch.nn.MSELoss(reduction='mean')
+    loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
     cbs = [RevInCB(dls.vars)] if args.revin else []
     cbs += [PatchCB(patch_len=args.patch_len, stride=args.stride)]
@@ -158,7 +164,8 @@ def finetune_func(lr=args.lr):
                         loss_func, 
                         lr=lr, 
                         cbs=cbs,
-                        metrics=[mse]
+                        #metrics=[mse]
+                        metrics=[mae]
                         )                            
     # fit the data to the model
     #learn.fit_one_cycle(n_epochs=args.n_epochs_finetune, lr_max=lr)
@@ -176,7 +183,8 @@ def linear_probe_func(lr=args.lr):
     # weight_path = args.save_path + args.pretrained_model + '.pth'
     model = transfer_weights(args.pretrained_model, model)
     # get loss
-    loss_func = torch.nn.MSELoss(reduction='mean')    
+    #loss_func = torch.nn.MSELoss(reduction='mean')    
+    loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
     cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
     cbs += [
@@ -188,11 +196,52 @@ def linear_probe_func(lr=args.lr):
                         loss_func, 
                         lr=lr, 
                         cbs=cbs,
-                        metrics=[mse]
+                        #metrics=[mse]
+                        metrics=[mae]
                         )                            
     # fit the data to the model
     learn.linear_probe(n_epochs=args.n_epochs_finetune, base_lr=lr)
     save_recorders(learn)
+
+
+def linear_prob_finetune_func(lr=args.lr):
+    print('Performing linear probing followed by end-to-end fine-tuning')
+    
+    # Get dataloader
+    dls = get_dls(args)
+    
+    # Get model 
+    model = get_model(dls.vars, args, head_type='prediction')
+    
+    # Transfer weights from the pretrained model
+    model = transfer_weights(args.pretrained_model, model)
+    
+    # Loss function
+    loss_func = torch.nn.L1Loss(reduction='mean')
+    
+    # Get callbacks
+    cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
+    cbs += [
+         PatchCB(patch_len=args.patch_len, stride=args.stride),
+         SaveModelCB(monitor='valid_loss', fname=args.save_finetuned_model, path=args.save_path)
+        ]
+    
+    # **Step 1: Linear Probing for 10 epochs**
+    print('Starting linear probing for 10 epochs')
+    learn = Learner(dls, model, 
+                    loss_func, 
+                    lr=lr, 
+                    cbs=cbs,
+                    #metrics=[mae]
+                    )                            
+    learn.linear_probe(n_epochs=args.n_epochs_linear_probe, base_lr=lr)  # Adjust epochs for linear probing
+    save_recorders(learn)  # Save losses after linear probing
+
+    # **Step 2: Full Fine-tuning for 20 epochs**
+    print('Starting full fine-tuning for 20 epochs')
+    learn.fine_tune(n_epochs=args.n_epochs_finetune, base_lr=lr, freeze_epochs=10)  # Full fine-tuning
+    save_recorders(learn)
+
 
 
 def test_func(weight_path):
@@ -203,10 +252,10 @@ def test_func(weight_path):
     cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
     cbs += [PatchCB(patch_len=args.patch_len, stride=args.stride)]
     learn = Learner(dls, model,cbs=cbs)
-    out  = learn.test(dls.test, weight_path=weight_path+'.pth', scores=[mse,mae])         # out: a list of [pred, targ, score]
-    print('score:', out[2])
+    out  = learn.test(dls.test, weight_path=weight_path+'.pth', scores=[mse, rmse, mae])         # out: a list of [pred, targ, score]
+    print('scores:', 'mse:', out[2][0], 'rmse:', out[2][1], 'mae:', out[2][2])
     # save results
-    pd.DataFrame(np.array(out[2]).reshape(1,-1), columns=['mse','mae']).to_csv(args.save_path + args.save_finetuned_model + '_acc.csv', float_format='%.6f', index=False)
+    pd.DataFrame(np.array(out[2]).reshape(1,-1), columns=['mse', 'rmse', 'mae']).to_csv(args.save_path + args.save_finetuned_model + '_acc.csv', float_format='%.6f', index=False)
     return out
 
 
@@ -231,6 +280,16 @@ if __name__ == '__main__':
         print('finetune completed')
         # Test
         out = test_func(args.save_path+args.save_finetuned_model)        
+        print('----------- Complete! -----------')
+    
+    elif args.linear_prob_finetune:
+        args.dset = args.dset_finetune
+        # Perform linear probing followed by fine-tuning
+        suggested_lr = find_lr(head_type='prediction')        
+        linear_prob_finetune_func(suggested_lr)        
+        print('Linear probing and finetune completed')
+        # Test
+        out = test_func(args.save_path + args.save_finetuned_model)         
         print('----------- Complete! -----------')
 
     else:

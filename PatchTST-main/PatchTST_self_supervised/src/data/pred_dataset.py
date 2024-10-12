@@ -19,7 +19,7 @@ class Dataset_Custom(Dataset):
                  target='OT', scale=True, timeenc=0, freq='h',
                  time_col_name='date', use_time_features=False, 
                  train_split=0.7, test_split=0.15, scaler_type='standard',
-                 overlapping_windows=False
+                 overlapping_windows=True
                  ):
         # size [seq_len, label_len, pred_len]
         # info
@@ -124,40 +124,41 @@ class Dataset_Custom(Dataset):
         self.data_y = data[border1:border2]
         self.data_stamp = data_stamp
 
-        def __getitem__(self, index):
+    def __getitem__(self, index):
+    
+        if self.overlapping_windows is False and self.set_type == 2: 
+
+            # Calculate indices for non-overlapping windows
+    
+            s_begin = index * self.pred_len # 0*10, 1*10
+            s_end = s_begin + self.seq_len #0+10, 10+10
+            r_begin = s_end - self.label_len # 10-5, 20-5
+            r_end = r_begin + self.label_len + self.pred_len # 5+5+10, 15+5+10
+
+        else:
+            # Calculate indices for overlapping windows as before
+            s_begin = index # 0
+            s_end = s_begin + self.seq_len # 0+10
+            r_begin = s_end - self.label_len # 10-5
+            r_end = r_begin + self.label_len + self.pred_len # 5+10+1
         
-            if self.overlapping_windows is False and self.set_type == 2: 
+        seq_x = self.data_x[s_begin:s_end]
+        seq_y = self.data_y[r_begin:r_end]
+        seq_x_mark = self.data_stamp[s_begin:s_end]
+        seq_y_mark = self.data_stamp[r_begin:r_end]
 
-                # Calculate indices for non-overlapping windows
+        if self.use_time_features: return _torch(seq_x, seq_y, seq_x_mark, seq_y_mark)
+        else: return _torch(seq_x, seq_y)
+
+    def __len__(self):
+
+        if self.overlapping_windows is False and self.set_type == 2:
+            # Return the number of non-overlapping windows for testing
+            return math.floor((len(self.data_x) - self.seq_len) // self.pred_len) # 30 - 10 = 20, 20//10 = 2
         
-                s_begin = index * self.pred_len # 0*10, 1*10
-                s_end = s_begin + self.seq_len #0+10, 10+10
-                r_begin = s_end - self.label_len # 10-5, 20-5
-                r_end = r_begin + self.label_len + self.pred_len # 5+5+10, 15+5+10
-
-            else:
-                # Calculate indices for overlapping windows as before
-                s_begin = index # 0
-                s_end = s_begin + self.seq_len # 0+10
-                r_begin = s_end - self.label_len # 10-5
-                r_end = r_begin + self.label_len + self.pred_len # 5+10+1
-            
-            seq_x = self.data_x[s_begin:s_end]
-            seq_y = self.data_y[r_begin:r_end]
-            seq_x_mark = self.data_stamp[s_begin:s_end]
-            seq_y_mark = self.data_stamp[r_begin:r_end]
-
-            return seq_x, seq_y, seq_x_mark, seq_y_mark
-
-        def __len__(self):
-
-            if self.overlapping_windows is False and self.set_type == 2:
-                # Return the number of non-overlapping windows for testing
-                return math.floor((len(self.data_x) - self.seq_len) // self.pred_len) # 30 - 10 = 20, 20//10 = 2
-            
-            else:
-                # Return the number of overlapping windows for training
-                return len(self.data_x) - self.seq_len - self.pred_len + 1
+        else:
+            # Return the number of overlapping windows for training
+            return len(self.data_x) - self.seq_len - self.pred_len + 1
             
     # for MinMax Scaler
     def inverse_transform(self, data):

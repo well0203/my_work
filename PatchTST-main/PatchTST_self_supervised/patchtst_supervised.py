@@ -36,7 +36,7 @@ parser.add_argument('--stride', type=int, default=16, help='stride between patch
 parser.add_argument('--revin', type=int, default=1, help='reversible instance normalization')
 
 # Overlapping windows during testing, ReLU, Scaler type to use
-parser.add_argument('--overlapping_windows', action='store_true', default=False, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
+parser.add_argument('--overlapping_windows', action='store_true', default=True, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
 parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard, robust]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
 parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
 
@@ -87,7 +87,10 @@ def get_model(c_in, args):
                 head_dropout=args.head_dropout,
                 act='relu',
                 head_type='prediction',
-                res_attention=False
+                res_attention=False,
+                scaler_type=args.scaler_type,
+                overlapping_windows=args.overlapping_windows,
+                if_relu=args.if_relu
                 )    
     return model
 

@@ -22,6 +22,8 @@ class DataLoaders:
         self.batch_size = batch_size
         #self.overlapping_windows = overlapping_windows
         #self.scaler_type = scaler_type
+
+        print('scaler_type:', dataset_kwargs['scaler_type'], 'overlapping_windows:', dataset_kwargs['overlapping_windows'])
         
         if "split" in dataset_kwargs.keys():
             del dataset_kwargs["split"]

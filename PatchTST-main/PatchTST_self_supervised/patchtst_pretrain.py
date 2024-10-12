@@ -18,6 +18,15 @@ from datautils import *
 
 import argparse
 
+
+# Set the random seed for reproducibility
+seed = 2021  
+
+# Set seed for PyTorch
+torch.manual_seed(seed)
+#torch.cuda.manual_seed(seed)
+torch.cuda.manual_seed_all(seed)
+
 parser = argparse.ArgumentParser()
 # Dataset and dataloader
 parser.add_argument('--dset_pretrain', type=str, default='etth1', help='dataset name')
@@ -25,7 +34,7 @@ parser.add_argument('--context_points', type=int, default=512, help='sequence le
 parser.add_argument('--target_points', type=int, default=96, help='forecast horizon')
 parser.add_argument('--batch_size', type=int, default=64, help='batch size')
 parser.add_argument('--num_workers', type=int, default=0, help='number of workers for DataLoader')
-parser.add_argument('--scaler', type=str, default='standard', help='scale the input data')
+#parser.add_argument('--scaler', type=str, default='standard', help='scale the input data')
 parser.add_argument('--features', type=str, default='M', help='for multivariate model or univariate model')
 # Patch
 parser.add_argument('--patch_len', type=int, default=12, help='patch length')
@@ -34,7 +43,7 @@ parser.add_argument('--stride', type=int, default=12, help='stride between patch
 parser.add_argument('--revin', type=int, default=1, help='reversible instance normalization')
 
 # Overlapping windows during testing, ReLU, Scaler type to use
-parser.add_argument('--overlapping_windows', action='store_true', default=False, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
+parser.add_argument('--overlapping_windows', action='store_true', default=True, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
 parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard, robust]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
 parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
 
@@ -89,7 +98,10 @@ def get_model(c_in, args):
                 head_dropout=args.head_dropout,
                 act='relu',
                 head_type='pretrain',
-                res_attention=False
+                res_attention=False,
+                scaler_type=args.scaler_type,
+                overlapping_windows=args.overlapping_windows,
+                if_relu=args.if_relu
                 )        
     # print out the model size
     print('number of model params', sum(p.numel() for p in model.parameters() if p.requires_grad))
@@ -101,7 +113,9 @@ def find_lr():
     dls = get_dls(args)    
     model = get_model(dls.vars, args)
     # get loss
-    loss_func = torch.nn.MSELoss(reduction='mean')
+    #loss_func = torch.nn.MSELoss(reduction='mean')
+    loss_func = torch.nn.L1Loss(reduction='mean')
+
     # get callbacks
     cbs = [RevInCB(dls.vars, denorm=False)] if args.revin else []
     cbs += [PatchMaskCB(patch_len=args.patch_len, stride=args.stride, mask_ratio=args.mask_ratio)]
@@ -124,7 +138,8 @@ def pretrain_func(lr=args.lr):
     # get model     
     model = get_model(dls.vars, args)
     # get loss
-    loss_func = torch.nn.MSELoss(reduction='mean')
+    #loss_func = torch.nn.MSELoss(reduction='mean')
+    loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
     cbs = [RevInCB(dls.vars, denorm=False)] if args.revin else []
     cbs += [
