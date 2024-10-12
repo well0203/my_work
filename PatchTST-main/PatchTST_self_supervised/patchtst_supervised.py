@@ -34,6 +34,12 @@ parser.add_argument('--patch_len', type=int, default=32, help='patch length')
 parser.add_argument('--stride', type=int, default=16, help='stride between patch')
 # RevIN
 parser.add_argument('--revin', type=int, default=1, help='reversible instance normalization')
+
+# Overlapping windows during testing, ReLU, Scaler type to use
+parser.add_argument('--overlapping_windows', action='store_true', default=False, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
+parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard, robust]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
+parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
+
 # Model args
 parser.add_argument('--n_layers', type=int, default=3, help='number of Transformer layers')
 parser.add_argument('--n_heads', type=int, default=16, help='number of Transformer heads')

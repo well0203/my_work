@@ -13,11 +13,15 @@ class DataLoaders:
         workers: int=0,
         collate_fn=None,
         shuffle_train = True,
-        shuffle_val = False
+        shuffle_val = False,
+        #overlapping_windows=True,
+        #scaler_type = 'standard'
     ):
         super().__init__()
         self.datasetCls = datasetCls
         self.batch_size = batch_size
+        #self.overlapping_windows = overlapping_windows
+        #self.scaler_type = scaler_type
         
         if "split" in dataset_kwargs.keys():
             del dataset_kwargs["split"]
