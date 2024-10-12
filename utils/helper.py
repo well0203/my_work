@@ -104,7 +104,8 @@ def add_exog_vars(train_data: pd.DataFrame,
 
 def extract_metrics_from_output(output, 
                                 itr=2,
-                                if_scaled=True
+                                if_scaled=True,
+                                if_supervised=True
                                 ) -> list[tuple]:
     """
     Function to extract metrics from command output.
@@ -113,36 +114,58 @@ def extract_metrics_from_output(output,
         output (list): List of strings containing the command output.
         itr (int): Number of iterations to extract metrics for (default: 2).
         if_scaled (bool): Whether the output should be scaled (default: True).
+        if_supervised (bool): Whether the model is supervised (default: True).
         
     Returns:
         list[tuple]: List of tuples containing the extracted metrics 
                      for each iteration converted to floats.
     """
 
-    # Pattern for extracting metrics
-    if if_scaled:
-        pattern = re.compile(
-            r"Scaled mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
-            re.IGNORECASE
-        )
+    if if_supervised:
+        # Pattern for extracting metrics
+        if if_scaled:
+            pattern = re.compile(
+                r"Scaled mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
+                re.IGNORECASE
+            )
+        else:
+            pattern = re.compile(
+                r"Original data scale mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
+                re.IGNORECASE
+            )
+        # Join the output lines to a single string
+        output_str = " ".join(output)
+        
+        # Find all matches of the pattern
+        matches = pattern.findall(output_str)
+        
+        # Throw an error if there are not enough matches
+        if len(matches) < itr:
+            raise ValueError(f"Expected at least {itr} iterations, but found only {len(matches)}.")
+        
+        # List with tuples of metrics for all iterations
+        # Map string matches to floats
+        return [tuple(map(float, match)) for match in matches[:itr]]
+
     else:
-        pattern = re.compile(
-            r"Original data scale mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
-            re.IGNORECASE
-        )
-    # Join the output lines to a single string
-    output_str = " ".join(output)
-    
-    # Find all matches of the pattern
-    matches = pattern.findall(output_str)
-    
-    # Throw an error if there are not enough matches
-    if len(matches) < itr:
-        raise ValueError(f"Expected at least {itr} iterations, but found only {len(matches)}.")
-    
-    # List with tuples of metrics for all iterations
-    # Map string matches to floats
-    return [tuple(map(float, match)) for match in matches[:itr]]
+        # Pattern for extracting metrics
+        mse_regex = re.compile(r"\bmse:\s*([\d\.]+)")
+        rmse_regex = re.compile(r"\brmse:\s*([\d\.]+)")
+        mae_regex = re.compile(r"\bmae:\s*([\d\.]+)")
+
+        mse_match = mse_regex.search(output)
+        rmse_match = rmse_regex.search(output)
+        mae_match = mae_regex.search(output)
+
+        if mse_match and rmse_match and mae_match:
+            mse = float(mse_match.group(1))
+            rmse = float(rmse_match.group(1))
+            mae = float(mae_match.group(1))
+
+            return [(mse, rmse, mae)]
+
+        else:
+            raise ValueError("Could not extract metrics from command output.")
 
 
 def convert_results_into_df(results, 
