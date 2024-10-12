@@ -41,6 +41,8 @@ parser.add_argument('--revin', type=int, default=1, help='reversible instance no
 # Overlapping windows during testing, ReLU, Scaler type to use
 parser.add_argument('--overlapping_windows', action='store_true', default=True, help='overlapping or non-overlapping windows. Currently only in test. But you can delete test_type in data_loader where it is used to make non-overlapping in all types.')
 parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard, robust]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
+# Skip this as it already uses ReLU!!!!!
+# + It is used before ReVin: bad results!
 parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
 
 # Model args
@@ -227,7 +229,7 @@ def linear_prob_finetune_func(lr=args.lr):
         ]
     
     # **Step 1: Linear Probing for 10 epochs**
-    print('Starting linear probing for 10 epochs')
+    print(f'Starting linear probing for {args.n_epochs_linear_probe} epochs')
     learn = Learner(dls, model, 
                     loss_func, 
                     lr=lr, 
@@ -238,7 +240,7 @@ def linear_prob_finetune_func(lr=args.lr):
     save_recorders(learn)  # Save losses after linear probing
 
     # **Step 2: Full Fine-tuning for 20 epochs**
-    print('Starting full fine-tuning for 20 epochs')
+    print(f'Starting full fine-tuning for {args.n_epochs_finetune} epochs')
     learn.fine_tune(n_epochs=args.n_epochs_finetune, base_lr=lr, freeze_epochs=10)  # Full fine-tuning
     save_recorders(learn)
 
