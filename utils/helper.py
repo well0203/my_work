@@ -120,6 +120,8 @@ def extract_metrics_from_output(output,
         list[tuple]: List of tuples containing the extracted metrics 
                      for each iteration converted to floats.
     """
+    # Join the output lines to a single string
+    output_str = " ".join(output)
 
     if if_supervised:
         # Pattern for extracting metrics
@@ -133,8 +135,6 @@ def extract_metrics_from_output(output,
                 r"Original data scale mse:\s*([\d.]+),\s*rmse:\s*([\d.]+),\s*mae:\s*([\d.]+),\s*rse:\s*([\d.]+)",
                 re.IGNORECASE
             )
-        # Join the output lines to a single string
-        output_str = " ".join(output)
         
         # Find all matches of the pattern
         matches = pattern.findall(output_str)
@@ -153,9 +153,9 @@ def extract_metrics_from_output(output,
         rmse_regex = re.compile(r"\brmse:\s*([\d\.]+)")
         mae_regex = re.compile(r"\bmae:\s*([\d\.]+)")
 
-        mse_match = mse_regex.search(output)
-        rmse_match = rmse_regex.search(output)
-        mae_match = mae_regex.search(output)
+        mse_match = mse_regex.search(output_str)
+        rmse_match = rmse_regex.search(output_str)
+        mae_match = mae_regex.search(output_str)
 
         if mse_match and rmse_match and mae_match:
             mse = float(mse_match.group(1))
