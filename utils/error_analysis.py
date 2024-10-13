@@ -100,12 +100,25 @@ def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, c
         None
     """
     
+    if model_name == "Informer":
+        d_model = 512
+        n_heads = 8
+        e_layers = 2
+        d_ff = 2048
+        factor = 5
+    elif model_name == "PatchTST":
+        d_model = 128
+        n_heads = 16
+        e_layers = 3
+        d_ff = 256
+        factor = 1
+
     full_paths = [
-        os.path.join(
-            path, 
-            f"{dataset}_{seq_len}_{pred_len}_loss_choice_for_{dataset}_{model_name}_custom_ftM_sl{seq_len}_ll5_pl{pred_len}_dm512_nh8_el2_dl1_df2048_fc5_ebtimeF_dtTrue_loss{loss_type}_Exp_{i}"
-        ) for i in range(itr)
-    ]
+            os.path.join(
+                path, 
+                f"{dataset}_{seq_len}_{pred_len}_loss_choice_for_{dataset}_{model_name}_custom_ftM_sl{seq_len}_ll48_pl{pred_len}_dm{d_model}_nh{n_heads}_el{e_layers}_dl1_df{d_ff}_fc{factor}_ebtimeF_dtTrue_loss{loss_type}_Exp_{i}"
+            ) for i in range(itr)
+        ]
     
     avg_pred, avg_true = load_and_average_results(full_paths)
     
