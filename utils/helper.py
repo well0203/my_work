@@ -2,6 +2,24 @@ import os
 import re
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+
+
+def running_time(start_time: float, end_time: float):
+    """
+    Function that returns hours, minutes and seconds of running time 
+    of a function.
+
+    Args:
+        start_time (float): Start time from package "time".
+        end_time (float): End time from package "time".
+
+    Returns:
+         Running time in hours, minutes and seconds.
+    """
+    hours, rem = divmod(end_time - start_time, 3600)
+    mins, secs = divmod(rem, 60)
+
+    return int(hours), int(mins), secs
     
 
 def split_scale_dataset(data: pd.DataFrame, 

@@ -369,7 +369,7 @@ class Exp_Main(Exp_Basic):
             if not os.path.exists(folder_path_loss_unscaled):
                 os.makedirs(folder_path_loss_unscaled)
         else:
-            folder_path = './results/' + setting + '/'
+            folder_path = './results_transformers/' + setting + '/'
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
 
@@ -380,17 +380,17 @@ class Exp_Main(Exp_Basic):
             mae_unscaled, mse_unscaled, rmse_unscaled, _, _, rse_unscaled, _ = metric(preds_unscaled, trues_unscaled)
             print('Original data scale mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
 
-        f = open("result.txt", 'a')
-        f.write(setting + "  \n")
-        f.write('Scaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
+        #f = open("result.txt", 'a')
+        #f.write(setting + "  \n")
+        #f.write('Scaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
 
-        if self.args.inverse:
-            f.write('\n')
-            f.write('Original data scale mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
+        #if self.args.inverse:
+        #    f.write('\n')
+        #    f.write('Original data scale mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse_unscaled, rmse_unscaled, mae_unscaled, rse_unscaled))
 
-        f.write('\n')
-        f.write('\n')
-        f.close()
+        #f.write('\n')
+        #f.write('\n')
+        #f.close()
 
 
         if self.args.inverse:

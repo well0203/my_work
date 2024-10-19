@@ -20,10 +20,10 @@ import argparse
 
 parser = argparse.ArgumentParser()
 # Pretraining and Finetuning
-parser.add_argument('--linear_prob_finetune', type=int, default=0, help='if set to 1, perform linear probing followed by fine-tuning')
+#parser.add_argument('--linear_prob_finetune', type=int, default=0, help='if set to 1, perform linear probing followed by fine-tuning')
 parser.add_argument('--is_finetune', type=int, default=0, help='do finetuning or not')
 parser.add_argument('--is_linear_probe', type=int, default=0, help='if linear_probe: only finetune the last layer')
-parser.add_argument('--n_epochs_linear_probe', type=int, default=10, help='only for linear probe+fine-tuning, otherwise use n_epochs_finetune')
+#parser.add_argument('--n_epochs_linear_probe', type=int, default=10, help='only for linear probe+fine-tuning, otherwise use n_epochs_finetune')
 # Dataset and dataloader
 parser.add_argument('--dset_finetune', type=str, default='etth1', help='dataset name')
 parser.add_argument('--context_points', type=int, default=512, help='sequence length')
@@ -43,7 +43,7 @@ parser.add_argument('--overlapping_windows', action='store_true', default=True, 
 parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard, robust]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
 # Skip this as it already uses ReLU!!!!!
 # + It is used before ReVin: bad results!
-parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
+#parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
 
 # Model args
 parser.add_argument('--n_layers', type=int, default=3, help='number of Transformer layers')
@@ -154,7 +154,8 @@ def finetune_func(lr=args.lr):
     # weight_path = args.pretrained_model + '.pth'
     model = transfer_weights(args.pretrained_model, model)
     # get loss
-    loss_func = torch.nn.MSELoss(reduction='mean')   
+    #loss_func = torch.nn.MSELoss(reduction='mean')   
+    loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
     cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
     cbs += [
@@ -205,7 +206,7 @@ def linear_probe_func(lr=args.lr):
     learn.linear_probe(n_epochs=args.n_epochs_finetune, base_lr=lr)
     save_recorders(learn)
 
-
+"""
 def linear_prob_finetune_func(lr=args.lr):
     print('Performing linear probing followed by end-to-end fine-tuning')
     
@@ -236,14 +237,14 @@ def linear_prob_finetune_func(lr=args.lr):
                     cbs=cbs,
                     #metrics=[mae]
                     )                            
-    learn.linear_probe(n_epochs=args.n_epochs_linear_probe, base_lr=lr)  # Adjust epochs for linear probing
+    learn.linear_probe(n_epochs=args.n_epochs_linear_probe, base_lr=lr)  
     save_recorders(learn)  # Save losses after linear probing
 
     # **Step 2: Full Fine-tuning for 20 epochs**
     print(f'Starting full fine-tuning for {args.n_epochs_finetune} epochs')
     learn.fine_tune(n_epochs=args.n_epochs_finetune, base_lr=lr, freeze_epochs=10)  # Full fine-tuning
     save_recorders(learn)
-
+"""
 
 
 def test_func(weight_path):
@@ -283,7 +284,13 @@ if __name__ == '__main__':
         # Test
         out = test_func(args.save_path+args.save_finetuned_model)        
         print('----------- Complete! -----------')
-    
+    else:
+        args.dset = args.dset_finetune
+        weight_path = args.save_path+args.dset_finetune+'_patchtst_finetuned'+suffix_name
+        # Test
+        out = test_func(weight_path)        
+        print('----------- Complete! -----------')
+"""
     elif args.linear_prob_finetune:
         args.dset = args.dset_finetune
         # Perform linear probing followed by fine-tuning
@@ -293,12 +300,4 @@ if __name__ == '__main__':
         # Test
         out = test_func(args.save_path + args.save_finetuned_model)         
         print('----------- Complete! -----------')
-
-    else:
-        args.dset = args.dset_finetune
-        weight_path = args.save_path+args.dset_finetune+'_patchtst_finetuned'+suffix_name
-        # Test
-        out = test_func(weight_path)        
-        print('----------- Complete! -----------')
-
-
+"""
