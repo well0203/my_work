@@ -20,6 +20,7 @@ minmax/
 standard_unscaled/
 minmax_IT/
 standard_unscaled_IT/
+results_transformers/
 
 # Notebooks
 0a.Data_selection.ipynb
