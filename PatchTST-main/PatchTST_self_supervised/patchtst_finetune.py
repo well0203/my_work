@@ -43,7 +43,7 @@ parser.add_argument('--overlapping_windows', action='store_true', default=True, 
 parser.add_argument('--scaler_type', type=str, default='standard', help='scaler for data preprocessing. options: [minmax, minmax2, standard, robust]. minmax2 is a minmax scaler with feature range (0, 5) instead of default (0,1)')
 # Skip this as it already uses ReLU!!!!!
 # + It is used before ReVin: bad results!
-#parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
+parser.add_argument('--if_relu', action='store_true', default=False, help='whether to use relu for non-negative output or not')
 
 # Model args
 parser.add_argument('--n_layers', type=int, default=3, help='number of Transformer layers')
