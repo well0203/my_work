@@ -187,16 +187,18 @@ def extract_metrics_from_output(output,
 
 
 def convert_results_into_df(results, 
-                            path_dir,
-                            csv_name
+                            path_dir = None,
+                            csv_name = None,
+                            if_loss_fnc=True
                             ) -> pd.DataFrame:
     """
     Function to convert results into a pandas DataFrame.
     
     Args:
-        results (list): List of tuples containing the results.
-        path_dir (str): Path to the directory where the results will be saved.
-        csv_name (str): Name of the CSV file.
+        results (list): List of tuples/dictionaries containing the results.
+        path_dir (str): Path to the directory where the results will be saved (default: None).
+        csv_name (str): Name of the CSV file to save the results (default: None).
+        if_loss_fnc (bool): Whether the loss function is included in the results (default: True).
         
     Returns:
         pd.DataFrame: DataFrame containing the results.
@@ -204,13 +206,18 @@ def convert_results_into_df(results,
     # Create a DataFrame from the results
     df = pd.DataFrame(results)
 
-    # Set multi-index 
-    df.set_index(['Loss_function', 'Iteration', 'Pred_len'], inplace=True)
+    if if_loss_fnc:
+        # Set multi-index 
+        df.set_index(['Loss_function', 'Iteration', 'Pred_len'], inplace=True)
 
-    if not os.path.exists(path_dir):
-        os.makedirs(path_dir)
+        if not os.path.exists(path_dir):
+            os.makedirs(path_dir)
 
-    # Save the DataFrame to a CSV file
-    df.to_csv(os.path.join(path_dir, csv_name), index=True)
+        # Save the DataFrame to a CSV file
+        df.to_csv(os.path.join(path_dir, csv_name), index=True)
+
+    else:
+        df.set_index(['Country', 'Pred_len', 'Iteration'], inplace=True)
+        df = df.groupby(['Country', 'Pred_len']).mean()
 
     return df
