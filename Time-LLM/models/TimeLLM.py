@@ -25,6 +25,7 @@ class FlattenHead(nn.Module):
     def forward(self, x):
         x = self.flatten(x)
         x = self.linear(x)
+        x = nn.ReLU()(x)
         x = self.dropout(x)
         return x
 

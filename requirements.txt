@@ -19,8 +19,6 @@ deepspeed==0.14.0
 einops==0.7.0
 tqdm==4.65.0
 sentencepiece==0.2.0
+mpi4py-mpich==3.1.5
 #torchaudio==2.2.2 
 #torchvision==0.17.2 
-
-# Not used for my thesis
-#sympy==1.11.1 - FEDFormer

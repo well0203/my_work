@@ -1,1 +1,1 @@
-Hourly data detailing load, solar generation, and wind generation in France. Wind generation is onshore wind generation.
+The dataset provides hourly data on load, solar generation, and wind generation in France from 2016 to 2020, all measured in megawatts. Wind generation is onshore wind generation. With three different time series, this dataset is ideal for multivariate analysis, making it possible to explore how these energy variables relate to each other over time.
