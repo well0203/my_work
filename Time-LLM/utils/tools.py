@@ -163,7 +163,9 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     total_mae_loss = []
     model.eval()
     with torch.no_grad():
-        for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(vali_loader)):
+        #for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(vali_loader)):
+        for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(vali_loader):
+
             batch_x = batch_x.float().to(accelerator.device)
             batch_y = batch_y.float()
 
@@ -238,7 +240,9 @@ def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric
     total_mae_loss = []
     model.eval()
     with torch.no_grad():
-        for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(test_loader)):
+        #for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(test_loader)):
+        for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
+
             batch_x = batch_x.float().to(accelerator.device)
             batch_y = batch_y.float()
 
@@ -274,7 +278,7 @@ def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric
 
             # Needs GPU
             loss = criterion(pred, true)
-            mae_loss = mae_metric(pred, true)
+            mse_loss = mae_metric(pred, true)
 
             total_loss.append(loss.item())
             total_mae_loss.append(mae_loss.item())
@@ -335,8 +339,6 @@ def load_content(args):
     else:
         file = args.data
     # with open('./dataset/prompt_bank/{0}.txt'.format(file), 'r') as f:
-    # '../../dataset/prompt_bank/{0}.txt'
-    # with open('/Users/valentyna/Documents/Master_thesis_new/Time-LLM/dataset/prompt_bank/{0}.txt'.format(file), 'r') as f:
     with open('./Time-LLM/dataset/prompt_bank/{0}.txt'.format(file), 'r') as f:
 
         content = f.read()

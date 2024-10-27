@@ -212,7 +212,7 @@ class Model(nn.Module):
             self.description = 'Hourly data detailing load (electricity consumption), solar generation, and wind generation. These metrics are crucial in the electric power demand planning. '
             # self.description = 'What if I write here some words? Squirrel, bear, kitty, ice cream, wood. They are totally random and do not describe my task. '
         
-        print(self.description)
+        #print(self.description)
         
         self.dropout = nn.Dropout(configs.dropout)
 

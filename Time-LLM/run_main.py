@@ -169,7 +169,7 @@ for ii in range(args.itr):
 
     #criterion = nn.MSELoss()
     criterion = nn.L1Loss()
-    mae_metric = nn.L1Loss()
+    mse_metric = nn.MSELoss()
 
     train_loader, vali_loader, test_loader, model, model_optim, scheduler = accelerator.prepare(
         train_loader, vali_loader, test_loader, model, model_optim, scheduler)
@@ -195,7 +195,7 @@ for ii in range(args.itr):
 
         model.train()
         epoch_time = time.time()
-        
+
         # Disable tqdm in favor of Popen
         #for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(train_loader)):
         for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(train_loader):
@@ -264,11 +264,11 @@ for ii in range(args.itr):
         accelerator.print("Epoch: {} cost time: {}".format(epoch + 1, time.time() - epoch_time))
         train_loss = np.average(train_loss)
 
-        vali_loss, vali_mae_loss = vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric)
-        test_loss, test_mae_loss = vali(args, accelerator, model, test_data, test_loader, criterion, mae_metric)
+        vali_loss, vali_mse_loss = vali(args, accelerator, model, vali_data, vali_loader, criterion, mse_metric)
+        test_loss, test_mse_loss = vali(args, accelerator, model, test_data, test_loader, criterion, mse_metric)
         accelerator.print(
-            "Epoch: {0} | Train Loss: {1:.7f} Vali Loss: {2:.7f} Test Loss: {3:.7f} MAE Loss: {4:.7f}".format(
-                epoch + 1, train_loss, vali_loss, test_loss, test_mae_loss))
+            "Epoch: {0} | Train Loss: {1:.7f} Vali Loss: {2:.7f} Test Loss: {3:.7f} MSE Loss: {4:.7f}".format(
+                epoch + 1, train_loss, vali_loss, test_loss, test_mse_loss))
 
         early_stopping(vali_loss, model, path)
         if early_stopping.early_stop:
