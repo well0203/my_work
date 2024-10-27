@@ -7,6 +7,22 @@ import os
 
 plt.switch_backend('agg')
 
+def running_time(start_time: float, end_time: float):
+    """
+    Function that returns hours, minutes and seconds of running time 
+    of a function.
+
+    Args:
+        start_time (float): Start time from package "time".
+        end_time (float): End time from package "time".
+
+    Returns:
+         Running time in hours, minutes and seconds.
+    """
+    hours, rem = divmod(end_time - start_time, 3600)
+    mins, secs = divmod(rem, 60)
+
+    return int(hours), int(mins), secs
 
 def adjust_learning_rate(optimizer, scheduler, epoch, args, printout=True):
     # lr = args.learning_rate * (0.2 ** (epoch // 2))

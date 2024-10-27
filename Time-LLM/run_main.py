@@ -19,7 +19,7 @@ import os
 os.environ['CURL_CA_BUNDLE'] = ''
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:64"
 
-from utils.tools import del_files, EarlyStopping, adjust_learning_rate, vali, test, load_content # , plot_train_val_loss
+from utils.tools import del_files, EarlyStopping, adjust_learning_rate, vali, test, load_content, running_time # , plot_train_val_loss
 
 parser = argparse.ArgumentParser(description='Time-LLM')
 
@@ -89,7 +89,7 @@ parser.add_argument('--itr', type=int, default=1, help='experiments times')
 parser.add_argument('--train_epochs', type=int, default=10, help='train epochs')
 parser.add_argument('--align_epochs', type=int, default=10, help='alignment epochs')
 parser.add_argument('--batch_size', type=int, default=32, help='batch size of train input data')
-parser.add_argument('--eval_batch_size', type=int, default=8, help='batch size of model evaluation')
+parser.add_argument('--eval_batch_size', type=int, default=32, help='batch size of model evaluation')
 parser.add_argument('--patience', type=int, default=10, help='early stopping patience')
 parser.add_argument('--learning_rate', type=float, default=0.0001, help='optimizer learning rate')
 parser.add_argument('--des', type=str, default='test', help='exp description')
@@ -169,7 +169,6 @@ for ii in range(args.itr):
 
     #criterion = nn.MSELoss()
     criterion = nn.L1Loss()
-    mse_metric = nn.MSELoss()
 
     train_loader, vali_loader, test_loader, model, model_optim, scheduler = accelerator.prepare(
         train_loader, vali_loader, test_loader, model, model_optim, scheduler)
@@ -260,15 +259,17 @@ for ii in range(args.itr):
             if args.lradj == 'TST':
                 adjust_learning_rate(accelerator, model_optim, scheduler, epoch + 1, args, printout=False)
                 scheduler.step()
+        end_epoch = time.time()
+        h, m , s = running_time(epoch_time, end_epoch)
+        accelerator.print("Epoch: {} cost time: {:0>2}h:{:0>2}m:{:05.2f}s".format(epoch + 1, h, m, s))
 
-        accelerator.print("Epoch: {} cost time: {}".format(epoch + 1, time.time() - epoch_time))
         train_loss = np.average(train_loss)
 
-        vali_loss, vali_mse_loss = vali(args, accelerator, model, vali_data, vali_loader, criterion, mse_metric)
-        test_loss, test_mse_loss = vali(args, accelerator, model, test_data, test_loader, criterion, mse_metric)
+        vali_loss = vali(args, accelerator, model, vali_data, vali_loader, criterion)
+        test_loss = vali(args, accelerator, model, test_data, test_loader, criterion)
         accelerator.print(
-            "Epoch: {0} | Train Loss: {1:.7f} Vali Loss: {2:.7f} Test Loss: {3:.7f} MSE Loss: {4:.7f}".format(
-                epoch + 1, train_loss, vali_loss, test_loss, test_mse_loss))
+            "Epoch: {0} | Train Loss: {1:.7f} Vali Loss: {2:.7f} Test Loss: {3:.7f}".format(
+                epoch + 1, train_loss, vali_loss, test_loss))
 
         early_stopping(vali_loss, model, path)
         if early_stopping.early_stop:
@@ -297,12 +298,13 @@ for ii in range(args.itr):
     torch.cuda.synchronize()
     torch.cuda.empty_cache()
     # Test
-    mse, mae = test(args, accelerator, model, test_data, test_loader, criterion, mae_metric, setting)
-    print('mse:{}, mae:{}'.format(mse, mae))
+    # call it just to print
+    mae = test(args, accelerator, model, test_data, test_loader, criterion, setting)
+    #print('mse:{}, mae:{}'.format(mae))
 
     # For plot
-    print('train_losses', train_losses)
-    print('val_losses', val_losses)
+    #print('train_losses', train_losses)
+    #print('val_losses', val_losses)
     # plot_train_val_loss(args, train_losses, val_losses)
 
 

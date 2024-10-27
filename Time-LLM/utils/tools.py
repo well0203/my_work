@@ -9,6 +9,22 @@ from tqdm import tqdm
 
 plt.switch_backend('agg')
 
+def running_time(start_time: float, end_time: float):
+    """
+    Function that returns hours, minutes and seconds of running time 
+    of a function.
+
+    Args:
+        start_time (float): Start time from package "time".
+        end_time (float): End time from package "time".
+
+    Returns:
+         Running time in hours, minutes and seconds.
+    """
+    hours, rem = divmod(end_time - start_time, 3600)
+    mins, secs = divmod(rem, 60)
+
+    return int(hours), int(mins), secs
 
 def adjust_learning_rate(accelerator, optimizer, scheduler, epoch, args, printout=True):
     if args.lradj == 'type1':
@@ -148,7 +164,7 @@ def visual(true, preds=None, name='./pic/test.pdf'):
     plt.savefig(name, bbox_inches='tight')
 
 
-def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric):
+def vali(args, accelerator, model, vali_data, vali_loader, criterion):
     file_path = "results.txt"
 
     with open(file_path, "w") as file:
@@ -160,7 +176,6 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
             file.write(f"{key} = {value}\n")
 
     total_loss = []
-    total_mae_loss = []
     model.eval()
     with torch.no_grad():
         #for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(vali_loader)):
@@ -200,19 +215,15 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
 
             loss = criterion(pred, true)
 
-            mae_loss = mae_metric(pred, true)
-
             total_loss.append(loss.item())
-            total_mae_loss.append(mae_loss.item())
 
     total_loss = np.average(total_loss)
-    total_mae_loss = np.average(total_mae_loss)
 
     model.train()
-    return total_loss, total_mae_loss
+    return total_loss
 
 
-def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric, setting):
+def test(args, accelerator, model, test_data, test_loader, criterion, setting):
 
     checkpoint_path = os.path.join('./checkpoints/' + setting + '-' + args.model_comment, 'checkpoint.pth')
     
@@ -237,7 +248,6 @@ def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric
     trues = []
 
     total_loss = []
-    total_mae_loss = []
     model.eval()
     with torch.no_grad():
         #for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in tqdm(enumerate(test_loader)):
@@ -278,10 +288,8 @@ def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric
 
             # Needs GPU
             loss = criterion(pred, true)
-            mse_loss = mae_metric(pred, true)
 
             total_loss.append(loss.item())
-            total_mae_loss.append(mae_loss.item())
 
             # We do not need GPU anymore
             pred = pred.cpu().numpy()
@@ -308,16 +316,21 @@ def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric
 
     trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
 
+    p = "./results_transformers"
+    if not os.path.exists(p):
+        os.makedirs(p)
+
     #folder_path = f'./results/{self.args.model}/' + '/'
-    folder_path_1 = f'./results/{args.model}/' + setting + '/' #f'{args.data}/'
+    folder_path_1 = p + '/' + f'{args.model}/' + setting + '/' #f'{args.data}/'
     if not os.path.exists(folder_path_1):
         os.makedirs(folder_path_1, exist_ok = True)
 
-    mae, mse, rmse, mape, mspe = metric(preds, trues)
-    # print('mse:{}, mae:{}'.format(mse, mae))
+    mae, mse, rmse, mape, mspe, rse, corr = metric(preds, trues)
+    print('Scaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
+
     f = open("result_long_term_forecast.txt", 'a')
     f.write(setting + "  \n")
-    f.write('mse:{}, mae:{}'.format(mse, mae))
+    f.write('Scaled mse:{}, rmse:{}, mae:{}, rse:{}'.format(mse, rmse, mae, rse))
     f.write('\n')
     f.write('\n')
     f.close()
@@ -327,10 +340,9 @@ def test(args, accelerator, model, test_data, test_loader, criterion, mae_metric
     np.save(folder_path_1 + 'true.npy', trues)
 
     total_loss = np.average(total_loss)
-    total_mae_loss = np.average(total_mae_loss)
 
     model.train()
-    return total_loss, total_mae_loss
+    return total_loss
 
 
 def load_content(args):

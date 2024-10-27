@@ -1,7 +1,7 @@
 from data_provider.data_factory import data_provider
 from exp.exp_basic import Exp_Basic
 from models import Informer, Autoformer, Transformer, DLinear, Linear, NLinear, PatchTST
-from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop, LogCoshLoss
+from utils.tools import EarlyStopping, adjust_learning_rate, visual, test_params_flop, LogCoshLoss, running_time
 from utils.metrics import metric
 
 import numpy as np
@@ -209,11 +209,10 @@ class Exp_Main(Exp_Basic):
                     scheduler.step()
 
             end = time.time()
-            hours, rem = divmod(end - epoch_time, 3600)
-            minutes, seconds = divmod(rem, 60)
+            hours, minutes, seconds = running_time(epoch_time, end)
             print('-'*85)
             print("Epoch: {}".format(epoch + 1))
-            print("Cost time: {:0>2}h:{:0>2}m:{:05.2f}s".format(int(hours), int(minutes), seconds))
+            print("Cost time: {:0>2}h:{:0>2}m:{:05.2f}s".format(hours, minutes, seconds))
 
             train_loss = np.average(train_loss)
             vali_loss = self.vali(vali_data, vali_loader, criterion)
