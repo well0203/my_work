@@ -25,7 +25,6 @@ class FlattenHead(nn.Module):
     def forward(self, x):
         x = self.flatten(x)
         x = self.linear(x)
-        x = nn.ReLU()(x)
         x = self.dropout(x)
         return x
 
@@ -303,6 +302,7 @@ class Model(nn.Module):
         dec_out = dec_out.permute(0, 2, 1).contiguous()
 
         dec_out = self.normalize_layers(dec_out, 'denorm')
+        dec_out = nn.ReLU()(dec_out)
 
         return dec_out
 

@@ -70,7 +70,7 @@ class PatchTST(nn.Module):
         #    [bs x target_dim] for classification
         #    [bs x num_patch x n_vars x patch_len] for pretrain
 
-        # ReLU for non-negative output
+        # ReLU for non-negative output - FALSE
         if self.if_relu:
             z = F.relu(z)
         return z

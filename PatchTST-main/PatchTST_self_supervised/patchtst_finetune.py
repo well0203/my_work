@@ -122,7 +122,7 @@ def find_lr(head_type):
     # loss_func = torch.nn.MSELoss(reduction='mean')
     loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
-    cbs = [RevInCB(dls.vars)] if args.revin else []
+    cbs = [RevInCB(dls.vars, apply_relu=True)] if args.revin else []
     cbs += [PatchCB(patch_len=args.patch_len, stride=args.stride)]
         
     # define learner
@@ -157,7 +157,7 @@ def finetune_func(lr=args.lr):
     #loss_func = torch.nn.MSELoss(reduction='mean')   
     loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
-    cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
+    cbs = [RevInCB(dls.vars, denorm=True, apply_relu=True)] if args.revin else []
     cbs += [
          PatchCB(patch_len=args.patch_len, stride=args.stride),
          SaveModelCB(monitor='valid_loss', fname=args.save_finetuned_model, path=args.save_path)
@@ -189,7 +189,7 @@ def linear_probe_func(lr=args.lr):
     #loss_func = torch.nn.MSELoss(reduction='mean')    
     loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
-    cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
+    cbs = [RevInCB(dls.vars, denorm=True, apply_relu=True)] if args.revin else []
     cbs += [
          PatchCB(patch_len=args.patch_len, stride=args.stride),
          SaveModelCB(monitor='valid_loss', fname=args.save_finetuned_model, path=args.save_path)
@@ -206,53 +206,13 @@ def linear_probe_func(lr=args.lr):
     learn.linear_probe(n_epochs=args.n_epochs_finetune, base_lr=lr)
     save_recorders(learn)
 
-"""
-def linear_prob_finetune_func(lr=args.lr):
-    print('Performing linear probing followed by end-to-end fine-tuning')
-    
-    # Get dataloader
-    dls = get_dls(args)
-    
-    # Get model 
-    model = get_model(dls.vars, args, head_type='prediction')
-    
-    # Transfer weights from the pretrained model
-    model = transfer_weights(args.pretrained_model, model)
-    
-    # Loss function
-    loss_func = torch.nn.L1Loss(reduction='mean')
-    
-    # Get callbacks
-    cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
-    cbs += [
-         PatchCB(patch_len=args.patch_len, stride=args.stride),
-         SaveModelCB(monitor='valid_loss', fname=args.save_finetuned_model, path=args.save_path)
-        ]
-    
-    # **Step 1: Linear Probing for 10 epochs**
-    print(f'Starting linear probing for {args.n_epochs_linear_probe} epochs')
-    learn = Learner(dls, model, 
-                    loss_func, 
-                    lr=lr, 
-                    cbs=cbs,
-                    #metrics=[mae]
-                    )                            
-    learn.linear_probe(n_epochs=args.n_epochs_linear_probe, base_lr=lr)  
-    save_recorders(learn)  # Save losses after linear probing
-
-    # **Step 2: Full Fine-tuning for 20 epochs**
-    print(f'Starting full fine-tuning for {args.n_epochs_finetune} epochs')
-    learn.fine_tune(n_epochs=args.n_epochs_finetune, base_lr=lr, freeze_epochs=10)  # Full fine-tuning
-    save_recorders(learn)
-"""
-
 
 def test_func(weight_path):
     # get dataloader
     dls = get_dls(args)
     model = get_model(dls.vars, args, head_type='prediction').to('cuda')
     # get callbacks
-    cbs = [RevInCB(dls.vars, denorm=True)] if args.revin else []
+    cbs = [RevInCB(dls.vars, denorm=True, apply_relu=True)] if args.revin else []
     cbs += [PatchCB(patch_len=args.patch_len, stride=args.stride)]
     learn = Learner(dls, model,cbs=cbs)
     out  = learn.test(dls.test, weight_path=weight_path+'.pth', scores=[mse, rmse, mae])         # out: a list of [pred, targ, score]
@@ -290,14 +250,4 @@ if __name__ == '__main__':
         # Test
         out = test_func(weight_path)        
         print('----------- Complete! -----------')
-"""
-    elif args.linear_prob_finetune:
-        args.dset = args.dset_finetune
-        # Perform linear probing followed by fine-tuning
-        suggested_lr = find_lr(head_type='prediction')        
-        linear_prob_finetune_func(suggested_lr)        
-        print('Linear probing and finetune completed')
-        # Test
-        out = test_func(args.save_path + args.save_finetuned_model)         
-        print('----------- Complete! -----------')
-"""
+        

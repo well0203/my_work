@@ -6,7 +6,7 @@ from src.models.layers.revin import RevIN
 
 class RevInCB(Callback):
     def __init__(self, num_features: int, eps=1e-5, 
-                        affine:bool=False, denorm:bool=True):
+                        affine:bool=False, denorm:bool=True, apply_relu: bool=True):
         """        
         :param num_features: the number of features or channels
         :param eps: a value added for numerical stability
@@ -22,11 +22,16 @@ class RevInCB(Callback):
         self.affine = affine
         self.denorm = denorm
         self.revin = RevIN(num_features, eps, affine)
+        self.relu = nn.ReLU()  # ADD ReLU
+
     
 
     def before_forward(self): self.revin_norm()
     def after_forward(self): 
-        if self.denorm: self.revin_denorm() 
+        if self.denorm: self.revin_denorm()            
+        if self.apply_relu:  # Conditionally apply ReLU after RevIN
+            self.learner.pred = self.relu(self.learner.pred)  
+ 
         
     def revin_norm(self):
         xb_revin = self.revin(self.xb, 'norm')      # xb_revin: [bs x seq_len x nvars]
@@ -37,3 +42,9 @@ class RevInCB(Callback):
         self.learner.pred = pred
     
 
+class ReLUCB(Callback):
+    def __init__(self, eps=1e-5):
+        super().__init__()
+        self.eps = eps
+
+    def before_forward(self): self.xb = torch.relu(self.xb)
