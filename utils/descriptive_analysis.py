@@ -5,13 +5,17 @@ import seaborn as sns
 import tensorflow as tf
 
 
-def plot_missings(data, rotation=15):
+def plot_missings(data, 
+                  rotation=15):
     """
     Plots missing values.
 
     Args:
         data (pandas.DataFrame): The time series to plot.
         rotation (int): The rotation of the x-axis labels (default: 15).
+
+    Returns:
+        None
     """
 
     plt.figure(figsize=(25, 15))
@@ -25,8 +29,11 @@ def plot_missings(data, rotation=15):
     plt.show()
 
 
-def plot_seasonality(data, frequency='Month', 
-                     hue='Year', num_cols=3, title=None):
+def plot_seasonality(data, 
+                     frequency='Month', 
+                     hue='Year', 
+                     num_cols=3, 
+                     title=None):
     """
     Plots the seasonality of the time series.
 
@@ -36,7 +43,10 @@ def plot_seasonality(data, frequency='Month',
         hue (str): Subsets of the data (default: 'Year').
         num_cols (int): Number of plots
         title (str): The title of the plot (default: None).
+    Returns:
+        None
     """
+
     num_cols = num_cols
     num_rows = 1
 
@@ -61,7 +71,10 @@ def plot_seasonality(data, frequency='Month',
     plt.show()
 
 
-def hist_plots(data, col, num_cols=3, title=None):
+def hist_plots(data, 
+               col, 
+               num_cols=3, 
+               title=None):
 
     """
     Plots the frequency of values in time series.
@@ -71,6 +84,9 @@ def hist_plots(data, col, num_cols=3, title=None):
         col (str): The country name to plot.
         num_cols (int): Number of plots per country.
         title (str): The title of the plot (default: None).
+
+    Returns:
+        None
     """
 
     num_cols = num_cols
@@ -91,7 +107,10 @@ def hist_plots(data, col, num_cols=3, title=None):
     plt.show()
 
 
-def corr_plot(data, annot=True, mask=True, title=None):
+def corr_plot(data, 
+              annot=True, 
+              mask=True, 
+              title=None):
     """
     Plots the correlation between time series with customization options.
 
@@ -136,7 +155,11 @@ def corr_plot(data, annot=True, mask=True, title=None):
     plt.show()
 
 
-def count_outliers(col, extreme=False, verbose=False, if_return=False):
+def count_outliers(col, 
+                   extreme=False, 
+                   verbose=False, 
+                   if_return=False
+                   ) -> tuple[float, float] | None:
     """
     Defines the number of outliers in a column using the IQR method.
 
@@ -152,7 +175,6 @@ def count_outliers(col, extreme=False, verbose=False, if_return=False):
 
     Returns:
         upper, lower (float) or None
-
     """
 
     if extreme:
@@ -187,7 +209,10 @@ def count_outliers(col, extreme=False, verbose=False, if_return=False):
         return None
     
 
-def periodograms(data, num_cols=3, max_ylim=4e8, title=None):
+def periodograms(data, 
+                 num_cols=3, 
+                 max_ylim=4e8, 
+                 title=None):
     """
     Plots periodograms of multiple time series.
 
@@ -196,6 +221,7 @@ def periodograms(data, num_cols=3, max_ylim=4e8, title=None):
         num_cols (int): Number of columns in the subplot grid (default: 3).
         max_ylim (int): Maximum limit for the y-axis (default: 4e8).
         title (str): The title of the overall plot (default: None).
+
     Returns:
         None
     """
@@ -250,6 +276,7 @@ def get_season(month
     Function to map months to seasons
     Args:
         month (int): Month number
+
     Returns:
         str: Season
     """
@@ -268,8 +295,10 @@ def change_col_name(col_name: str
                     ) -> str:
     """
     Function to change column names to the desired format.
+    
     Args:
         col_name (str): Original column name
+
     Returns:
         str: Desired column name
     """
@@ -292,8 +321,8 @@ def change_col_name(col_name: str
 
 
 def stacked_bar_plot_per_season(data, 
-                        season_order=['winter', 'spring', 'summer', 'autumn'], 
-                        country=None):
+                                season_order=['winter', 'spring', 'summer', 'autumn'], 
+                                country=None):
     """
     Plots the average of values per season.
 
@@ -304,6 +333,7 @@ def stacked_bar_plot_per_season(data,
                             'autumn']).
         country (str): The country used in the title of the plot 
                        (default: None).
+
     Returns:
         None
     """
@@ -334,7 +364,10 @@ def stacked_bar_plot_per_season(data,
     plt.show()
 
 
-def heatmap_plot(data, country, x_axis='Month', y_axis='HourOfDay', cmap=['Blues', 'Oranges', 'YlGnBu']):
+def heatmap_plot(data, country, 
+                 x_axis='Month', 
+                 y_axis='HourOfDay', 
+                 cmap=['Blues', 'Oranges', 'YlGnBu']):
     """
     Plots heatmaps for given time series data with flexible x and y axis groupings.
 
@@ -343,7 +376,11 @@ def heatmap_plot(data, country, x_axis='Month', y_axis='HourOfDay', cmap=['Blues
         country (str): The name of the country to plot heatmaps for.
         x_axis (str): The x-axis grouping (default: 'Month').
         y_axis (str): The y-axis grouping (default: 'HourOfDay').
-        cmap (list): A list of color maps for each heatmap (default: ['Blues', 'Oranges', 'YlGnBu']).
+        cmap (list): A list of color maps for each heatmap (default: 
+                    ['Blues', 'Oranges', 'YlGnBu']).
+
+    Returns:
+        None
     """
 
     result_col_names = [change_col_name(col) for col in data.columns]
@@ -394,7 +431,12 @@ def heatmap_plot(data, country, x_axis='Month', y_axis='HourOfDay', cmap=['Blues
     plt.show()
 
 
-def plot_correlations_between_2vars(df, var1, var2, ax, color, lags=range(1, 49)):
+def plot_correlations_between_2vars(df, 
+                                    var1, 
+                                    var2, 
+                                    ax, 
+                                    color, 
+                                    lags=range(1, 49)):
     """
     Plots correlation coefficients as a function of time lag.
 
@@ -405,7 +447,11 @@ def plot_correlations_between_2vars(df, var1, var2, ax, color, lags=range(1, 49)
         lags (range): The range of lags tested (default: range(1, 49)).
         ax (matplotlib.axes.Axes): The axis object for the plot.
         color (str): The color of the plot.
+
+    Returns:
+        None
     """
+
     correlations = [df[var1].shift(lag).corr(df[var2]) for lag in lags]
 
     new_var1 = change_col_name(var1).capitalize()
@@ -418,15 +464,21 @@ def plot_correlations_between_2vars(df, var1, var2, ax, color, lags=range(1, 49)
     ax.axhline(0, color='gray', linestyle='--')
 
 
-def lineplot_column(data, x_col, y_col, title):
+def lineplot_column(data, 
+                    x_col, 
+                    y_col, 
+                    title):
     """
     Plots a line plot for a specified column.
 
-    Parameters:
+    Args:
         data (DataFrame): The DataFrame containing the data.
         x_col (str): The name of the column for the x-axis.
         y_col (str): The name of the column to plot on the y-axis.
         title (str): The title for the plot.
+
+    Returns:
+        None
     """
     plt.figure(figsize=(10, 4))
     sns.lineplot(data=data, x=x_col, y=y_col)

@@ -4,18 +4,41 @@ import matplotlib.gridspec as gridspec
 import seaborn as sns
 
 
-def plot_results_comparison_models(data, ax, country='DE', eval_metric='RMSE'):
-    # (Your existing plotting code goes here)
+def plot_results_comparison_models(data, 
+                                   ax, 
+                                   country='DE', 
+                                   eval_metric='RMSE'):
+    """
+    Plots lineplots for the results comparison between all models with 
+    the specific evaluation metric for a specific country. 
+
+    Args:
+        data (pandas.DataFrame): The dataframe to plot. 
+        ax (matplotlib.axes.Axes): The axes to plot on.
+        country (str): The country to plot (default: 'DE').
+        eval_metric (str): The evaluation metric to plot (default: 'RMSE').
+    Returns:
+        None
+    """
+    # Get models names
     models = data.columns.get_level_values('Model').unique().to_list()
+
+    # Style markers and colors
     markers = ['o', 's', '*', '^', 'X', '<']
     colors = ['#1f77b4', '#2ca02c', '#ff7f0e', '#d62728', '#9467bd', '#8c564b']
 
+    # Plot each model with its line and marker
     for idx, model in enumerate(models):
+
+        # Subset data
         subset = data.loc[(country), (model, eval_metric)]
+
+        # Plot
         ax.plot(subset.index, subset.values, 
                 marker=markers[idx], color=colors[idx], label=model, 
                 linestyle='-', linewidth=1.5, markersize=10)
 
+    # Customize plot
     ax.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray', alpha=0.7)
     ax.set_xlabel('Prediction Length', fontsize=10)
     ax.set_ylabel(f'{eval_metric}', fontsize=10)
@@ -24,9 +47,29 @@ def plot_results_comparison_models(data, ax, country='DE', eval_metric='RMSE'):
     ax.set_title(f'{country}', fontsize=12, fontweight='bold')
 
 
-def plot_bar_comparison(data, ax, country='DE', eval_metric='RMSE', palette="CMRmap"):
-    # (Your existing bar plotting code goes here)
+def plot_bar_comparison(data, 
+                        ax, 
+                        country='DE', 
+                        eval_metric='RMSE', 
+                        palette="CMRmap"):
+    """
+    Plots barplots for the results comparison between specified models with 
+    the specific evaluation metric for a specific country. 
+
+    Args:
+        data (pandas.DataFrame): The dataframe to plot. 
+        ax (matplotlib.axes.Axes): The axes to plot on.
+        country (str): The country to plot (default: 'DE').
+        eval_metric (str): The evaluation metric to plot (default: 'RMSE').
+        palette (str): The color palette to use (default: 'CMRmap').
+    Returns:
+        None
+    """
+
+    # Get models names
     models = data.columns.get_level_values('Model').unique().to_list()
+
+    # Subset data
     subset = data.loc[(country), (slice(None), eval_metric)].reset_index()
     subset.columns = subset.columns.droplevel(1)
     subset = subset.melt(id_vars=['Pred_len'], value_vars=models, var_name='Model', value_name=eval_metric)
@@ -47,13 +90,18 @@ def plot_bar_comparison(data, ax, country='DE', eval_metric='RMSE', palette="CMR
     ax.set_xticklabels(tick_labels)     
 
 
-def plot_results_models_multiple_countries(data, function="lines", countries=['DE', 'ES', 'FR', 'GB', 'IT'], eval_metric='RMSE', palette="CMRmap"):
+def plot_results_models_multiple_countries(data, 
+                                           function="lines", 
+                                           countries=['DE', 'ES', 'FR', 'GB', 'IT'], 
+                                           eval_metric='RMSE', 
+                                           palette="CMRmap"):
     """
     Creates a grid of subplots for each specified country over pred_lens and models for a specific evaluation metric.
 
     Args:
         data (pandas.DataFrame): The dataframe to plot. 
-        function (str): The function to plot (default: 'lines').
+        function (str): The function to plot. Options: 'lines', 'bars'
+                        (default: 'lines').
         countries (list of str): List of countries to plot.
         eval_metric (str): The evaluation metric to plot (default: 'RMSE').
     Returns:

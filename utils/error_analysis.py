@@ -30,7 +30,12 @@ def load_and_average_results(paths):
     return avg_pred, avg_true
 
 
-def plot_results(avg_pred, avg_true, columns, loss_type, pred_len, color):
+def plot_results(avg_pred, 
+                 avg_true, 
+                 columns, 
+                 loss_type, 
+                 pred_len, 
+                 color):
     """
     Plots predictions and true values for each column in a hexbin plot.
 
@@ -80,7 +85,15 @@ def plot_results(avg_pred, avg_true, columns, loss_type, pred_len, color):
     plt.show()
 
 
-def plot_error_results(model_name, loss_type, seq_len, pred_len, itr, columns, color, path, dataset="DE"):
+def plot_error_results(model_name, 
+                       loss_type, 
+                       seq_len, 
+                       pred_len, 
+                       itr, 
+                       columns, 
+                       color, 
+                       path, 
+                       dataset="DE"):
 
     """
     Plots predictions and true values for a given model and loss type.

@@ -4,7 +4,9 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
 
 
-def running_time(start_time: float, end_time: float):
+def running_time(start_time: float, 
+                 end_time: float
+                 ) -> tuple[int, int, float]:
     """
     Function that returns hours, minutes and seconds of running time 
     of a function.
@@ -101,7 +103,9 @@ def split_scale_dataset(data: pd.DataFrame,
 def add_exog_vars(train_data: pd.DataFrame,
                   vali_data: pd.DataFrame,
                   test_data: pd.DataFrame
-                   ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+                   ) -> tuple[pd.DataFrame, 
+                              pd.DataFrame, 
+                              pd.DataFrame]:
     """
     Function that adds exogenous variables to a time series datasets.
 
