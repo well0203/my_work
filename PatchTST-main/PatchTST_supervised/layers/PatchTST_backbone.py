@@ -194,8 +194,9 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         self.dropout = nn.Dropout(dropout)
 
         # Encoder
-        self.encoder = TSTEncoder(q_len, d_model, n_heads, d_k=d_k, d_v=d_v, d_ff=d_ff, norm=norm, attn_dropout=attn_dropout, dropout=dropout,
-                                   pre_norm=pre_norm, activation=act, res_attention=res_attention, n_layers=n_layers, store_attn=store_attn)
+        self.encoder = TSTEncoder(c_in, q_len, d_model, n_heads, d_k=d_k, d_v=d_v, d_ff=d_ff, norm=norm, attn_dropout=attn_dropout, dropout=dropout,
+                                   pre_norm=pre_norm, activation=act, res_attention=res_attention, n_layers=n_layers, store_attn=store_attn, 
+                                   channel_mixing=channel_mixing)
 
     
     def forward(self, x) -> Tensor:                                              # x: [bs x nvars x patch_len x patch_num]
@@ -271,15 +272,16 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
     
 # Cell
 class TSTEncoder(nn.Module):
-    def __init__(self, q_len, d_model, n_heads, d_k=None, d_v=None, d_ff=None, 
+    def __init__(self, c_in, q_len, d_model, n_heads, d_k=None, d_v=None, d_ff=None, 
                         norm='BatchNorm', attn_dropout=0., dropout=0., activation='gelu',
-                        res_attention=False, n_layers=1, pre_norm=False, store_attn=False):
+                        res_attention=False, n_layers=1, pre_norm=False, store_attn=False, channel_mixing=0):
         super().__init__()
 
-        self.layers = nn.ModuleList([TSTEncoderLayer(q_len, d_model, n_heads=n_heads, d_k=d_k, d_v=d_v, d_ff=d_ff, norm=norm,
+        self.layers = nn.ModuleList([TSTEncoderLayer(c_in, q_len, d_model, n_heads=n_heads, d_k=d_k, d_v=d_v, d_ff=d_ff, norm=norm,
                                                       attn_dropout=attn_dropout, dropout=dropout,
                                                       activation=activation, res_attention=res_attention,
-                                                      pre_norm=pre_norm, store_attn=store_attn) for i in range(n_layers)])
+                                                      pre_norm=pre_norm, store_attn=store_attn, 
+                                                      channel_mixing=channel_mixing) for i in range(n_layers)])
         self.res_attention = res_attention
 
     def forward(self, src:Tensor, key_padding_mask:Optional[Tensor]=None, attn_mask:Optional[Tensor]=None):
@@ -295,16 +297,24 @@ class TSTEncoder(nn.Module):
 
 
 class TSTEncoderLayer(nn.Module):
-    def __init__(self, q_len, d_model, n_heads, d_k=None, d_v=None, d_ff=256, store_attn=False,
-                 norm='BatchNorm', attn_dropout=0, dropout=0., bias=True, activation="gelu", res_attention=False, pre_norm=False):
+    def __init__(self, c_in, q_len, d_model, n_heads, d_k=None, d_v=None, d_ff=256, store_attn=False,
+                 norm='BatchNorm', attn_dropout=0, dropout=0., bias=True, activation="gelu", res_attention=False, pre_norm=False, 
+                 channel_mixing=0):
+        
         super().__init__()
         assert not d_model%n_heads, f"d_model ({d_model}) must be divisible by n_heads ({n_heads})"
         d_k = d_model // n_heads if d_k is None else d_k
         d_v = d_model // n_heads if d_v is None else d_v
+        
+        # Adjust d_k and d_v based on channel mixing
+        if channel_mixing:
+            d_k *= c_in  # Scale d_k for the number of variables if channel mixing is applied
+            d_v *= c_in  # Scale d_v similarly
+            d_model *= c_in # Scale the overall model dimension
 
         # Multi-Head attention
         self.res_attention = res_attention
-        self.self_attn = _MultiheadAttention(d_model, n_heads, d_k, d_v, attn_dropout=attn_dropout, proj_dropout=dropout, res_attention=res_attention)
+        self.self_attn = _MultiheadAttention(d_model, n_heads, d_k=d_k, d_v=d_v, attn_dropout=attn_dropout, proj_dropout=dropout, res_attention=res_attention)
 
         # Add & Norm
         self.dropout_attn = nn.Dropout(dropout)
