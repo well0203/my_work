@@ -189,7 +189,8 @@ def extract_metrics_from_output(output,
 def convert_results_into_df(results, 
                             path_dir = None,
                             csv_name = None,
-                            if_loss_fnc=True
+                            if_loss_fnc=True,
+                            itr=2
                             ) -> pd.DataFrame:
     """
     Function to convert results into a pandas DataFrame.
@@ -199,6 +200,7 @@ def convert_results_into_df(results,
         path_dir (str): Path to the directory where the results will be saved (default: None).
         csv_name (str): Name of the CSV file to save the results (default: None).
         if_loss_fnc (bool): Whether the loss function is included in the results (default: True).
+        itr (int): Number of iterations to extract metrics for (default: 2).
         
     Returns:
         pd.DataFrame: DataFrame containing the results.
@@ -217,7 +219,10 @@ def convert_results_into_df(results,
         df.to_csv(os.path.join(path_dir, csv_name), index=True)
 
     else:
-        df.set_index(['Country', 'Pred_len', 'Iteration'], inplace=True)
-        df = df.groupby(['Country', 'Pred_len']).mean()
+        if itr > 1:
+            df.set_index(['Country', 'Pred_len', 'Iteration'], inplace=True)
+            df = df.groupby(['Country', 'Pred_len']).mean()
+        else:
+            df.set_index(['Country', 'Pred_len'], inplace=True)
 
     return df
