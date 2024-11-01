@@ -130,7 +130,35 @@ class Flatten_Head(nn.Module):
             x = self.dropout(x)
         return x
         
+
+class ChannelMixingHead(nn.Module):
+    def __init__(self, n_vars, patch_num, d_model, target_window, head_dropout=0):
+        super().__init__()
+
+        self.n_vars = n_vars
+        self.target_window = target_window
         
+        # Linear layer to project from (patch_num * d_model) to (n_vars * target_window)
+        self.linear = nn.Linear(patch_num * d_model, n_vars * target_window)  
+        self.dropout = nn.Dropout(head_dropout)
+
+    def forward(self, x):  # x: [bs x patch_num x d_model]
+        bs, patch_num, d_model = x.size()  # Extract batch size, patch number, and model dimension
+        
+        # Flatten the input to [bs, patch_num * d_model]
+        x_flat = x.view(bs, patch_num * d_model)  # Shape: [bs, patch_num * d_model]
+
+        # Project to [bs, n_vars * target_window]
+        x = self.linear(x_flat)  # Shape: [bs, n_vars * target_window]
+
+        # Apply dropout
+        x = self.dropout(x)  # Shape: [bs, n_vars * target_window]
+
+        # Reshape to [bs, n_vars, target_window]
+        x = x.view(bs, self.n_vars, self.target_window)  # Final shape: [bs, n_vars, target_window]
+
+        return x
+
     
     
 class TSTiEncoder(nn.Module):  #i means channel-independent
@@ -149,11 +177,13 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         
         # Input encoding
         q_len = patch_num
+        """
+        # Approach 1:
+        if self.channel_mixing:
+            d_model = c_in*d_model
+        """
         self.W_P = nn.Linear(patch_len, d_model)        # Eq 1: projection of feature vectors onto a d-dim vector space
         self.seq_len = q_len
-
-        # Positional encoding
-        # self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
         
         if self.channel_mixing:
             self.W_pos = positional_encoding(pe, learn_pe, q_len, c_in*d_model)
@@ -169,18 +199,55 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
 
     
     def forward(self, x) -> Tensor:                                              # x: [bs x nvars x patch_len x patch_num]
-        
+        """
+        # Approach 1:
+        self.linear_projection = nn.Linear(d_model*n_vars, patch_len * n_vars)
+ 
         n_vars = x.shape[1]
         # Input encoding
         x = x.permute(0,1,3,2)                                                   # x: [bs x nvars x patch_num x patch_len]
-        x = self.W_P(x)                                                          # x: [bs x nvars x patch_num x d_model] aka [B x M x N x D_model]
+        if self.channel_mixing:
+            x = x.permute(0,2,1,3)                                                # x: [bs x patch_num x nvars x patch_len]     
+            x = torch.reshape(x, (x.shape[0], x.shape[1], x.shape[2]*x.shape[3])) # x: [bs x patch_num x (nvars * patch_len))]
 
-        # CHANNEL MIXING
-        # We have [B x M x N x D_model] (D_model is projected P(patch_len))
-        # Now we need M*P or D_model, so we need to swap M and N to N, M to get:
-        # [B x N x M x D_model] 
-        # Then do a reshape to [B x N x (M*D_model)]
+        # x: [bs x nvars x patch_num x d_model]
+        # Channel mixing x: [bs x patch_num x (nvars * d_model)] -> [bs * patch_num x (d_model)]
+        x = self.W_P(x)
+
+        if self.channel_mixing:
+            u = x
+        else:
+            u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
         
+        u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
+        # Channel mixing u: [bs x patch_num x (d_model)]
+        
+        # Encoder
+        z = self.encoder(u)                                                      # z: [bs * nvars x patch_num x d_model]
+                                                                                 # OR: Channel-mixing z: [bs x patch_num x (d_model)]
+        if self.channel_mixing:
+            z = self.linear_projection(z)  # z: [bs x patch_num x (n_vars * d_model)]
+
+            z = z.view(z.shape[0], z.shape[1], self.patch_len, self.d_model)  # z: [bs x patch_num x patch_len x d_model]
+
+        else:
+            z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
+            z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]        
+        
+        return z   
+        """
+        n_vars = x.shape[1]
+
+        # Input encoding
+        x = x.permute(0,1,3,2)                                                   # x: [bs x nvars x patch_num x patch_len]
+        x = self.W_P(x)                                                          # x: [bs x nvars x patch_num x d_model] aka [B x M x N x D_model]
+        """
+        CHANNEL MIXING:
+        1. We have [B x M x N x D_model] (D_model is projected P(patch_len))
+        2. Now we need M*P or D_model, so we need to swap M and N to N, M to get: [B x N x M x D_model] 
+        3.Then do a reshape to [B x N x (M*D_model)]
+        # In such way we can recover the original shape (patches)
+        """
         if self.channel_mixing:
             x = x.permute(0,2,1,3)                                                # x: [bs x patch_num x nvars x d_model]
             u = torch.reshape(x, (x.shape[0], x.shape[1], x.shape[2]*x.shape[3]))  # u: [bs x patch_num x (nvars*d_model)]
@@ -189,9 +256,6 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         
         u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
         
-        # u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
-        # u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
-
         # Encoder
         z = self.encoder(u)                                                      # z: [bs * nvars x patch_num x d_model]
                                                                                  # OR: z: [B * N x (M*D_model)]
@@ -204,10 +268,6 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         
         return z    
         
-        # z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
-        # z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
-        # return z    
-            
     
 # Cell
 class TSTEncoder(nn.Module):

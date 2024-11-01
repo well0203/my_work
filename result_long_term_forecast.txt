@@ -22,3 +22,33 @@ Scaled mse:0.05510799586772919, rmse:0.2347509264945984, mae:0.176467627286911, 
 long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
 Scaled mse:0.018535790964961052, rmse:0.13614621758460999, mae:0.08180207759141922, rse:0.5266919136047363
 
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010351366363465786, rmse:0.10174166411161423, mae:0.05903340503573418, rse:0.3940245509147644
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.018524011597037315, rmse:0.13610294461250305, mae:0.08219549059867859, rse:0.526524543762207
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.019390663132071495, rmse:0.13925036787986755, mae:0.08589297533035278, rse:0.5387005805969238
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl512_ll48_pl96_dm32_nh8_el2_dl1_df128_fc3_ebtimeF_Exp_0  
+Scaled mse:0.018481871113181114, rmse:0.135948047041893, mae:0.08066105097532272, rse:0.52592533826828
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl96_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010848339647054672, rmse:0.10415536165237427, mae:0.05946776270866394, rse:0.40204980969429016
+
+long_term_forecast_1_TimeLLM_FR_ftM_sl96_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.013321156613528728, rmse:0.11541731655597687, mae:0.07111877202987671, rse:0.44527462124824524
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02273400127887726, rmse:0.15077798068523407, mae:0.09537788480520248, rse:0.5325193405151367
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02273400127887726, rmse:0.15077798068523407, mae:0.09537788480520248, rse:0.5325193405151367
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03578183427453041, rmse:0.18916086852550507, mae:0.12824216485023499, rse:0.6698496341705322
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03767301142215729, rmse:0.19409537315368652, mae:0.1336192935705185, rse:0.6876434087753296
+
