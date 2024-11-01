@@ -334,56 +334,62 @@ def stacked_bar_plot_per_season(data,
     plt.show()
 
 
-def heatmap_plot(data, 
-                 country, 
-                 cmap=['Blues', 'Oranges', 'YlGnBu']):
+def heatmap_plot(data, country, x_axis='Month', y_axis='HourOfDay', cmap=['Blues', 'Oranges', 'YlGnBu']):
     """
-    Plots heatmaps for given time series data.
+    Plots heatmaps for given time series data with flexible x and y axis groupings.
 
     Args:
         data (pandas.DataFrame): The DataFrame containing time series data.
         country (str): The name of the country to plot heatmaps for.
-        cmap (list): A list of color maps for each heatmap (default: 
-                    ['Blues', 'Oranges', 'YlGnBu']).
-
-    Returns:
-        None
-    """
-    # Clean and format column names
-    """
-    result_col_names = [' '.join(col.split('_')[2:-3]) if 'GB' in col and 'load' in col
-                        else ' '.join(col.split('_')[1:-3]) if 'load' in col 
-                        else ' '.join(col.split('_')[2:-1]) if 'GB' in col
-                        else ' '.join(col.split('_')[1:-1]) for col in data.columns]
+        x_axis (str): The x-axis grouping (default: 'Month').
+        y_axis (str): The y-axis grouping (default: 'HourOfDay').
+        cmap (list): A list of color maps for each heatmap (default: ['Blues', 'Oranges', 'YlGnBu']).
     """
 
     result_col_names = [change_col_name(col) for col in data.columns]
 
-    # Extract hour and month for pivoting
-    heatmap_data = data.copy()
-    heatmap_data['hour'] = heatmap_data.index.hour
-    heatmap_data['month'] = heatmap_data.index.month
+    change_axis_name = {
+        'Month': 'Month',
+        'DayOfWeek': 'Day Of Week',
+        'HourOfDay': 'Hour'
+    }
+    new_x_axis = change_axis_name[x_axis]
+    new_y_axis = change_axis_name[y_axis]
 
-    # Create pivot tables for heatmaps
-    heatmaps = [heatmap_data.pivot_table(index='hour', columns='month', values=col, aggfunc='mean') for col in data.columns]
+    columns_to_plot = [col for col in data.columns if col not in [x_axis, y_axis]]
+
+    # Pivot tables
+    heatmaps = [
+        data.pivot_table(index=y_axis, columns=x_axis, values=col, aggfunc='mean')
+        for col in columns_to_plot
+    ]
     
-    # Create a 1x3 subplot
-    fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+    fig, axs = plt.subplots(1, len(columns_to_plot), figsize=(5 * len(columns_to_plot), 5))
 
-    # Iterate over heatmaps and axes to plot
-    for i, (df, ax) in enumerate(zip(heatmaps, axs)):
-        sns.heatmap(df, cmap=cmap[i], ax=ax, cbar_kws={'label': f'Avg {result_col_names[i]} (MW)'})
-        ax.set_xlabel('Month', fontsize=12)
-        if i == 0:
-            ax.set_ylabel('Hour of Day', fontsize=12)
-        else:
-            ax.set_ylabel(None)
-        ax.set_xticks(range(1, 13))
-        ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], rotation=30)
-        ax.set_title(f'Avg "{result_col_names[i]}" by Hour and Month', fontsize=14)
+    # Plot each heatmap
+    for i, (df, ax) in enumerate(zip(heatmaps, axs if len(columns_to_plot) > 1 else [axs])):
+        sns.heatmap(df, cmap=cmap[i % len(cmap)], ax=ax, cbar_kws={'label': f'Avg {result_col_names[i]} (MW)'})
+        ax.set_xlabel(new_x_axis, fontsize=12)
+        ax.set_ylabel(new_y_axis, fontsize=12)
+        
+        # Customize tick labels
+        if x_axis == 'Month':
+            ax.set_xticks(range(1, 13))
+            ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], rotation=30)
+        elif x_axis == 'DayOfWeek':
+            ax.set_xticks(range(7))
+            ax.set_xticklabels(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], rotation=30)
+        
+        if y_axis == 'DayOfWeek':
+            ax.set_yticks(range(7))
+            ax.set_yticklabels(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], rotation=0)
+        elif y_axis == 'Month':
+            ax.set_yticks(range(1, 13))
+            ax.set_yticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], rotation=0)
+        
+        ax.set_title(f'{result_col_names[i]}', fontsize=14)
 
-    # Adjust layout to avoid overlap
-    plt.suptitle(f'Heatmaps for {country}', fontsize=16)
+    plt.suptitle(f'Heatmaps for {country} by {new_y_axis} and {new_x_axis}', fontsize=16)
     plt.tight_layout()
     plt.show()
 
@@ -410,3 +416,24 @@ def plot_correlations_between_2vars(df, var1, var2, ax, color, lags=range(1, 49)
     ax.set_xlabel('Lags (hours)', fontsize=12)
     ax.set_ylabel('Correlation Coefficient', fontsize=12)
     ax.axhline(0, color='gray', linestyle='--')
+
+
+def lineplot_column(data, x_col, y_col, title):
+    """
+    Plots a line plot for a specified column.
+
+    Parameters:
+        data (DataFrame): The DataFrame containing the data.
+        x_col (str): The name of the column for the x-axis.
+        y_col (str): The name of the column to plot on the y-axis.
+        title (str): The title for the plot.
+    """
+    plt.figure(figsize=(10, 4))
+    sns.lineplot(data=data, x=x_col, y=y_col)
+    plt.title(title)
+    plt.xlabel('Date', fontsize=10)
+    plt.ylabel('MW', fontsize=10)
+    plt.xticks(fontsize=8)
+    plt.yticks(fontsize=8)
+    plt.tight_layout()
+    plt.show()
