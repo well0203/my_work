@@ -230,3 +230,57 @@ def convert_results_into_df(results,
             df.set_index(['Country', 'Pred_len'], inplace=True)
 
     return df
+
+
+def highlight_value(serie,
+                         fnc='min'
+                  ) -> pd.Series:
+    """
+    Function to highlight the minimum or maximum value in bold.
+
+    Args:
+        serie (pd.Series): The input series.
+        fnc (str): The function to apply. Possible values: 'min' or 'max'.
+
+    Returns:
+        pd.Series: The series with the minimum value highlighted in bold.
+    """
+
+    if fnc == 'min':
+        is_min = serie == serie.min()
+    elif fnc == 'max':
+        is_min = serie == serie.max()
+    else:
+        raise ValueError("'fnc' must be 'min' or 'max'.")
+
+    return ['font-weight: bold' if value else '' for value in is_min]  
+
+
+def style_dataframe(df,
+                    fnc='min'
+             ) -> pd.DataFrame:
+    """
+    Function to style the DataFrame.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame.
+        fnc (str): The function to apply. Possible values: 'min' or 'max'.
+
+    Returns:
+        pd.DataFrame: The DataFrame with the style applied.
+    """
+
+    if fnc not in ['min', 'max']:
+        raise ValueError("'fnc' must be 'min' or 'max'.")
+
+    # Apply only to 'RMSE' columns
+    styled_df = df.style.format("{:.4f}").apply(
+        lambda x: highlight_value(x, fnc=fnc), subset=pd.IndexSlice[:, (slice(None), 'RMSE')], axis=1 
+    )
+    
+    # Apply only to 'MAE' columns
+    styled_df = styled_df.format("{:.4f}").apply(
+        lambda x: highlight_value(x, fnc=fnc), subset=pd.IndexSlice[:, (slice(None), 'MAE')], axis=1 
+        )
+
+    return styled_df
