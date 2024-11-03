@@ -362,10 +362,14 @@ def group_and_reindex_df(data,
 
     Args:
         data (pandas.DataFrame): The dataframe to group and reindex.
-        to_group (str): The index to group by and reindex (default: 'Country').
+        to_group (str): The index to group by and reindex (default: 'Country')
+                        can be 'Pred_len' or both, but then needs to be a list.
     """
+    if type(to_group) != list:
+        original_order = data.index.get_level_values(to_group).unique()
+        data = data.groupby(level=to_group).mean()
+        data = data.reindex(original_order)
+    else:
+        data = data.mean(axis=0).reset_index().rename(columns={0:'Value'})
     
-    original_order = data.index.get_level_values(to_group).unique()
-    data = data.groupby(level=to_group).mean()
-    
-    return data.reindex(original_order)
+    return data

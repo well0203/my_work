@@ -1,14 +1,18 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec 
 import seaborn as sns
 from matplotlib.ticker import FuncFormatter
 
+from typing import List, Dict, Tuple
 
-def get_x_positions_values(categories,
-                    groups,
-                    bar_positions
-                    ) -> dict:
+
+def get_x_positions_values(categories: List[str],
+                           groups: List[str],
+                           bar_positions: List[float]
+                           ) -> Dict[Tuple[str, str], 
+                                     Dict[str, float]]:
     """
     Get the x positions and values for the categories and groups.
 
@@ -18,8 +22,9 @@ def get_x_positions_values(categories,
         bar_positions (List[float]): The positions of the bars.
 
     Returns:
-        dict: A dictionary containing the x positions and values for each 
-        category and group.
+        Dict[Tuple[str, str], Dict[str, float]]: A dictionary containing 
+                                                 the x positions and values 
+                                                 for each category and group.
     """
                     
 
@@ -44,9 +49,9 @@ def get_x_positions_values(categories,
     return category_group_dict
 
 
-def format_ticks(value,
-                 tick_number,
-                 decimal_places=2
+def format_ticks(value: float,
+                 tick_number: int,
+                 decimal_places: int = 2
                  ) -> str:
     """Format tick labels to show two decimal points.
 
@@ -62,16 +67,16 @@ def format_ticks(value,
     return f"{value:.{decimal_places}f}"
 
 
-def plot_results_comparison_models(data, 
-                                   ax, 
-                                   country=None, 
-                                   eval_metric='RMSE'):
+def plot_results_comparison_models(data: pd.DataFrame, 
+                                   ax: plt.Axes, 
+                                   country: str = None, 
+                                   eval_metric: str = 'RMSE'):
     """
     Plots lineplots for the results comparison between all models with 
     the specific evaluation metric for a specific country. 
 
     Args:
-        data (pandas.DataFrame): The dataframe to plot. 
+        data (pd.DataFrame): The dataframe to plot. 
         ax (matplotlib.axes.Axes): The axes to plot on.
         country (str): The country to plot (default: None).
         eval_metric (str): The evaluation metric to plot (default: 'RMSE').
@@ -117,14 +122,14 @@ def plot_results_comparison_models(data,
         ax.set_title(f'{eval_metric}', fontsize=16, fontweight='bold')
 
 
-def plot_bar_comparison(data, 
-                        ax, 
-                        country=None, 
-                        plot_x_axis='Pred_len',
-                        eval_metric='RMSE',
-                        plot_min_markers=False,
-                        plot_max_markers=False,
-                        palette="CMRmap"):
+def plot_bar_comparison(data: pd.DataFrame, 
+                        ax: plt.Axes, 
+                        country: str = None, 
+                        plot_x_axis: str = 'Pred_len',
+                        eval_metric: str = 'RMSE',
+                        plot_min_markers: bool = False,
+                        plot_max_markers: bool = False,
+                        palette: str = "CMRmap"):
     """
     Plots barplot for the results comparison between models with 
     the specific evaluation metric for a specific country. 
@@ -143,7 +148,7 @@ def plot_bar_comparison(data,
     Returns:
         None
     """
-
+    
     # Get models names
     models = data.columns.get_level_values('Model').unique().to_list()
     categories = data.index.get_level_values(plot_x_axis).unique().to_list()
@@ -215,13 +220,13 @@ def plot_bar_comparison(data,
     ax.tick_params(axis='y', labelsize=12) 
     
 
-def plot_results_models_multiple_countries(data, 
-                                           function="lines", 
-                                           eval_metric='RMSE', 
-                                           palette="CMRmap",
-                                           plot_min_markers=False,
-                                           plot_max_markers=False,
-                                           decimal_places=2):
+def plot_results_models_multiple_countries(data: pd.DataFrame, 
+                                           function: str = "lines", 
+                                           eval_metric: str = 'RMSE', 
+                                           palette: str = "CMRmap",
+                                           plot_min_markers: bool = False,
+                                           plot_max_markers: bool = False,
+                                           decimal_places: int = 2):
     """
     Creates a grid of subplots for each specified country over pred_lens and models 
     for a specific evaluation metric.
@@ -310,13 +315,13 @@ def plot_results_models_multiple_countries(data,
     plt.show()
 
 
-def plot_comparison_for_metrics(data, 
-                                plot_x_axis='Pred_len',
-                                plot_type="bars",
-                                palette="CMRmap",
-                                plot_min_markers=False,
-                                plot_max_markers=False,
-                                decimal_places=2):
+def plot_comparison_for_metrics(data: pd.DataFrame, 
+                                plot_x_axis: str = 'Pred_len',
+                                plot_type: str = "bars",
+                                palette: str = "CMRmap",
+                                plot_min_markers: bool = False,
+                                plot_max_markers: bool = False,
+                                decimal_places: int = 2):
     """
     Calls the plot_bar_comparison function to plot two metrics side by side.
 
@@ -378,6 +383,58 @@ def plot_comparison_for_metrics(data,
                bbox_to_anchor=(0.5, -0.15))
 
     # Adjust layout
+    plt.tight_layout()
+    plt.show()
+    
+
+def plot_barplots(data: pd.DataFrame, 
+                  x_col: str, 
+                  col_name: str = 'Metrics', 
+                  palette: str = 'CMRmap',
+                  decimal_places: int = 2):
+    """
+    Plots two bar plots side-by-side using Seaborn.
+    
+    Args:
+    - data (pd.DataFrame): DataFrame to plot.
+    - x_col (str): The column name for the x-axis.
+    - col_name (str): The column name for the y-axis.
+    - palette (str): The color palette to use.
+    
+    Returns:
+    - None
+    """
+
+    y_cols = list(data[col_name].unique())
+    fig, axes = plt.subplots(1, len(y_cols), figsize=(8, 4), sharey=True)
+    
+    for ax, y_col in zip(axes, y_cols):
+        subset = data[data[col_name] == y_col]
+        sns.barplot(hue=x_col, y='Value', data=subset, ax=ax, palette=palette)#, legend=False)
+        ax.set_title(f'{y_col}', fontsize=16, fontweight='bold')
+
+        y_min, y_max = ax.get_ylim() 
+        ax.set_yticks(np.linspace(y_min, y_max, 4)) 
+        ax.tick_params(axis='y', labelsize=12)
+
+        ax.set_ylabel('')
+        ax.legend_.remove()
+        
+        ax.yaxis.set_major_formatter(
+                FuncFormatter(lambda value, 
+                              tick_number: 
+                              format_ticks(value, 
+                                           tick_number, 
+                                           decimal_places=decimal_places)))
+        
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, 
+               labels, 
+               loc='lower center', 
+               ncol=4, 
+               fontsize=16, 
+               bbox_to_anchor=(0.5, -0.15))
+
     plt.tight_layout()
     plt.show()
     
