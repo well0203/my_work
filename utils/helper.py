@@ -257,7 +257,8 @@ def highlight_value(serie,
 
 
 def style_dataframe(df,
-                    fnc='min'
+                    fnc='min',
+                    decimal_places=4
              ) -> pd.DataFrame:
     """
     Function to style the DataFrame.
@@ -265,6 +266,7 @@ def style_dataframe(df,
     Args:
         df (pd.DataFrame): The input DataFrame.
         fnc (str): The function to apply. Possible values: 'min' or 'max'.
+        decimal_places (int): The number of decimal places to round the values to.
 
     Returns:
         pd.DataFrame: The DataFrame with the style applied.
@@ -273,14 +275,76 @@ def style_dataframe(df,
     if fnc not in ['min', 'max']:
         raise ValueError("'fnc' must be 'min' or 'max'.")
 
+    format_string = f"{{:.{decimal_places}f}}"
+    
     # Apply only to 'RMSE' columns
-    styled_df = df.style.format("{:.4f}").apply(
+    styled_df = df.style.format(format_string).apply(
         lambda x: highlight_value(x, fnc=fnc), subset=pd.IndexSlice[:, (slice(None), 'RMSE')], axis=1 
     )
     
     # Apply only to 'MAE' columns
-    styled_df = styled_df.format("{:.4f}").apply(
+    styled_df = styled_df.format(format_string).apply(
         lambda x: highlight_value(x, fnc=fnc), subset=pd.IndexSlice[:, (slice(None), 'MAE')], axis=1 
         )
 
     return styled_df
+
+
+def map_country_name(country_code):
+    """
+    Function to map country names to country codes
+    Args:
+        country_code (str): Country code
+
+    Returns:
+        str: Country name
+    """
+    mapping_dict = {
+        'DE': 'Germany',
+        'GB': 'United Kingdom',
+        'ES': 'Spain',
+        'FR': 'France',
+        'IT': 'Italy'
+    }
+
+    return mapping_dict[country_code]
+
+
+def read_results_csv(file_path, 
+                    columns_to_extract = ('-RevIN', ['RMSE', 'MAE'])):
+    """
+    Read data from a csv file from our multiindex results.
+    Args:
+        file_path (str): CSV file name with its corresponding folder.
+        columns_to_extract (tuple): The columns to extract from the CSV file.
+                                    Should be in the format (model, ['RMSE', 'MAE']).
+                                    Defaults to ('-RevIN', ['RMSE', 'MAE']).
+    Returns:
+        pd.DataFrame: The resulted DataFrame from the CSV file.
+    """
+
+    path_dir = 'results/'
+    path = os.path.join(path_dir, file_path)
+
+    return pd.read_csv(path, 
+                       header=[0, 1], 
+                       index_col=[0, 1]
+                       ).loc[:, columns_to_extract]
+
+
+def group_and_reindex_df(data,
+                         to_group='Country'
+                         ) -> pd.DataFrame:
+    """
+    Groups the dataframe by a specific index and reindexes 
+    the result to match the original order.
+
+    Args:
+        data (pandas.DataFrame): The dataframe to group and reindex.
+        to_group (str): The index to group by and reindex (default: 'Country').
+    """
+    
+    original_order = data.index.get_level_values(to_group).unique()
+    data = data.groupby(level=to_group).mean()
+    
+    return data.reindex(original_order)
