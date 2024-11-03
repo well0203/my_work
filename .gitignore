@@ -19,6 +19,10 @@ standard_unscaled/
 minmax_IT/
 standard_unscaled_IT/
 results_transformers/
+informer_npy_results/
+informer_pictures_of_time_series/ 
+patchtst_npy_results_336/
+patchtst_pictures_of_time_series_336/
 
 # Notebooks
 0a.Data_selection.ipynb
