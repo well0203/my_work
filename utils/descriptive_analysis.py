@@ -244,7 +244,10 @@ def periodograms(data,
             years_per_dataset = n_samples_h / hours_per_year
             f_per_year = f_per_dataset / years_per_dataset
             
-            ax.plot(f_per_year, np.abs(fft), drawstyle='steps-mid', color=sns.color_palette("muted")[i % len(sns.color_palette("muted"))], label="Amplitude")
+            ax.plot(f_per_year, np.abs(fft), 
+                    drawstyle='steps-mid', 
+                    color=sns.color_palette("muted")[i % len(sns.color_palette("muted"))], 
+                    label="Amplitude")
             
             ax.set_xscale('log')
             if np.abs(fft).max() > max_ylim:
@@ -343,10 +346,16 @@ def stacked_bar_plot_per_season(data,
     data.columns = [change_col_name(col) if col != 'season' else col for col in data.columns]
 
     # Group data by season and calculating the means 
-    seasonal_avg = data.groupby('season').agg('mean').reset_index().sort_values(
-        'season', key=lambda x: pd.Categorical(x, categories=season_order, ordered=True))
+    seasonal_avg = data.groupby('season'
+                                ).agg('mean'
+                                      ).reset_index(
+                                          ).sort_values('season', 
+                                                        key=lambda x: pd.Categorical(x, 
+                                                                                     categories=season_order, 
+                                                                                     ordered=True))
 
-    melted_df = pd.melt(seasonal_avg, id_vars=['season'], value_vars=seasonal_avg.columns[1:])
+    melted_df = pd.melt(seasonal_avg, id_vars=['season'], 
+                        value_vars=seasonal_avg.columns[1:])
 
     # Create the figure
     plt.figure(figsize=(4, 4))

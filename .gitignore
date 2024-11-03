@@ -23,6 +23,8 @@ informer_npy_results/
 informer_pictures_of_time_series/ 
 patchtst_npy_results_336/
 patchtst_pictures_of_time_series_336/
+timellm_npy_results/
+timellm_pictures_of_time_series/
 
 # Notebooks
 0a.Data_selection.ipynb

@@ -42,7 +42,8 @@ def split_scale_dataset(data: pd.DataFrame,
         scaler_type (str): Scaler to be used. Possible values: 'standard' 
                            or 'minmax', or 'minmax2'. The latter uses a range 
                            of 0 to 5 (default: 'standard').
-        inverse_transform (bool): If True, inverse transform the data (default: False).
+        inverse_transform (bool): If True, inverse transform the data 
+                                  (default: False).
 
     Returns: 
         train_data_sc, vali_data_sc, test_data_sc (pd.DataFrame): Scaled datasets
@@ -93,9 +94,18 @@ def split_scale_dataset(data: pd.DataFrame,
         test_data_sc = scaler.inverse_transform(test_data_sc)
 
     # convert scaled data back to pandas DataFrames
-    train_data_sc = pd.DataFrame(train_data_sc, columns=train_data.columns, index=train_data.index)
-    vali_data_sc = pd.DataFrame(vali_data_sc, columns=vali_data.columns, index=vali_data.index)
-    test_data_sc = pd.DataFrame(test_data_sc, columns=test_data.columns, index=test_data.index)
+    train_data_sc = pd.DataFrame(train_data_sc, 
+                                 columns=train_data.columns, 
+                                 index=train_data.index
+                                 )
+    vali_data_sc = pd.DataFrame(vali_data_sc, 
+                                columns=vali_data.columns, 
+                                index=vali_data.index
+                                )
+    test_data_sc = pd.DataFrame(test_data_sc, 
+                                columns=test_data.columns, 
+                                index=test_data.index
+                                )
 
     return train_data_sc, vali_data_sc, test_data_sc
 
@@ -110,7 +120,8 @@ def add_exog_vars(train_data: pd.DataFrame,
     Function that adds exogenous variables to a time series datasets.
 
     Args:
-        train_data, vali_data, test_data (pd.DataFrame): Dataframe with time series data.
+        train_data, vali_data, test_data (pd.DataFrame): Dataframe with 
+                                                         time series data.
        
     Returns: 
     pd.DataFrame *3: Datasets with exogenous variables
@@ -200,11 +211,16 @@ def convert_results_into_df(results,
     Function to convert results into a pandas DataFrame.
     
     Args:
-        results (list): List of tuples/dictionaries containing the results.
-        path_dir (str): Path to the directory where the results will be saved (default: None).
-        csv_name (str): Name of the CSV file to save the results (default: None).
-        if_loss_fnc (bool): Whether the loss function is included in the results (default: True).
-        itr (int): Number of iterations to extract metrics for (default: 2).
+        results (list): List of tuples/dictionaries containing 
+                        the results.
+        path_dir (str): Path to the directory where the results 
+                        will be saved (default: None).
+        csv_name (str): Name of the CSV file to save the results 
+                        (default: None).
+        if_loss_fnc (bool): Whether the loss function is included 
+                            in the results (default: True).
+        itr (int): Number of iterations to extract metrics for 
+                   (default: 2).
         
     Returns:
         pd.DataFrame: DataFrame containing the results.
@@ -266,7 +282,8 @@ def style_dataframe(df,
     Args:
         df (pd.DataFrame): The input DataFrame.
         fnc (str): The function to apply. Possible values: 'min' or 'max'.
-        decimal_places (int): The number of decimal places to round the values to.
+        decimal_places (int): The number of decimal places to round the 
+                              values to.
 
     Returns:
         pd.DataFrame: The DataFrame with the style applied.
@@ -279,12 +296,16 @@ def style_dataframe(df,
     
     # Apply only to 'RMSE' columns
     styled_df = df.style.format(format_string).apply(
-        lambda x: highlight_value(x, fnc=fnc), subset=pd.IndexSlice[:, (slice(None), 'RMSE')], axis=1 
+        lambda x: highlight_value(x, fnc=fnc), 
+        subset=pd.IndexSlice[:, (slice(None), 'RMSE')], 
+        axis=1 
     )
     
     # Apply only to 'MAE' columns
     styled_df = styled_df.format(format_string).apply(
-        lambda x: highlight_value(x, fnc=fnc), subset=pd.IndexSlice[:, (slice(None), 'MAE')], axis=1 
+        lambda x: highlight_value(x, fnc=fnc), 
+        subset=pd.IndexSlice[:, (slice(None), 'MAE')], 
+        axis=1 
         )
 
     return styled_df
