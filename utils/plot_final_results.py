@@ -412,7 +412,18 @@ def plot_barplots(data: pd.DataFrame,
         subset = data[data[col_name] == y_col]
         sns.barplot(hue=x_col, y='Value', data=subset, ax=ax, palette=palette)#, legend=False)
         ax.set_title(f'{y_col}', fontsize=16, fontweight='bold')
-
+        """
+        # Annotate each bar with its value
+        for bar in ax.patches:
+            height = bar.get_height()
+            
+            if not np.isnan(height):  
+                ax.annotate(f'{height}',#:.{decimal_places}f}',
+                            xy=(bar.get_x() + bar.get_width() / 2, height),
+                            xytext=(0, 3),  
+                            textcoords="offset points",
+                            ha='center', va='bottom', fontsize=10)
+        """
         y_min, y_max = ax.get_ylim() 
         ax.set_yticks(np.linspace(y_min, y_max, 4)) 
         ax.tick_params(axis='y', labelsize=12)
