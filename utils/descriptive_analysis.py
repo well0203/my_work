@@ -440,12 +440,12 @@ def heatmap_plot(data, country,
     plt.show()
 
 
-def plot_correlations_between_2vars(df, 
-                                    var1, 
-                                    var2, 
-                                    ax, 
-                                    color, 
-                                    lags=range(1, 49)):
+def plot_correlations_between_2vars(df: pd.DataFrame, 
+                                    var1: str, 
+                                    var2: str, 
+                                    ax: plt.Axes, 
+                                    color: str, 
+                                    lags: range = range(1, 49)):
     """
     Plots correlation coefficients as a function of time lag.
 
@@ -473,15 +473,16 @@ def plot_correlations_between_2vars(df,
     ax.axhline(0, color='gray', linestyle='--')
 
 
-def lineplot_column(data, 
-                    x_col, 
-                    y_col, 
-                    title):
+def lineplot_column(data: pd.DataFrame, 
+                    x_col: str, 
+                    y_col: str, 
+                    title: str
+                    ):
     """
     Plots a line plot for a specified column.
 
     Args:
-        data (DataFrame): The DataFrame containing the data.
+        data (pd.DataFrame): The DataFrame containing the data.
         x_col (str): The name of the column for the x-axis.
         y_col (str): The name of the column to plot on the y-axis.
         title (str): The title for the plot.
@@ -497,4 +498,59 @@ def lineplot_column(data,
     plt.xticks(fontsize=8)
     plt.yticks(fontsize=8)
     plt.tight_layout()
+    plt.show()
+
+
+def plot_daily_boxplots(data: pd.DataFrame, 
+                        value_col: str
+                        ):
+    """
+    Generates box plots for each day of the week to show the spread 
+    and variability of the data. Includes variance annotations for each day.
+
+    Args:
+        data (pd.DataFrame): The input DataFrame with a datetime index and a value column.
+        value_col (str): The name of the column containing the values to plot.
+
+    Returns:
+        None
+    """
+
+    data['day_of_week'] = data.index.day_name()
+
+    # Calculate the variance for each day of the week
+    variance_per_day = data.groupby('day_of_week')[value_col].var()
+
+    # Sort the variance by the order of the week
+    days_order = ['Monday', 
+                  'Tuesday', 
+                  'Wednesday', 
+                  'Thursday', 
+                  'Friday', 
+                  'Saturday', 
+                  'Sunday'
+                  ]
+    variance_per_day = variance_per_day.reindex(days_order)
+
+    # Create the box plot
+    plt.figure(figsize=(10, 6))
+    ax = sns.boxplot(x='day_of_week', 
+                     y=value_col, 
+                     data=data, 
+                     order=days_order,
+                     )
+    plt.title('Box Plots of Daily Distributions with Variance')
+    plt.xlabel('Day of the Week')
+    plt.ylabel(value_col)
+    plt.grid(True)
+
+    # Annotate the plot with variance values
+    for i, day in enumerate(days_order):
+        var_value = variance_per_day[day]
+        if pd.notnull(var_value): 
+            ax.text(i, data[value_col].max(), f'Var: {var_value:.2f}', 
+                    ha='center', va='bottom', fontsize=10, color='red')
+            
+    data.drop(columns=['day_of_week'], inplace=True)
+
     plt.show()
