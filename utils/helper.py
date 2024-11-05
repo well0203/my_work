@@ -373,3 +373,123 @@ def group_and_reindex_df(data,
         data = data.mean(axis=0).reset_index().rename(columns={0:'Value'})
     
     return data
+
+
+def select_model(country: str, 
+                 pred_len: int):
+    """
+    Select the best model for the given country and prediction length.
+
+    Args:
+    country (str): The name of the country.
+    pred_len (int): The prediction length.
+
+    Returns
+    (str): The name of the best model for the given country and prediction length.
+
+    """
+    if country == 'Germany' and pred_len == 24:
+        return 'PatchTST/42'
+    elif country in ['Germany', 'United Kingdom']:
+        return 'PatchTST/64'
+    elif country == 'Spain':
+        return 'PatchTST/42'
+    elif country in ['France', 'Italy']:
+        return 'PatchTST/21'
+
+
+def choose_best_patchtst_model(data: pd.DataFrame
+                               ) -> pd.DataFrame:
+    """
+    Choose best model for the given country and prediction length
+    using select_model() function. Creates a DataFrame with the best model 
+    for each country and prediction length.
+
+    Args:
+    data (pd.DataFrame): The DataFrame containing the results.
+
+    Returns
+    result_df (pd.DataFrame): The DataFrame containing the best model 
+                              for each country and prediction length.
+    """
+
+    selected_dfs = []
+    for (country, pred_len) in data.index:
+        model = select_model(country, pred_len)
+        selected_df = data.loc[[(country, pred_len)], pd.IndexSlice[model, :]]  # Double brackets to get a DataFrame.
+        selected_df.columns = pd.MultiIndex.from_tuples(
+            [('PatchTST', metric) for metric in selected_df.columns.get_level_values('Metrics')],
+            names=['Model', 'Metrics']
+        )
+        selected_dfs.append(selected_df)
+
+    result_df = pd.concat(selected_dfs)
+
+    return result_df
+
+
+def calculate_improvement(data: pd.DataFrame, 
+                          base_mae_model: str, 
+                          model_to_compare_mae: str, 
+                          base_rmse_model: str = None, 
+                          model_to_compare_rmse:str = None, 
+                          if_return_values: bool = False
+                          )-> tuple[float, float] | None:
+    """
+    Calculate the improvement of a base model over a second-best model 
+    in terms of MAE and RMSE.
+
+    Args:
+        data (DataFrame): DataFrame containing model performance with 
+                          'Model', 'Metrics', and 'Value' columns.
+        base_mae_model (str): The name of the base model for MAE improvement 
+                              comparison.
+        base_rmse_model (str, optional): The name of the base model for RMSE 
+                                         improvement comparison. Defaults to the 
+                                               same as base_mae_model.
+        model_to_compare_mae (str): The name of the model to compare against for 
+                                    MAE.
+        model_to_compare_rmse (str, optional): The name of the model to compare 
+                                               against for RMSE. Defaults to the 
+                                               same as model_to_compare_mae.
+
+    Returns:
+        improvement_percentage_mae, 
+        improvement_percentage_rmse 
+        (tuple[float, float]) | None: A tuple containing the improvement percentages 
+                                      for MAE and RMSE, or None.
+    """
+    if model_to_compare_rmse is None:
+        model_to_compare_rmse = model_to_compare_mae
+    if base_rmse_model is None:
+        base_rmse_model = base_mae_model
+
+    # Calculate MAE improvement
+    base_mae = data.loc[
+        (data['Model'] == base_mae_model) & (data['Metrics'] == 'MAE'), 'Value'
+    ].values
+
+    compare_mae = data.loc[
+        (data['Model'] == model_to_compare_mae) & (data['Metrics'] == 'MAE'), 'Value'
+    ].values
+
+    improvement_percentage_mae = ((compare_mae - base_mae) / 
+                                  compare_mae * 100)[0].round(2)
+    print(f'Improvement of {base_mae_model} over {model_to_compare_mae}' 
+          f'in terms of MAE: {improvement_percentage_mae} %')
+
+    # Calculate RMSE improvement
+    base_rmse = data.loc[
+        (data['Model'] == base_rmse_model) & (data['Metrics'] == 'RMSE'), 'Value'
+    ].values
+
+    compare_rmse = data.loc[
+        (data['Model'] == model_to_compare_rmse) & (data['Metrics'] == 'RMSE'), 'Value'
+    ].values
+
+    improvement_percentage_rmse = ((compare_rmse - base_rmse) / 
+                                   compare_rmse * 100)[0].round(2)
+    print(f'Improvement of {base_rmse_model} over {model_to_compare_rmse}' 
+          f'in terms of RMSE: {improvement_percentage_rmse} %')
+    if if_return_values:
+        return improvement_percentage_mae, improvement_percentage_rmse
