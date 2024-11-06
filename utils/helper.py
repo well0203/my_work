@@ -433,8 +433,9 @@ def calculate_improvement(data: pd.DataFrame,
                           model_to_compare_mae: str, 
                           base_rmse_model: str = None, 
                           model_to_compare_rmse:str = None, 
-                          if_return_values: bool = False
-                          )-> tuple[float, float] | None:
+                          if_return_values: bool = False,
+                          grouped_by_models: bool = True
+                          )-> tuple[float, float] | None | pd.DataFrame:
     """
     Calculate the improvement of a base model over a second-best model 
     in terms of MAE and RMSE.
@@ -452,44 +453,69 @@ def calculate_improvement(data: pd.DataFrame,
         model_to_compare_rmse (str, optional): The name of the model to compare 
                                                against for RMSE. Defaults to the 
                                                same as model_to_compare_mae.
+        if_return_values (bool, optional): Whether to return the improvement 
+                                           percentages for MAE and RMSE. 
+                                           Defaults to False.
+        grouped_by_models (bool, optional): Whether to calculate overall improvement 
+                                            by models. Defaults to True.
 
     Returns:
         improvement_percentage_mae, 
         improvement_percentage_rmse 
-        (tuple[float, float]) | None: A tuple containing the improvement percentages 
-                                      for MAE and RMSE, or None.
+        (tuple[float, float]) | None | pd.DataFrame: A tuple containing the improvement 
+                                                     percentages for MAE and RMSE, or None,
+                                                     if grouped_by_models is True.
+                                                     DataFrame containing the improvement 
+                                                     percentages for MAE and RMSE, if 
+                                                     grouped_by_models is False.
     """
     if model_to_compare_rmse is None:
         model_to_compare_rmse = model_to_compare_mae
     if base_rmse_model is None:
         base_rmse_model = base_mae_model
 
-    # Calculate MAE improvement
-    base_mae = data.loc[
-        (data['Model'] == base_mae_model) & (data['Metrics'] == 'MAE'), 'Value'
-    ].values
+    if grouped_by_models:
 
-    compare_mae = data.loc[
-        (data['Model'] == model_to_compare_mae) & (data['Metrics'] == 'MAE'), 'Value'
-    ].values
+        # Calculate MAE improvement
+        base_mae = data.loc[
+            (data['Model'] == base_mae_model) & (data['Metrics'] == 'MAE'), 'Value'
+        ].values
 
-    improvement_percentage_mae = ((compare_mae - base_mae) / 
-                                  compare_mae * 100)[0].round(2)
-    print(f'Improvement of {base_mae_model} over {model_to_compare_mae}' 
-          f'in terms of MAE: {improvement_percentage_mae} %')
+        compare_mae = data.loc[
+            (data['Model'] == model_to_compare_mae) & (data['Metrics'] == 'MAE'), 'Value'
+        ].values
 
-    # Calculate RMSE improvement
-    base_rmse = data.loc[
-        (data['Model'] == base_rmse_model) & (data['Metrics'] == 'RMSE'), 'Value'
-    ].values
+        improvement_percentage_mae = ((compare_mae - base_mae) / 
+                                    compare_mae * 100)[0].round(2)
+        print(f'Improvement of {base_mae_model} over {model_to_compare_mae} ' 
+            f'in terms of MAE: {improvement_percentage_mae} %')
 
-    compare_rmse = data.loc[
-        (data['Model'] == model_to_compare_rmse) & (data['Metrics'] == 'RMSE'), 'Value'
-    ].values
+        # Calculate RMSE improvement
+        base_rmse = data.loc[
+            (data['Model'] == base_rmse_model) & (data['Metrics'] == 'RMSE'), 'Value'
+        ].values
 
-    improvement_percentage_rmse = ((compare_rmse - base_rmse) / 
-                                   compare_rmse * 100)[0].round(2)
-    print(f'Improvement of {base_rmse_model} over {model_to_compare_rmse}' 
-          f'in terms of RMSE: {improvement_percentage_rmse} %')
-    if if_return_values:
-        return improvement_percentage_mae, improvement_percentage_rmse
+        compare_rmse = data.loc[
+            (data['Model'] == model_to_compare_rmse) & (data['Metrics'] == 'RMSE'), 'Value'
+        ].values
+
+        improvement_percentage_rmse = ((compare_rmse - base_rmse) / 
+                                    compare_rmse * 100)[0].round(2)
+        print(f'Improvement of {base_rmse_model} over {model_to_compare_rmse} ' 
+            f'in terms of RMSE: {improvement_percentage_rmse} %')
+        if if_return_values:
+            return improvement_percentage_mae, improvement_percentage_rmse
+
+    else:
+        data['mae_improvement'] = ((
+            (data.loc[:, (model_to_compare_mae, 'MAE')] - \
+             data.loc[:, (base_mae_model, 'MAE')]) / \
+             data.loc[:, (model_to_compare_mae, 'MAE')]
+             ) * 100).round(2)
+        data['rmse_improvement'] = ((
+            (data.loc[:, (model_to_compare_rmse, 'RMSE')] - \
+             data.loc[:, (base_rmse_model, 'RMSE')]) / \
+             data.loc[:, (model_to_compare_rmse, 'RMSE')]
+             ) * 100).round(2)
+        
+        return data
