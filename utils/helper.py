@@ -272,9 +272,45 @@ def highlight_value(serie,
     return ['font-weight: bold' if value else '' for value in is_min]  
 
 
-def style_dataframe(df,
-                    fnc='min',
-                    decimal_places=4
+def highlight_second_value(series: pd.Series, 
+                           fnc: str = 'min'
+                           ) -> list:
+    """
+    Function to highlight the second lowest or second highest value in bold,
+    based on the provided function ('min' or 'max').
+
+    Args:
+        series (pd.Series): The input series.
+        fnc (str): Function to determine whether to highlight the second 
+                   lowest ('min') or second highest ('max') value.
+
+    Returns:
+        list: The list of styles.
+    """
+
+    if fnc == 'min':
+        sorted_values = series.nsmallest(2)
+    elif fnc == 'max':
+        sorted_values = series.nlargest(2)
+    else:
+        raise ValueError("fnc argument must be 'min' or 'max'")
+    
+    # Check if there are at least two values
+    if len(sorted_values) == 2:
+        second_extreme = sorted_values.iloc[-1]  
+        return [
+            'text-decoration: underline;' if v == second_extreme else '' 
+            for v in series
+        ]
+    
+    return [''] * len(series)
+
+
+
+def style_dataframe(df: pd.DataFrame,
+                    fnc: str='min',
+                    decimal_places=4,
+                    second_value=False
              ) -> pd.DataFrame:
     """
     Function to style the DataFrame.
@@ -284,6 +320,10 @@ def style_dataframe(df,
         fnc (str): The function to apply. Possible values: 'min' or 'max'.
         decimal_places (int): The number of decimal places to round the 
                               values to.
+        second_value (bool): Whether to highlight the second lowest or 
+                             second highest value underlined, based on the 
+                             provided function ('min' or 'max').
+                             Defaults to False.
 
     Returns:
         pd.DataFrame: The DataFrame with the style applied.
@@ -306,6 +346,18 @@ def style_dataframe(df,
         lambda x: highlight_value(x, fnc=fnc), 
         subset=pd.IndexSlice[:, (slice(None), 'MAE')], 
         axis=1 
+        )
+
+    if second_value:
+        styled_df = styled_df.apply(
+            lambda x: highlight_second_value(x, fnc), 
+            subset=pd.IndexSlice[:, (slice(None), 'MAE')], 
+            axis=1 
+        )
+        styled_df = styled_df.apply(
+            lambda x: highlight_second_value(x, fnc), 
+            subset=pd.IndexSlice[:, (slice(None), 'RMSE')], 
+            axis=1 
         )
 
     return styled_df
@@ -428,9 +480,25 @@ def choose_best_patchtst_model(data: pd.DataFrame
     return result_df
 
 
+def second_best_value(series: pd.Series
+                      ) -> float:
+    """Find the second-best value in the series.
+
+    Args:
+        series (pd.Series): The input series.
+
+    Returns:
+        float: The second-best value in the series.
+    """
+
+    sorted_values = series.sort_values(ascending=True)
+    second_best = sorted_values.iloc[1]  
+    return second_best
+
+
 def calculate_improvement(data: pd.DataFrame, 
                           base_mae_model: str, 
-                          model_to_compare_mae: str, 
+                          model_to_compare_mae: str = None, 
                           base_rmse_model: str = None, 
                           model_to_compare_rmse:str = None, 
                           if_return_values: bool = False,
@@ -449,7 +517,8 @@ def calculate_improvement(data: pd.DataFrame,
                                          improvement comparison. Defaults to the 
                                                same as base_mae_model.
         model_to_compare_mae (str): The name of the model to compare against for 
-                                    MAE.
+                                    MAE. If None, compare against the second-best model.
+                                    Defaults to None.
         model_to_compare_rmse (str, optional): The name of the model to compare 
                                                against for RMSE. Defaults to the 
                                                same as model_to_compare_mae.
@@ -507,15 +576,30 @@ def calculate_improvement(data: pd.DataFrame,
             return improvement_percentage_mae, improvement_percentage_rmse
 
     else:
-        data['mae_improvement'] = ((
-            (data.loc[:, (model_to_compare_mae, 'MAE')] - \
-             data.loc[:, (base_mae_model, 'MAE')]) / \
-             data.loc[:, (model_to_compare_mae, 'MAE')]
-             ) * 100).round(2)
-        data['rmse_improvement'] = ((
-            (data.loc[:, (model_to_compare_rmse, 'RMSE')] - \
-             data.loc[:, (base_rmse_model, 'RMSE')]) / \
-             data.loc[:, (model_to_compare_rmse, 'RMSE')]
-             ) * 100).round(2)
+        if model_to_compare_mae is None:
+            
+            first_best_rmse = data.xs(base_mae_model, axis=1, level=0)['RMSE']
+            second_best_rmse = data.xs('RMSE', axis=1, level=1).apply(lambda x: second_best_value(x), axis=1)
+
+            data['improvement_rmse'] = ((second_best_rmse - first_best_rmse) / 
+                                    second_best_rmse * 100).round(2)
+
+            first_best_mae = data.xs(base_mae_model, axis=1, level=0)['MAE']
+            second_best_mae = data.xs('MAE', axis=1, level=1).apply(lambda x: second_best_value(x), axis=1)
+
+            data['improvement_mae'] = ((second_best_mae - first_best_mae) / 
+                                    second_best_mae * 100).round(2)
+            
+        else:
+            data['rmse_improvement'] = ((
+                (data.loc[:, (model_to_compare_rmse, 'RMSE')] - \
+                data.loc[:, (base_rmse_model, 'RMSE')]) / \
+                data.loc[:, (model_to_compare_rmse, 'RMSE')]
+                ) * 100).round(2)
+            data['mae_improvement'] = ((
+                (data.loc[:, (model_to_compare_mae, 'MAE')] - \
+                data.loc[:, (base_mae_model, 'MAE')]) / \
+                data.loc[:, (model_to_compare_mae, 'MAE')]
+                ) * 100).round(2)
         
         return data
