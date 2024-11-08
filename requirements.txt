@@ -10,6 +10,7 @@ sktime==0.26.0
 statsmodels==0.13.5
 torch==2.2.2
 tensorflow==2.18.0
+feature_engine==1.6.1
 
 # For TimeLLM
 accelerate==0.28.0

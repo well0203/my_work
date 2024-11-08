@@ -71,10 +71,11 @@ def plot_seasonality(data,
     plt.show()
 
 
-def hist_plots(data, 
-               col, 
-               num_cols=3, 
-               title=None):
+def hist_plots(data: pd.DataFrame, 
+               col: str, 
+               num_cols: int=3, 
+               title: str=None
+               ):
 
     """
     Plots the frequency of values in time series.
@@ -553,4 +554,48 @@ def plot_daily_boxplots(data: pd.DataFrame,
             
     data.drop(columns=['day_of_week'], inplace=True)
 
+    plt.show()
+
+
+def multiple_hist_plots(train_serie: pd.DataFrame, 
+                        vali_serie: pd.DataFrame,
+                        test_serie: pd.DataFrame,
+                        col: str, 
+                        num_cols: int=3, 
+                        title: str=None
+                        ):
+
+    """
+    Plots the frequency of values in time series.
+
+    Args:
+        train_serie (pandas.DataFrame): The time series to plot for the train set.
+        vali_serie (pandas.DataFrame): The time series to plot for the validation set.
+        test_serie (pandas.DataFrame): The time series to plot for the test set.
+        col (str): The country name to plot.
+        num_cols (int): Number of plots per country.
+        title (str): The title of the plot (default: None).
+
+    Returns:
+        None
+    """
+
+    num_cols = num_cols
+    num_rows = 1
+
+    fig, axes = plt.subplots(num_rows, num_cols, figsize=(20, 6.5 * num_rows))
+
+    for i, ax in enumerate(axes.flat):
+        if i < len(train_serie.columns):
+            col = train_serie.columns[i]
+            sns.histplot(train_serie[col], kde=True, ax=ax, color="blue", alpha=0.3, edgecolor=None)
+            sns.histplot(vali_serie[col], kde=True, ax=ax, color="orange", alpha=0.3, edgecolor=None)
+            sns.histplot(test_serie[col], kde=True, ax=ax, color="green",  alpha=0.3, edgecolor=None)
+            ax.set_title(f"{col}")
+            ax.legend(["Train", "Validation", "Test"], loc="upper right")
+        else:
+            ax.axis('off')  
+
+    fig.suptitle(title, fontsize=25)   
+    plt.tight_layout()
     plt.show()
