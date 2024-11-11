@@ -430,7 +430,7 @@ def group_and_reindex_df(data,
 def select_model(country: str, 
                  pred_len: int):
     """
-    Select the best model for the given country and prediction length.
+    Select the best PatchTST model for the given country and prediction length.
 
     Args:
     country (str): The name of the country.
@@ -450,8 +450,29 @@ def select_model(country: str,
         return 'PatchTST/21'
 
 
-def choose_best_patchtst_model(data: pd.DataFrame
-                               ) -> pd.DataFrame:
+def select_time_llm(country: str, 
+                    pred_len: int):
+    """
+    Select the best TimeLLM model for the given country and prediction length.
+
+    Args:
+    country (str): The name of the country.
+    pred_len (int): The prediction length.
+
+    Returns
+    (str): The name of the best model for the given country and prediction length.
+
+    """
+    if (country == 'Italy' or country == 'Spain') or (country == 'France' and pred_len == 24): 
+        return 'TimeLLM/168'
+    if (country == 'Germany' and pred_len == 24) or (country == 'United Kingdom' and pred_len == 24):
+        return 'TimeLLM/336'
+    else:
+        return 'TimeLLM/512'
+
+def choose_best_model(data: pd.DataFrame,
+                      model: str
+                      ) -> pd.DataFrame:
     """
     Choose best model for the given country and prediction length
     using select_model() function. Creates a DataFrame with the best model 
@@ -459,6 +480,7 @@ def choose_best_patchtst_model(data: pd.DataFrame
 
     Args:
     data (pd.DataFrame): The DataFrame containing the results.
+    model (str): The name of the model.
 
     Returns
     result_df (pd.DataFrame): The DataFrame containing the best model 
@@ -467,10 +489,13 @@ def choose_best_patchtst_model(data: pd.DataFrame
 
     selected_dfs = []
     for (country, pred_len) in data.index:
-        model = select_model(country, pred_len)
-        selected_df = data.loc[[(country, pred_len)], pd.IndexSlice[model, :]]  # Double brackets to get a DataFrame.
+        if model == 'TimeLLM':
+            model_selected = select_time_llm(country, pred_len)
+        elif model == 'PatchTST':
+            model_selected = select_model(country, pred_len)
+        selected_df = data.loc[[(country, pred_len)], pd.IndexSlice[model_selected, :]]  # Double brackets to get a DataFrame.
         selected_df.columns = pd.MultiIndex.from_tuples(
-            [('PatchTST', metric) for metric in selected_df.columns.get_level_values('Metrics')],
+            [(model, metric) for metric in selected_df.columns.get_level_values('Metrics')],
             names=['Model', 'Metrics']
         )
         selected_dfs.append(selected_df)
