@@ -113,8 +113,8 @@ def find_lr():
     dls = get_dls(args)    
     model = get_model(dls.vars, args)
     # get loss
-    #loss_func = torch.nn.MSELoss(reduction='mean')
-    loss_func = torch.nn.L1Loss(reduction='mean')
+    loss_func = torch.nn.MSELoss(reduction='mean')
+   # loss_func = torch.nn.L1Loss(reduction='mean')
 
     # get callbacks
     cbs = [RevInCB(dls.vars, denorm=False)] if args.revin else []
@@ -138,8 +138,8 @@ def pretrain_func(lr=args.lr):
     # get model     
     model = get_model(dls.vars, args)
     # get loss
-    #loss_func = torch.nn.MSELoss(reduction='mean')
-    loss_func = torch.nn.L1Loss(reduction='mean')
+    loss_func = torch.nn.MSELoss(reduction='mean')
+   # loss_func = torch.nn.L1Loss(reduction='mean')
     # get callbacks
     cbs = [RevInCB(dls.vars, denorm=False)] if args.revin else []
     cbs += [
