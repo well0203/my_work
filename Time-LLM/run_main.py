@@ -167,8 +167,8 @@ for ii in range(args.itr):
                                             epochs=args.train_epochs,
                                             max_lr=args.learning_rate)
 
-    #criterion = nn.MSELoss()
-    criterion = nn.L1Loss()
+    criterion = nn.MSELoss()
+    #criterion = nn.L1Loss()
 
     train_loader, vali_loader, test_loader, model, model_optim, scheduler = accelerator.prepare(
         train_loader, vali_loader, test_loader, model, model_optim, scheduler)
@@ -310,7 +310,7 @@ for ii in range(args.itr):
 
 accelerator.wait_for_everyone()
 
-if accelerator.is_local_main_process:
-    path = './checkpoints'  # unique checkpoint saving path
-    del_files(path)  # delete checkpoint files
-    accelerator.print('success delete checkpoints')
+#if accelerator.is_local_main_process:
+#    path = './checkpoints'  # unique checkpoint saving path
+#    del_files(path)  # delete checkpoint files
+#    accelerator.print('success delete checkpoints')

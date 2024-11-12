@@ -130,6 +130,7 @@ def find_lr(head_type):
                         loss_func, 
                         lr=args.lr, 
                         cbs=cbs,
+                        #metrics=['mse']
                         )                        
     # fit the data to the model
     suggested_lr = learn.lr_finder()
@@ -168,7 +169,7 @@ def finetune_func(lr=args.lr):
                         lr=lr, 
                         cbs=cbs,
                         #metrics=[mse]
-                        metrics=[mae]
+                        #metrics=[mae]
                         )                            
     # fit the data to the model
     #learn.fit_one_cycle(n_epochs=args.n_epochs_finetune, lr_max=lr)
@@ -200,7 +201,7 @@ def linear_probe_func(lr=args.lr):
                         lr=lr, 
                         cbs=cbs,
                         #metrics=[mse]
-                        metrics=[mae]
+                        #metrics=[mae]
                         )                            
     # fit the data to the model
     learn.linear_probe(n_epochs=args.n_epochs_finetune, base_lr=lr)

@@ -125,6 +125,7 @@ def find_lr():
                         loss_func, 
                         lr=args.lr, 
                         cbs=cbs,
+                        #metrics=[mse]
                         )                        
     # fit the data to the model
     suggested_lr = learn.lr_finder()
