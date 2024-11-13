@@ -264,3 +264,228 @@ Scaled mse:0.011008788831532001, rmse:0.10492277890443802, mae:0.064834177494049
 long_term_forecast_3_TimeLLM_IT_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
 Scaled mse:0.018727777525782585, rmse:0.13684946298599243, mae:0.08752837032079697, rse:0.5174592137336731
 
+long_term_forecast_1_TimeLLM_IT_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.018727777525782585, rmse:0.13684946298599243, mae:0.08752837032079697, rse:0.5174592137336731
+
+long_term_forecast_1_TimeLLM_IT_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021298637613654137, rmse:0.14594052731990814, mae:0.09340884536504745, rse:0.5521542429924011
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021690964698791504, rmse:0.1472785323858261, mae:0.09535948187112808, rse:0.520159900188446
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03665342181921005, rmse:0.191450834274292, mae:0.13552254438400269, rse:0.6779587864875793
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03900062292814255, rmse:0.1974857598543167, mae:0.13710902631282806, rse:0.6996549367904663
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021544765681028366, rmse:0.14678135514259338, mae:0.09620458632707596, rse:0.5180174112319946
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021544765681028366, rmse:0.14678135514259338, mae:0.09620458632707596, rse:0.5180174112319946
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021544765681028366, rmse:0.14678135514259338, mae:0.09620458632707596, rse:0.5180174112319946
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021544765681028366, rmse:0.14678135514259338, mae:0.09620458632707596, rse:0.5180174112319946
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02516733668744564, rmse:0.15864217281341553, mae:0.1138123944401741, rse:0.5598763227462769
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021544765681028366, rmse:0.14678135514259338, mae:0.09620458632707596, rse:0.5180174112319946
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021544765681028366, rmse:0.14678135514259338, mae:0.09620458632707596, rse:0.5180174112319946
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0346515066921711, rmse:0.18614915013313293, mae:0.12807267904281616, rse:0.6591846346855164
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0346515066921711, rmse:0.18614915013313293, mae:0.12807267904281616, rse:0.6591846346855164
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0346515066921711, rmse:0.18614915013313293, mae:0.12807267904281616, rse:0.6591846346855164
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0346515066921711, rmse:0.18614915013313293, mae:0.12807267904281616, rse:0.6591846346855164
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03746809437870979, rmse:0.19356676936149597, mae:0.1385875940322876, rse:0.6857706904411316
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03746809437870979, rmse:0.19356676936149597, mae:0.1385875940322876, rse:0.6857706904411316
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03746809437870979, rmse:0.19356676936149597, mae:0.1385875940322876, rse:0.6857706904411316
+
+long_term_forecast_1_TimeLLM_DE_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.03746809437870979, rmse:0.19356676936149597, mae:0.1385875940322876, rse:0.6857706904411316
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02595963142812252, rmse:0.16111992299556732, mae:0.10740001499652863, rse:0.5551244020462036
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02595963142812252, rmse:0.16111992299556732, mae:0.10740001499652863, rse:0.5551244020462036
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02595963142812252, rmse:0.16111992299556732, mae:0.10740001499652863, rse:0.5551244020462036
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02595963142812252, rmse:0.16111992299556732, mae:0.10740001499652863, rse:0.5551244020462036
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.04068015143275261, rmse:0.20169320702552795, mae:0.14278638362884521, rse:0.6974509954452515
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.04068015143275261, rmse:0.20169320702552795, mae:0.14278638362884521, rse:0.6974509954452515
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.04068015143275261, rmse:0.20169320702552795, mae:0.14278638362884521, rse:0.6974509954452515
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.04068015143275261, rmse:0.20169320702552795, mae:0.14278638362884521, rse:0.6974509954452515
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.043486617505550385, rmse:0.20853444933891296, mae:0.14944525063037872, rse:0.7227435111999512
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.043486617505550385, rmse:0.20853444933891296, mae:0.14944525063037872, rse:0.7227435111999512
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.043486617505550385, rmse:0.20853444933891296, mae:0.14944525063037872, rse:0.7227435111999512
+
+long_term_forecast_2_TimeLLM_GB_ftM_sl512_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.043486617505550385, rmse:0.20853444933891296, mae:0.14944525063037872, rse:0.7227435111999512
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010894566774368286, rmse:0.10437703877687454, mae:0.0666496753692627, rse:0.3061654567718506
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010894566774368286, rmse:0.10437703877687454, mae:0.0666496753692627, rse:0.3061654567718506
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010894566774368286, rmse:0.10437703877687454, mae:0.0666496753692627, rse:0.3061654567718506
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010894566774368286, rmse:0.10437703877687454, mae:0.0666496753692627, rse:0.3061654567718506
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02007182687520981, rmse:0.14167506992816925, mae:0.09592236578464508, rse:0.4161672592163086
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02007182687520981, rmse:0.14167506992816925, mae:0.09592236578464508, rse:0.4161672592163086
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02007182687520981, rmse:0.14167506992816925, mae:0.09592236578464508, rse:0.4161672592163086
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02007182687520981, rmse:0.14167506992816925, mae:0.09592236578464508, rse:0.4161672592163086
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021907182410359383, rmse:0.1480107456445694, mae:0.10050459951162338, rse:0.4344274699687958
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021907182410359383, rmse:0.1480107456445694, mae:0.10050459951162338, rse:0.4344274699687958
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021907182410359383, rmse:0.1480107456445694, mae:0.10050459951162338, rse:0.4344274699687958
+
+long_term_forecast_3_TimeLLM_ES_ftM_sl336_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.021907182410359383, rmse:0.1480107456445694, mae:0.10050459951162338, rse:0.4344274699687958
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010344491340219975, rmse:0.10170787572860718, mae:0.0594850592315197, rse:0.39389368891716003
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010344491340219975, rmse:0.10170787572860718, mae:0.0594850592315197, rse:0.39389368891716003
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010344491340219975, rmse:0.10170787572860718, mae:0.0594850592315197, rse:0.39389368891716003
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.010344491340219975, rmse:0.10170787572860718, mae:0.0594850592315197, rse:0.39389368891716003
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0196530781686306, rmse:0.14018943905830383, mae:0.08574584871530533, rse:0.5423334240913391
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0196530781686306, rmse:0.14018943905830383, mae:0.08574584871530533, rse:0.5423334240913391
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0196530781686306, rmse:0.14018943905830383, mae:0.08574584871530533, rse:0.5423334240913391
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.0196530781686306, rmse:0.14018943905830383, mae:0.08574584871530533, rse:0.5423334240913391
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02125428430736065, rmse:0.14578849077224731, mae:0.09115074574947357, rse:0.565285325050354
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02125428430736065, rmse:0.14578849077224731, mae:0.09115074574947357, rse:0.565285325050354
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02125428430736065, rmse:0.14578849077224731, mae:0.09115074574947357, rse:0.565285325050354
+
+long_term_forecast_4_TimeLLM_FR_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.02125428430736065, rmse:0.14578849077224731, mae:0.09115074574947357, rse:0.565285325050354
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01045023463666439, rmse:0.1022263914346695, mae:0.06180146336555481, rse:0.3870426118373871
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01045023463666439, rmse:0.1022263914346695, mae:0.06180146336555481, rse:0.3870426118373871
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01045023463666439, rmse:0.1022263914346695, mae:0.06180146336555481, rse:0.3870426118373871
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl24_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01045023463666439, rmse:0.1022263914346695, mae:0.06180146336555481, rse:0.3870426118373871
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01832490973174572, rmse:0.13536952435970306, mae:0.08470133692026138, rse:0.5118632316589355
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01832490973174572, rmse:0.13536952435970306, mae:0.08470133692026138, rse:0.5118632316589355
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01832490973174572, rmse:0.13536952435970306, mae:0.08470133692026138, rse:0.5118632316589355
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl96_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01832490973174572, rmse:0.13536952435970306, mae:0.08470133692026138, rse:0.5118632316589355
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01952982507646084, rmse:0.13974915444850922, mae:0.08981484919786453, rse:0.5288854837417603
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01952982507646084, rmse:0.13974915444850922, mae:0.08981484919786453, rse:0.5288854837417603
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01952982507646084, rmse:0.13974915444850922, mae:0.08981484919786453, rse:0.5288854837417603
+
+long_term_forecast_5_TimeLLM_IT_ftM_sl168_ll48_pl168_dm16_nh8_el2_dl1_df64_fc3_ebtimeF_Exp_0  
+Scaled mse:0.01952982507646084, rmse:0.13974915444850922, mae:0.08981484919786453, rse:0.5288854837417603
+

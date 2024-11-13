@@ -241,8 +241,7 @@ def test(args, accelerator, model, test_data, test_loader, criterion, setting):
         model.load_state_dict(torch.load(checkpoint_path, map_location=torch.device('cpu')))
 
     folder_path = f'./test_results/{args.model}/' + setting + '/'
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
+    os.makedirs(folder_path, exist_ok=True)
 
     preds = []
     trues = []
