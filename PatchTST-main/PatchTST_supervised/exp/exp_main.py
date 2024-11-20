@@ -116,6 +116,16 @@ class Exp_Main(Exp_Basic):
         if not os.path.exists(path):
             os.makedirs(path)
 
+        file_path = "results_" + setting + ".txt"
+
+        with open(file_path, "w") as file:
+        # Convert the Namespace object to a dictionary
+            args_dict = vars(self.args)
+
+            # Write each attribute to the file
+            for key, value in args_dict.items():
+                file.write(f"{key} = {value}\n")
+
         time_now = time.time()
 
         train_steps = len(train_loader)

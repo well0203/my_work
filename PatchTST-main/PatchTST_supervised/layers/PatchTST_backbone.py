@@ -150,7 +150,7 @@ class ChannelMixingHead(nn.Module):
         self.dropout = nn.Dropout(head_dropout)
 
     def forward(self, x):                                                          # x: [bs x patch_num x d_model]
-        bs, patch_num, d_model = x.size()  # Extract batch size, patch number, and model dimension
+        bs, patch_num, d_model = x.size()  
         
         # Flatten 
         x_flat = x.reshape(bs, patch_num * d_model)  # x: [bs, patch_num * d_model]
