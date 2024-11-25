@@ -62,11 +62,7 @@ class PatchTST_backbone(nn.Module):
             self.head = Flatten_Head(self.individual, self.n_vars, self.head_nf, target_window, head_dropout=head_dropout)
         elif head_type == 'flatten' and channel_mixing:
             self.head = ChannelMixingHead(self.n_vars, patch_num, self.head_nf, target_window, head_dropout=head_dropout)
-        """
-        # Old Approach 2
-        elif head_type == 'flatten' and not channel_mixing: 
-            self.head = Flatten_Head(self.individual, self.n_vars, self.head_nf, target_window, head_dropout=head_dropout)
-        """
+  
     def forward(self, z):                                                                   # z: [bs x nvars x seq_len]
         # norm
         if self.revin: 
@@ -192,16 +188,6 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
         self.seq_len = q_len
         self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
 
-        """
-        # Approach 2:
-        self.W_P = nn.Linear(patch_len, d_model)        # Eq 1: projection of feature vectors onto a d-dim vector space
-        self.seq_len = q_len
-        
-        if self.channel_mixing:
-            self.W_pos = positional_encoding(pe, learn_pe, q_len, c_in*d_model)
-        else:
-            self.W_pos = positional_encoding(pe, learn_pe, q_len, d_model)
-        """
         # Residual dropout
         self.dropout = nn.Dropout(dropout)
 
@@ -242,41 +228,6 @@ class TSTiEncoder(nn.Module):  #i means channel-independent
             z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]        
         
         return z 
-      
-        """
-        # Approach 2:
-        n_vars = x.shape[1]
-
-        # Input encoding
-        x = x.permute(0,1,3,2)                                                   # x: [bs x nvars x patch_num x patch_len]
-        x = self.W_P(x)                                                          # x: [bs x nvars x patch_num x d_model] aka [B x M x N x D_model]
-        
-        # CHANNEL MIXING:
-        # 1. We have [B x M x N x D_model] (D_model is projected P(patch_len))
-        # 2. Now we need M*P or D_model, so we need to swap M and N to N, M to get: [B x N x M x D_model] 
-        # 3.Then do a reshape to [B x N x (M*D_model)]
-        # In such way we can recover the original shape (patches)
-
-        if self.channel_mixing:
-            x = x.permute(0,2,1,3)                                                # x: [bs x patch_num x nvars x d_model]
-            u = torch.reshape(x, (x.shape[0], x.shape[1], x.shape[2]*x.shape[3]))  # u: [bs x patch_num x (nvars*d_model)]
-        else:
-            u = torch.reshape(x, (x.shape[0]*x.shape[1],x.shape[2],x.shape[3]))      # u: [bs * nvars x patch_num x d_model]
-        
-        u = self.dropout(u + self.W_pos)                                         # u: [bs * nvars x patch_num x d_model]
-        
-        # Encoder
-        z = self.encoder(u)                                                      # z: [bs * nvars x patch_num x d_model]
-                                                                                 # OR: z: [B * N x (M*D_model)]
-        if self.channel_mixing:
-            z = torch.reshape(z, (z.shape[0], z.shape[1], n_vars, -1))     # z: [bs x patch_num x n_vars x d_model]
-            z = z.permute(0,2,3,1)                                         # z: [bs x n_vars x d_model x patch_num]
-        else:
-            z = torch.reshape(z, (-1,n_vars,z.shape[-2],z.shape[-1]))                # z: [bs x nvars x patch_num x d_model]
-            z = z.permute(0,1,3,2)                                                   # z: [bs x nvars x d_model x patch_num]
-        
-        return z    
-        """
     
 # Cell
 class TSTEncoder(nn.Module):
@@ -318,10 +269,7 @@ class TSTEncoderLayer(nn.Module):
         if channel_mixing:
             d_k *= c_in  # Scale d_k for the number of variables if channel mixing is applied
             d_v *= c_in  # Scale d_v similarly
-            """
-            # If Approach (2)
-            d_model *= c_in # Scale the overall model dimension
-            """
+
         # Multi-Head attention
         self.res_attention = res_attention
         self.self_attn = _MultiheadAttention(d_model, n_heads, d_k=d_k, d_v=d_v, attn_dropout=attn_dropout, proj_dropout=dropout, res_attention=res_attention)
