@@ -560,7 +560,7 @@ def plot_daily_boxplots(data: pd.DataFrame,
 def multiple_hist_plots(train_serie: pd.DataFrame, 
                         vali_serie: pd.DataFrame,
                         test_serie: pd.DataFrame,
-                        col: str, 
+                        col: str = None, 
                         num_cols: int=3, 
                         title: str=None
                         ):
@@ -572,7 +572,7 @@ def multiple_hist_plots(train_serie: pd.DataFrame,
         train_serie (pandas.DataFrame): The time series to plot for the train set.
         vali_serie (pandas.DataFrame): The time series to plot for the validation set.
         test_serie (pandas.DataFrame): The time series to plot for the test set.
-        col (str): The country name to plot.
+        col (str): The country name to plot (default: None).
         num_cols (int): Number of plots per country.
         title (str): The title of the plot (default: None).
 
@@ -591,11 +591,16 @@ def multiple_hist_plots(train_serie: pd.DataFrame,
             sns.histplot(train_serie[col], kde=True, ax=ax, color="blue", alpha=0.3, edgecolor=None)
             sns.histplot(vali_serie[col], kde=True, ax=ax, color="orange", alpha=0.3, edgecolor=None)
             sns.histplot(test_serie[col], kde=True, ax=ax, color="green",  alpha=0.3, edgecolor=None)
-            ax.set_title(f"{col}")
-            ax.legend(["Train", "Validation", "Test"], loc="upper right")
+            ax.set_title(f"{col[:-7]}", fontsize=20)
+            ax.legend(["Train", "Validation", "Test"], loc="upper right", fontsize=18)
         else:
             ax.axis('off')  
+        ax.tick_params(axis='x', labelsize=18)  
+        ax.tick_params(axis='y', labelsize=18) 
+        ax.set_ylabel('Frequency', fontsize=18)
+        ax.set_xlabel(None)
 
-    fig.suptitle(title, fontsize=25)   
+    if title is not None:
+        fig.suptitle(title, fontsize=25)   
     plt.tight_layout()
     plt.show()

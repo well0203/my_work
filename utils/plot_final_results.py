@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec 
 import seaborn as sns
 from matplotlib.ticker import FuncFormatter
+import matplotlib.ticker as mtick
+
+
 
 from typing import List, Dict, Tuple
 
@@ -185,13 +188,13 @@ def plot_bar_comparison(data: pd.DataFrame,
         max_vals = subset.loc[subset.groupby(plot_x_axis)[eval_metric].idxmax()]
         for c, m, max_,  in zip(max_vals[plot_x_axis], max_vals['Model'], max_vals[eval_metric]):
             x = xs_dict[(c, m)]['Position']
-            ax.plot(x, max_, marker='o', color='black')
+            ax.plot(x, max_, marker='v', color='red')
 
     if plot_min_markers:
         min_vals = subset.loc[subset.groupby(plot_x_axis)[eval_metric].idxmin()]
         for c, m, min_, in zip(min_vals[plot_x_axis], min_vals['Model'], min_vals[eval_metric]):
             x = xs_dict[(c, m)]['Position']
-            ax.plot(x, min_, marker='v', color='red')
+            ax.plot(x, min_, marker='o', color='black')
 
 
     # Style
@@ -321,7 +324,8 @@ def plot_comparison_for_metrics(data: pd.DataFrame,
                                 palette: str = "CMRmap",
                                 plot_min_markers: bool = False,
                                 plot_max_markers: bool = False,
-                                decimal_places: int = 2):
+                                decimal_places: int = 2,
+                                percentage: bool = False):
     """
     Calls the plot_bar_comparison function to plot two metrics side by side.
 
@@ -386,12 +390,17 @@ def plot_comparison_for_metrics(data: pd.DataFrame,
     plt.tight_layout()
     plt.show()
     
+def percent_formatter(x, pos):
+
+    return f"{x:.0f}%"
+
 
 def plot_barplots(data: pd.DataFrame, 
                   x_col: str, 
                   col_name: str = 'Metrics', 
                   palette: str = 'CMRmap',
-                  decimal_places: int = 2):
+                  decimal_places: int = 2,
+                  percentage: bool = False):
     """
     Plots two bar plots side-by-side using Seaborn.
     
@@ -400,6 +409,9 @@ def plot_barplots(data: pd.DataFrame,
     - x_col (str): The column name for the x-axis.
     - col_name (str): The column name for the y-axis.
     - palette (str): The color palette to use.
+    - percentage (bool): Whether to plot y-axis as percentage 
+                        (default: False).
+
     
     Returns:
     - None
@@ -438,11 +450,14 @@ def plot_barplots(data: pd.DataFrame,
                                            tick_number, 
                                            decimal_places=decimal_places)))
         
+        if percentage:
+            ax.yaxis.set_major_formatter(mtick.FuncFormatter(percent_formatter)) 
+        
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, 
                labels, 
                loc='lower center', 
-               ncol=4, 
+               ncol=5, 
                fontsize=16, 
                bbox_to_anchor=(0.5, -0.15))
 

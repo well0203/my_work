@@ -11,15 +11,11 @@ statsmodels==0.13.5
 torch==2.2.2
 tensorflow==2.18.0
 feature_engine==1.6.1
-
-# For TimeLLM
 accelerate==0.28.0
 transformers==4.31.0
-peft==0.4.0 # requires python >=3.7.0
+peft==0.4.0
 deepspeed==0.14.0
 einops==0.7.0
 tqdm==4.65.0
 sentencepiece==0.2.0
 mpi4py-mpich==3.1.5
-#torchaudio==2.2.2 
-#torchvision==0.17.2 
