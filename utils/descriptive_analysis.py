@@ -5,8 +5,9 @@ import seaborn as sns
 import tensorflow as tf
 
 
-def plot_missings(data, 
-                  rotation=15):
+def plot_missings(data: pd.DataFrame, 
+                  rotation: int = 15
+                  ):
     """
     Plots missing values.
 
@@ -29,11 +30,12 @@ def plot_missings(data,
     plt.show()
 
 
-def plot_seasonality(data, 
-                     frequency='Month', 
-                     hue='Year', 
-                     num_cols=3, 
-                     title=None):
+def plot_seasonality(data: pd.DataFrame, 
+                     frequency: str = 'Month', 
+                     hue: str = 'Year', 
+                     num_cols: int = 3, 
+                     title: str = None
+                     ):
     """
     Plots the seasonality of the time series.
 
@@ -108,10 +110,11 @@ def hist_plots(data: pd.DataFrame,
     plt.show()
 
 
-def corr_plot(data, 
-              annot=True, 
-              mask=True, 
-              title=None):
+def corr_plot(data: pd.DataFrame, 
+              annot: bool = True, 
+              mask: bool = True, 
+              title: str = None
+              ):
     """
     Plots the correlation between time series with customization options.
 
@@ -156,10 +159,10 @@ def corr_plot(data,
     plt.show()
 
 
-def count_outliers(col, 
-                   extreme=False, 
-                   verbose=False, 
-                   if_return=False
+def count_outliers(col: pd.Series, 
+                   extreme: bool = False, 
+                   verbose: bool = False, 
+                   if_return: bool = False
                    ) -> tuple[float, float] | None:
     """
     Defines the number of outliers in a column using the IQR method.
@@ -210,10 +213,11 @@ def count_outliers(col,
         return None
     
 
-def periodograms(data, 
-                 num_cols=3, 
-                 max_ylim=4e8, 
-                 title=None):
+def periodograms(data: pd.DataFrame, 
+                 num_cols: int = 3, 
+                 max_ylim: int = 4e8, 
+                 title: str = None
+                 ):
     """
     Plots periodograms of multiple time series.
 
@@ -274,7 +278,7 @@ def periodograms(data,
     plt.show()
 
 
-def get_season(month
+def get_season(month: int
                ) -> str:
     """
     Function to map months to seasons
@@ -324,9 +328,9 @@ def change_col_name(col_name: str
     return col_name
 
 
-def stacked_bar_plot_per_season(data, 
-                                season_order=['winter', 'spring', 'summer', 'autumn'], 
-                                country=None):
+def stacked_bar_plot_per_season(data: pd.DataFrame, 
+                                season_order: list = ['winter', 'spring', 'summer', 'autumn'], 
+                                country: str = None):
     """
     Plots the average of values per season.
 
@@ -374,10 +378,11 @@ def stacked_bar_plot_per_season(data,
     plt.show()
 
 
-def heatmap_plot(data, country, 
-                 x_axis='Month', 
-                 y_axis='HourOfDay', 
-                 cmap=['Blues', 'Oranges', 'YlGnBu']):
+def heatmap_plot(data: pd.DataFrame, 
+                 country: str, 
+                 x_axis: str = 'Month', 
+                 y_axis: str = 'HourOfDay', 
+                 cmap: list = ['Blues', 'Oranges', 'YlGnBu']):
     """
     Plots heatmaps for given time series data with flexible x and y axis groupings.
 

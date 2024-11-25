@@ -165,6 +165,9 @@ def visual(true, preds=None, name='./pic/test.pdf'):
 
 
 def vali(args, accelerator, model, vali_data, vali_loader, criterion):
+
+    # Uncomment if you want to save all args to further load checkpoints etc.
+    """
     file_path = "results.txt"
 
     with open(file_path, "w") as file:
@@ -174,7 +177,7 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion):
         # Write each attribute to the file
         for key, value in args_dict.items():
             file.write(f"{key} = {value}\n")
-
+    """
     total_loss = []
     model.eval()
     with torch.no_grad():

@@ -1,8 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from typing import Tuple
 
-def load_and_average_results(paths):
+def load_and_average_results(
+        paths: list
+        ) -> Tuple[np.ndarray, np.ndarray]: 
     """
     Average predictions and true values across multiple experiments.
 
@@ -30,12 +33,12 @@ def load_and_average_results(paths):
     return avg_pred, avg_true
 
 
-def plot_results(avg_pred, 
-                 avg_true, 
-                 columns, 
-                 loss_type, 
-                 pred_len, 
-                 color):
+def plot_results(avg_pred: np.ndarray, 
+                 avg_true: np.ndarray, 
+                 columns: list, 
+                 loss_type: str, 
+                 pred_len: int, 
+                 color: str):
     """
     Plots predictions and true values for each column in a hexbin plot.
 
@@ -85,15 +88,15 @@ def plot_results(avg_pred,
     plt.show()
 
 
-def plot_error_results(model_name, 
-                       loss_type, 
-                       seq_len, 
-                       pred_len, 
-                       itr, 
-                       columns, 
-                       color, 
-                       path, 
-                       dataset="DE"):
+def plot_error_results(model_name: str, 
+                       loss_type: str, 
+                       seq_len: int, 
+                       pred_len: int, 
+                       itr: int, 
+                       columns: list, 
+                       color: str, 
+                       path: str, 
+                       dataset: str = "DE"):
 
     """
     Plots predictions and true values for a given model and loss type.

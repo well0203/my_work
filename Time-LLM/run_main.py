@@ -168,7 +168,6 @@ for ii in range(args.itr):
                                             max_lr=args.learning_rate)
 
     criterion = nn.MSELoss()
-    #criterion = nn.L1Loss()
 
     train_loader, vali_loader, test_loader, model, model_optim, scheduler = accelerator.prepare(
         train_loader, vali_loader, test_loader, model, model_optim, scheduler)

@@ -116,6 +116,7 @@ class Exp_Main(Exp_Basic):
         if not os.path.exists(path):
             os.makedirs(path)
 
+        """
         file_path = "results_" + setting + ".txt"
 
         with open(file_path, "w") as file:
@@ -126,6 +127,7 @@ class Exp_Main(Exp_Basic):
             for key, value in args_dict.items():
                 file.write(f"{key} = {value}\n")
 
+        """
         time_now = time.time()
 
         train_steps = len(train_loader)

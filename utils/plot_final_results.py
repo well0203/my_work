@@ -5,9 +5,6 @@ import matplotlib.gridspec as gridspec
 import seaborn as sns
 from matplotlib.ticker import FuncFormatter
 import matplotlib.ticker as mtick
-
-
-
 from typing import List, Dict, Tuple
 
 
