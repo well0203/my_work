@@ -129,7 +129,7 @@ def plot_error_results(model_name,
     full_paths = [
             os.path.join(
                 path, 
-                f"{dataset}_{seq_len}_{pred_len}_loss_choice_for_{dataset}_{model_name}_custom_ftM_sl{seq_len}_ll48_pl{pred_len}_dm{d_model}_nh{n_heads}_el{e_layers}_dl1_df{d_ff}_fc{factor}_ebtimeF_dtTrue_loss{loss_type}_Exp_{i}"
+                f"{dataset}_{seq_len}_{pred_len}_scaler_choice_for_{dataset}_{model_name}_custom_ftM_sl{seq_len}_ll48_pl{pred_len}_dm{d_model}_nh{n_heads}_el{e_layers}_dl1_df{d_ff}_fc{factor}_ebtimeF_dtTrue_loss{loss_type}_Exp_{i}"
             ) for i in range(itr)
         ]
     
