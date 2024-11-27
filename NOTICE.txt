@@ -1,0 +1,13 @@
+The libraries used for this Master’s thesis are:
+
+PatchTST
+Repository: https://github.com/yuqinie98/PatchTST
+License: Apache License 2.0 (included in the corresponding folder).
+
+TimeLLM
+Repository: https://github.com/KimMeen/Time-LLM
+License: Apache License 2.0 (included in the corresponding folder).
+
+We have made modifications to the original files from these libraries to adapt them 
+for the purposes of this Master’s thesis. The original licenses are included in the 
+respective folders, along with the modified source code.
