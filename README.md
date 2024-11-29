@@ -69,7 +69,7 @@ NOTE: In notebooks 3 and 4 change to your cuda device: ```bash cuda_device = "0"
 
     In 3b.PatchTST_self_supervised.ipynb is the code to execute self-supervised PatchTST. It consists of two stages: pre-training (reconstructing patches) and fine-tuning to the target task.
 
-3c.Experiments_with_PatchTST.ipynb includes the experiments, where individual components of PatchTST are omitted while the others remain enabled, testing them one by one (ablation study). These components include RevIN, channel independence, and patching. In addition, there is an experiment with trend decomposition (please refer to DLinear paper for more details).
+    3c.Experiments_with_PatchTST.ipynb includes the experiments, where individual components of PatchTST are omitted while the others remain enabled, testing them one by one (ablation study). These components include RevIN, channel independence, and patching. In addition, there is an experiment with trend decomposition (please refer to DLinear paper for more details).
 
 4. TimeLLM_multi.ipynb contains code to train TimeLLM with multiprocessing on 4 GPUs. You can run it on a single GPU by replacing the line:
 
