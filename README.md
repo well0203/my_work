@@ -16,10 +16,9 @@
 - [Abstract](#abstract)
 - [Working with the repo](#Working-with-the-repo)
     - [Dependencies](#Dependencies)
+    - [Hardware requirements](#hardware-requirements)
     - [Setup](#Setup)
-- [Reproducing results](#Reproducing-results)
-    - [Training code](#Training-code)
-- [Results](#Results)
+- [Training code](#Training-code)
 - [Project structure](-Project-structure)
 
 ## Abstract
@@ -37,8 +36,8 @@ The code was run on Python 3.11. The dependencies require Python >=3.8.
 
 ### Hardware requirements
 
-All experiments with Deep Learning models were conducted on remote servers using an Nvidia RTX A6000 GPU (48 GB). Most experiments for Informer and PatchTST (except the ablation study with patching) can be run on less powerful GPUs (e.g., with 4 GB of memory).
-TimeLLM was executed using 4 Nvidia RTX A6000 GPUs in multiprocessing mode, with each GPU requiring 7 GB of memory. However, it can be run as a single process on one GPU. The line for this option is provided in the code.
+All experiments with Deep Learning models were conducted on remote servers using Nvidia RTX A6000 GPU (48 GB). Most experiments for Informer and PatchTST (except the ablation study with patching) can be run on less powerful GPUs (e.g., with 4 GB of RAM).
+TimeLLM was executed using 4 Nvidia RTX A6000 GPUs in multiprocessing mode, with each GPU requiring 7 GB of RAM. However, it can be run as a single process on one GPU. The line for this option is provided in the code.
 
 ### Setup
 
@@ -62,7 +61,7 @@ NOTE: In notebooks 3 and 4 change to your cuda device: cuda_device = "0". If you
 
 1. The non-preprocessed dataset "time_series_60min_singleindex.csv" is in the folder ./datasets. The data used for our research originates from the Open Power System Data platform. It consists of hourly measurements of load, solar, and wind power generation (in megawatts) ranging from 2015 to the end of September 2020. 
 
-The pre-processed datasets are provided in the same ./datasets folder. They are saved as "DE_data.csv", "ES_data.csv", "FR_data.csv", "GB_data.csv", "IT_data.csv". However, you can review the data preparation steps and data characteristics at .ipynb files: 1a, 1b and 1c.
+The pre-processed datasets are provided in the same ./datasets folder. They are saved as "DE_data.csv", "ES_data.csv", "FR_data.csv", "GB_data.csv", "IT_data.csv". In other words, you do not need to execute these notebooks to obtain the datasets, and directly start from notebooks "2". However, you can review the data preparation steps and data characteristics at .ipynb files: 1a, 1b and 1c.
 
 2. The notebook 2.Base_models.ipynb provides code for persistence forecasting and (seasonal) ARIMA. The latter is fitted in univariate settings: the load and solar power generation columns are fitted with seasonal ARIMA (with a seasonal parameter of 24 hours), while the wind power generation columns are fitted with ARIMA without a seasonal parameter.
 
@@ -83,12 +82,6 @@ with:
 ```bash
 python -m accelerate.commands.launch --mixed_precision bf16 --num_processes=1 --num_machines 1 --dynamo_backend "no" --main_process_port "01025" ./Time-LLM/run_main.py \
 ```
-
-
-## Results
-
-
-
 
 ## Project structure
 
