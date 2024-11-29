@@ -59,7 +59,12 @@ pip install -r requirements.txt
 
 ## Training code 
 
-NOTE: In notebooks 3 and 4 change to your cuda device: ```bash cuda_device = "0"```. If you have only one cuda devi
+NOTE: In notebooks 3 and 4 change to your cuda device: ```cuda_device = "0"```. If you have only one cuda device, just comment this line: 
+
+```bash
+os.environ["CUDA_VISIBLE_DEVICES"] = cuda_device
+```
+
 
 1. The non-preprocessed dataset "time_series_60min_singleindex.csv" is in the folder ./datasets. The data used for our research originates from the Open Power System Data platform. It consists of hourly measurements of load, solar, and wind power generation (in megawatts) ranging from 2015 to the end of September 2020. 
 
