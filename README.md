@@ -57,17 +57,17 @@ pip install -r requirements.txt
 
 ## Training code 
 
-NOTE: In notebooks 3 and 4 change to your cuda device: cuda_device = "0". If you have only one cuda devi
+NOTE: In notebooks 3 and 4 change to your cuda device: ```bash cuda_device = "0"```. If you have only one cuda devi
 
 1. The non-preprocessed dataset "time_series_60min_singleindex.csv" is in the folder ./datasets. The data used for our research originates from the Open Power System Data platform. It consists of hourly measurements of load, solar, and wind power generation (in megawatts) ranging from 2015 to the end of September 2020. 
 
-The pre-processed datasets are provided in the same ./datasets folder. They are saved as "DE_data.csv", "ES_data.csv", "FR_data.csv", "GB_data.csv", "IT_data.csv". In other words, you do not need to execute these notebooks to obtain the datasets, and directly start from notebooks "2". However, you can review the data preparation steps and data characteristics at .ipynb files: 1a, 1b and 1c.
+    The pre-processed datasets are provided in the same ./datasets folder. They are saved as "DE_data.csv", "ES_data.csv", "FR_data.csv", "GB_data.csv", "IT_data.csv". In other words, you do not need to execute these notebooks to obtain the datasets, and directly start from notebooks "2". However, you can review the data preparation steps and data characteristics at .ipynb files: 1a, 1b and 1c.
 
 2. The notebook 2.Base_models.ipynb provides code for persistence forecasting and (seasonal) ARIMA. The latter is fitted in univariate settings: the load and solar power generation columns are fitted with seasonal ARIMA (with a seasonal parameter of 24 hours), while the wind power generation columns are fitted with ARIMA without a seasonal parameter.
 
 3. 3a.Informer_PatchTST.ipynb is a notebook containing the main experiments for Informer and supervised PatchTST. The latter is trained with three input windows (168, 336, 512), and the best input windows form the final results for PatchTST.
 
-In 3b.PatchTST_self_supervised.ipynb is the code to execute self-supervised PatchTST. It consists of two stages: pre-training (reconstructing patches) and fine-tuning to the target task.
+    In 3b.PatchTST_self_supervised.ipynb is the code to execute self-supervised PatchTST. It consists of two stages: pre-training (reconstructing patches) and fine-tuning to the target task.
 
 3c.Experiments_with_PatchTST.ipynb includes the experiments, where individual components of PatchTST are omitted while the others remain enabled, testing them one by one (ablation study). These components include RevIN, channel independence, and patching. In addition, there is an experiment with trend decomposition (please refer to DLinear paper for more details).
 
