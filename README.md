@@ -11,7 +11,7 @@
 
 ![results](results/Results_table.png)
 
-Results scaled by a factor of 10². The best results are highlighted in bold, and the second-best results are underscored.
+RMSE and MAE of all models scaled by a factor of 10². The best results are highlighted in bold, and the second-best results are underscored.
 
 ## Table of Contents
 
