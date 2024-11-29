@@ -11,9 +11,9 @@
 
 ![results](results/Results_table.png)
 
-Results scaled by a factor of 10^2. The best results are highlighted in bold, and the second-best results are underscored.
+Results scaled by a factor of 10². The best results are highlighted in bold, and the second-best results are underscored.
 
-## Table of Content
+## Table of Contents
 
 - [Abstract](#abstract)
 - [Working with the repo](#Working-with-the-repo)
