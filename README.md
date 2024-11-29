@@ -9,7 +9,7 @@
 **2nd Examiner:** Dr. Alona Zharova 
 
 
-![results](/Results_table.png)
+![results](results/Results_table.png)
 
 ## Table of Content
 
@@ -19,8 +19,6 @@
     - [Setup](#Setup)
 - [Reproducing results](#Reproducing-results)
     - [Training code](#Training-code)
-    - [Evaluation code](#Evaluation-code)
-    - [Pretrained models](#Pretrained-models)
 - [Results](#Results)
 - [Project structure](-Project-structure)
 
@@ -58,35 +56,39 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Experiments
-NOTE: In notebooks 3, 4 set this to your cuda device, e. g.: cuda_device = "0".
+## Training code 
 
-1. The non-preprocessed dataset "time_series_60min_singleindex.csv" is in the folder ./datasets. The data used for our research originates from the Open Power System Data platform. It consists of hourly measurements on load, wind, and solar power generation (in megawatts) ranging from 2015 to the end of September 2020. The data was collected and preprocessed by the authors from the ENTSO-E Transparency platform.
+NOTE: In notebooks 3 and 4 change to your cuda device: cuda_device = "0". If you have only one cuda devi
 
-The pre-processed datasets are provided in the ./datasets folder. They are generated to "DE_data.csv", "ES_data.csv", "FR_data.csv", "GB_data.csv", "IT_data.csv". However, you can take a look into the data preparation steps and data characteristics at .ipynb files: 1a, 1b and 1c.
+1. The non-preprocessed dataset "time_series_60min_singleindex.csv" is in the folder ./datasets. The data used for our research originates from the Open Power System Data platform. It consists of hourly measurements of load, solar, and wind power generation (in megawatts) ranging from 2015 to the end of September 2020. 
 
-2. The notebook 2.Base_models.ipynb provides a code for persistence forecast and (seasonal) ARIMA. The latter is fitted in univariate settings. Load and solar power generation columns are fitted with seasonal ARIMA (seasonal parameter 24 hours), and wind power generation columns are fitted with ARIMA without seasonal parameter.
+The pre-processed datasets are provided in the same ./datasets folder. They are saved as "DE_data.csv", "ES_data.csv", "FR_data.csv", "GB_data.csv", "IT_data.csv". However, you can review the data preparation steps and data characteristics at .ipynb files: 1a, 1b and 1c.
 
-3. 3a.Informer_PatchTST.ipynb is a notebook with main experiments for Informer and supervised PatchTST. The latter is run with 3 input windows and the best result forms the final PatchTST performance. 
-Notebook 3b.PatchTST_self_supervised.ipynb presents the code for self-supervised PatchTST. It is execured with two stages: pre-training - reconstructing patches; and fine-tuning to the target task.
-3c.Experiments_with_PatchTST.ipynb notebook include the ablation study experiments. Namely, individual components of PatchTST
-are omitted while the others remain enabled, testing them one by one. These components include RevIN, Channel-independence and Patching.
-In addition, there is a trend decomposition experiment.
+2. The notebook 2.Base_models.ipynb provides code for persistence forecasting and (seasonal) ARIMA. The latter is fitted in univariate settings: the load and solar power generation columns are fitted with seasonal ARIMA (with a seasonal parameter of 24 hours), while the wind power generation columns are fitted with ARIMA without a seasonal parameter.
 
-4. TimeLLM_multi.ipynb notebook has a code for TimeLLM with multiprocessing on 4 GPUs. 
+3. 3a.Informer_PatchTST.ipynb is a notebook containing the main experiments for Informer and supervised PatchTST. The latter is trained with three input windows (168, 336, 512), and the best input windows form the final results for PatchTST.
 
-Describe steps how to reproduce your results.
+In 3b.PatchTST_self_supervised.ipynb is the code to execute self-supervised PatchTST. It consists of two stages: pre-training (reconstructing patches) and fine-tuning to the target task.
 
-Here are some examples:
-- [Paperswithcode](https://github.com/paperswithcode/releasing-research-code)
-- [ML Reproducibility Checklist](https://ai.facebook.com/blog/how-the-ai-community-can-get-serious-about-reproducibility/)
-- [Simple & clear Example from Paperswithcode](https://github.com/paperswithcode/releasing-research-code/blob/master/templates/README.md) (!)
-- [Example TensorFlow](https://github.com/NVlabs/selfsupervised-denoising)
+3c.Experiments_with_PatchTST.ipynb includes the experiments, where individual components of PatchTST are omitted while the others remain enabled, testing them one by one (ablation study). These components include RevIN, channel independence, and patching. In addition, there is an experiment with trend decomposition (please refer to DLinear paper for more details).
+
+4. TimeLLM_multi.ipynb contains code to train TimeLLM with multiprocessing on 4 GPUs. You can run it on a single GPU by replacing the line:
+
+```bash
+python -m accelerate.commands.launch --mixed_precision bf16 --multi_gpu --num_processes=4 --num_machines 1 --dynamo_backend "no"  --main_process_port "01025" ./Time-LLM/run_main.py \
+```
+
+with:
+
+```bash
+python -m accelerate.commands.launch --mixed_precision bf16 --num_processes=1 --num_machines 1 --dynamo_backend "no" --main_process_port "01025" ./Time-LLM/run_main.py \
+```
 
 
 ## Results
 
-Does a repository contain a table/plot of main results and a script to reproduce those results?
+
+
 
 ## Project structure
 
