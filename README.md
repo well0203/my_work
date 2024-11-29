@@ -86,26 +86,25 @@ python -m accelerate.commands.launch --mixed_precision bf16 --num_processes=1 --
 ## Project structure
 
 ```bash
-├── 1a.Data_selection.ipynb                                # First look at datasets and first data preparation steps (e.g. missing values imputation)
-├── 1b.Data_analysis.ipynb                                 # EDA
-├── 1c.Data_preparation.ipynb                              # Creation of country-based datasets
-├── 2.Base_models.ipynb                                    # Implementation of persistence forecast and (seasonal) ARIMA
-├── 3a.Informer_PatchTST.ipynb                             # Notebook to run Informer and supervised PatchTST for 3 input windows
-├── 3b.PatchTST_self_supervised.ipynb                      # Notebook to run self-supervised PatchTST (pre-train & finetune)
-├── 3c.Experiments_with_PatchTST.ipynb                     # Notebook to run ablation study + Time series trend decomposition
-├── 4.TimeLLM_multi.ipynb                                  # Notebook to run TimeLLM 
-├── 5.Results_comparison.ipynb                             # Final tables, figures and calculations
-├── Appendix_1a.Scaler_choice.ipynb                        # APPENDIX
-├── Appendix_1b.Scaler_choice_IT.ipynb                     # APPENDIX
-├── Appendix_1c.Scaler_choice_Comparison.ipynb             # APPENDIX
-├── Appendix_1d.Scaler_choice_Comparison_IT.ipynb          # APPENDIX
-├── Appendix_2.Seasonality_proof.ipynb                     # APPENDIX: Seasonality with MSTL found from 45° line
-├── datasets                                               # Directory with all datasets
-├── logs                                                   # Training logs for all DL models
-├── NOTICE.txt                                             # Links to original PatchTST and TimeLLM folders
-├── PatchTST-main                                          # PatchTST directory 
-├── requirements.txt                                       # Required dependencies
-├── results                                                # .csv files with results 
-├── Time-LLM                                               # TimeLLM directory 
-└── utils                                                  # Functions for EDA, and other helper functions
+├── 1a.Data_selection.ipynb                 # First look at datasets and first data preparation steps (e.g. missing values imputation)
+├── 1b.Data_analysis.ipynb                  # EDA
+├── 1c.Data_preparation.ipynb               # Creation of country-based datasets
+├── 2.Base_models.ipynb                     # Implementation of persistence forecast and (seasonal) ARIMA
+├── 3a.Informer_PatchTST.ipynb              # Notebook to run Informer and supervised PatchTST
+├── 3b.PatchTST_self_supervised.ipynb       # Notebook to run self-supervised PatchTST 
+├── 3c.Experiments_with_PatchTST.ipynb      # Notebook to run ablation study + TS trend decomposition
+├── 4.TimeLLM_multi.ipynb                   # Notebook to run TimeLLM 
+├── 5.Results_comparison.ipynb              # Final tables, figures and calculations
+├── A_1a.Scaler_choice.ipynb                # APPENDIX
+├── A_1b.Scaler_choice_IT.ipynb             # APPENDIX
+├── A_1c.Scaler_choice_Comparison.ipynb     # APPENDIX
+├── A_1d.Scaler_choice_Comparison_IT.ipynb  # APPENDIX
+├── datasets                                # Directory with all datasets
+├── logs                                    # Training logs for all DL models
+├── NOTICE.txt                              # Links to original PatchTST and TimeLLM folders
+├── PatchTST-main                           # PatchTST directory 
+├── requirements.txt                        # Required dependencies
+├── results                                 # .csv files with results 
+├── Time-LLM                                # TimeLLM directory 
+└── utils                                   # Functions for EDA, and other helper functions
 ```
