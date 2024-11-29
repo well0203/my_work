@@ -39,7 +39,7 @@ The code was run on Python 3.11. The dependencies require Python >=3.8.
 
 ### Hardware requirements
 
-All experiments with Deep Learning models were conducted on remote servers using an Nvidia RTX A6000 GPU (48 GB). Most experiments for Informer and PatchTST (excluding the patching ablation study) can be run on less powerful GPUs (e.g., with 4 GB of memory).
+All experiments with Deep Learning models were conducted on remote servers using an Nvidia RTX A6000 GPU (48 GB). Most experiments for Informer and PatchTST (except the ablation study with patching) can be run on less powerful GPUs (e.g., with 4 GB of memory).
 TimeLLM was executed using 4 Nvidia RTX A6000 GPUs in multiprocessing mode, with each GPU requiring 7 GB of memory. However, it can be run as a single process on one GPU. The line for this option is provided in the code.
 
 ### Setup
@@ -58,7 +58,22 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Reproducing results
+## Experiments
+NOTE: In notebooks 3, 4 set this to your cuda device, e. g.: cuda_device = "0".
+
+1. The non-preprocessed dataset "time_series_60min_singleindex.csv" is in the folder ./datasets. The data used for our research originates from the Open Power System Data platform. It consists of hourly measurements on load, wind, and solar power generation (in megawatts) ranging from 2015 to the end of September 2020. The data was collected and preprocessed by the authors from the ENTSO-E Transparency platform.
+
+The pre-processed datasets are provided in the ./datasets folder. They are generated to "DE_data.csv", "ES_data.csv", "FR_data.csv", "GB_data.csv", "IT_data.csv". However, you can take a look into the data preparation steps and data characteristics at .ipynb files: 1a, 1b and 1c.
+
+2. The notebook 2.Base_models.ipynb provides a code for persistence forecast and (seasonal) ARIMA. The latter is fitted in univariate settings. Load and solar power generation columns are fitted with seasonal ARIMA (seasonal parameter 24 hours), and wind power generation columns are fitted with ARIMA without seasonal parameter.
+
+3. 3a.Informer_PatchTST.ipynb is a notebook with main experiments for Informer and supervised PatchTST. The latter is run with 3 input windows and the best result forms the final PatchTST performance. 
+Notebook 3b.PatchTST_self_supervised.ipynb presents the code for self-supervised PatchTST. It is execured with two stages: pre-training - reconstructing patches; and fine-tuning to the target task.
+3c.Experiments_with_PatchTST.ipynb notebook include the ablation study experiments. Namely, individual components of PatchTST
+are omitted while the others remain enabled, testing them one by one. These components include RevIN, Channel-independence and Patching.
+In addition, there is a trend decomposition experiment.
+
+4. TimeLLM_multi.ipynb notebook has a code for TimeLLM with multiprocessing on 4 GPUs. 
 
 Describe steps how to reproduce your results.
 
@@ -68,13 +83,6 @@ Here are some examples:
 - [Simple & clear Example from Paperswithcode](https://github.com/paperswithcode/releasing-research-code/blob/master/templates/README.md) (!)
 - [Example TensorFlow](https://github.com/NVlabs/selfsupervised-denoising)
 
-### Training code
-
-Does a repository contain a way to train/fit the model(s) described in the paper?
-
-### Evaluation code
-
-Does a repository contain a script to calculate the performance of the trained model(s) or run experiments on models?
 
 ## Results
 
@@ -82,30 +90,27 @@ Does a repository contain a table/plot of main results and a script to reproduce
 
 ## Project structure
 
-(Here is an example from SMART_HOME_N_ENERGY, [Appliance Level Load Prediction](https://github.com/Humboldt-WI/dissertations/tree/main/SMART_HOME_N_ENERGY/Appliance%20Level%20Load%20Prediction) dissertation)
-
 ```bash
-├── 1a.Data_selection.ipynb                                # First look at datasets and first data prepparation steps (e.g. missing values)
+├── 1a.Data_selection.ipynb                                # First look at datasets and first data preparation steps (e.g. missing values imputation)
 ├── 1b.Data_analysis.ipynb                                 # EDA
 ├── 1c.Data_preparation.ipynb                              # Creation of country-based datasets
 ├── 2.Base_models.ipynb                                    # Implementation of persistence forecast and (seasonal) ARIMA
-├── 3a.Informer_PatchTST.ipynb                             # Basic e
-├── 3b.PatchTST_self_supervised.ipynb
-├── 3c.Experiments_with_PatchTST.ipynb
-├── 4.TimeLLM_multi.ipynb
-├── 5.Results_comparison.ipynb
-├── Appendix_1a.Scaler_choice.ipynb
-├── Appendix_1b.Scaler_choice_IT.ipynb
-├── Appendix_1c.Scaler_choice_Comparison.ipynb
-├── Appendix_1d.Scaler_choice_Comparison_IT.ipynb
-├── Appendix_2.Seasonality_proof.ipynb
+├── 3a.Informer_PatchTST.ipynb                             # Notebook to run Informer and supervised PatchTST for 3 input windows
+├── 3b.PatchTST_self_supervised.ipynb                      # Notebook to run self-supervised PatchTST (pre-train & finetune)
+├── 3c.Experiments_with_PatchTST.ipynb                     # Notebook to run ablation study: exclude RevIN/Channel-independence/Patching. + Time series trend decomposition (as in DLinear)
+├── 4.TimeLLM_multi.ipynb                                  # Notebook to run TimeLLM with multiprocessing
+├── 5.Results_comparison.ipynb                             # Final tables, figures and calculations
+├── Appendix_1a.Scaler_choice.ipynb                        # APPENDIX: Notebook for scaler choise (StandardScaler, MinMaxScaler) for Germany
+├── Appendix_1b.Scaler_choice_IT.ipynb                     # APPENDIX: for Italy
+├── Appendix_1c.Scaler_choice_Comparison.ipynb             # APPENDIX: Comparison of unscaled evaluation metrics from models trained with different scalers. Plots with true and predicted values with different scalers for Germany
+├── Appendix_1d.Scaler_choice_Comparison_IT.ipynb          # APPENDIX: for Italy
+├── Appendix_2.Seasonality_proof.ipynb                     # APPENDIX: Seasonality with MSTL found from 45° line
 ├── datasets                                               # Directory with all datasets
-├── logs                                                   # Directory with training process for all models stored as log files
-├── NOTICE.txt
-├── PatchTST-main
-├── requirements.txt
-├── results
-├── stored_elements
-├── Time-LLM
-└── utils              
+├── logs                                                   # Directory with training logs for all DL models
+├── NOTICE.txt                                             # Links to original PatchTST and TimeLLM implementations
+├── PatchTST-main                                          # PatchTST directory (modified for purposes of this master's thesis)
+├── requirements.txt                                       # Required dependencies
+├── results                                                # .csv files with aggregated results (evaluation metrics for different models)
+├── Time-LLM                                               # TimeLLM directory (modified for purposes of this master's thesis)
+└── utils                                                  # Functions for EDA, and other helper functions
 ```
