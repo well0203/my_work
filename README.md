@@ -92,20 +92,20 @@ python -m accelerate.commands.launch --mixed_precision bf16 --num_processes=1 --
 ├── 2.Base_models.ipynb                                    # Implementation of persistence forecast and (seasonal) ARIMA
 ├── 3a.Informer_PatchTST.ipynb                             # Notebook to run Informer and supervised PatchTST for 3 input windows
 ├── 3b.PatchTST_self_supervised.ipynb                      # Notebook to run self-supervised PatchTST (pre-train & finetune)
-├── 3c.Experiments_with_PatchTST.ipynb                     # Notebook to run ablation study: exclude RevIN/Channel-independence/Patching. + Time series trend decomposition (as in DLinear)
-├── 4.TimeLLM_multi.ipynb                                  # Notebook to run TimeLLM with multiprocessing
+├── 3c.Experiments_with_PatchTST.ipynb                     # Notebook to run ablation study + Time series trend decomposition
+├── 4.TimeLLM_multi.ipynb                                  # Notebook to run TimeLLM 
 ├── 5.Results_comparison.ipynb                             # Final tables, figures and calculations
-├── Appendix_1a.Scaler_choice.ipynb                        # APPENDIX: Notebook for scaler choise (StandardScaler, MinMaxScaler) for Germany
-├── Appendix_1b.Scaler_choice_IT.ipynb                     # APPENDIX: for Italy
-├── Appendix_1c.Scaler_choice_Comparison.ipynb             # APPENDIX: Comparison of unscaled evaluation metrics from models trained with different scalers. Plots with true and predicted values with different scalers for Germany
-├── Appendix_1d.Scaler_choice_Comparison_IT.ipynb          # APPENDIX: for Italy
+├── Appendix_1a.Scaler_choice.ipynb                        # APPENDIX
+├── Appendix_1b.Scaler_choice_IT.ipynb                     # APPENDIX
+├── Appendix_1c.Scaler_choice_Comparison.ipynb             # APPENDIX
+├── Appendix_1d.Scaler_choice_Comparison_IT.ipynb          # APPENDIX
 ├── Appendix_2.Seasonality_proof.ipynb                     # APPENDIX: Seasonality with MSTL found from 45° line
 ├── datasets                                               # Directory with all datasets
-├── logs                                                   # Directory with training logs for all DL models
-├── NOTICE.txt                                             # Links to original PatchTST and TimeLLM implementations
-├── PatchTST-main                                          # PatchTST directory (modified for purposes of this master's thesis)
+├── logs                                                   # Training logs for all DL models
+├── NOTICE.txt                                             # Links to original PatchTST and TimeLLM folders
+├── PatchTST-main                                          # PatchTST directory 
 ├── requirements.txt                                       # Required dependencies
-├── results                                                # .csv files with aggregated results (evaluation metrics for different models)
-├── Time-LLM                                               # TimeLLM directory (modified for purposes of this master's thesis)
+├── results                                                # .csv files with results 
+├── Time-LLM                                               # TimeLLM directory 
 └── utils                                                  # Functions for EDA, and other helper functions
 ```
