@@ -11,6 +11,8 @@
 
 ![results](results/Results_table.png)
 
+Results scaled by a factor of 10^2. The best results are highlighted in bold, and the second-best results are underscored.
+
 ## Table of Content
 
 - [Abstract](#abstract)
