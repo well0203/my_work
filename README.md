@@ -107,7 +107,7 @@ python -m accelerate.commands.launch --mixed_precision bf16 --num_processes=1 --
 ├── A_1c.Scaler_choice_Comparison.ipynb     # APPENDIX
 ├── A_1d.Scaler_choice_Comparison_IT.ipynb  # APPENDIX
 ├── datasets                                # Directory with all datasets
-├── logs                                    # Training logs for all DL models
+├── logs                                    # Training logs
 ├── NOTICE.txt                              # Links to original PatchTST and TimeLLM folders
 ├── PatchTST-main                           # PatchTST directory 
 ├── requirements.txt                        # Required dependencies
